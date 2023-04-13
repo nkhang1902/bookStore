@@ -1,8 +1,13 @@
 import React from 'react'
+import Layout from '../layout/Layout'
 
 const Home = () => {
   return (
-    <div>Home</div>
+    <div>
+      <Layout>
+        <div class='center'><text>Hello World</text></div>
+      </Layout>
+    </div>
   )
 }
 

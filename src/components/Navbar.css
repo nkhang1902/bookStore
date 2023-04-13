@@ -1,0 +1,35 @@
+*::before{
+    margin: 0;
+    box-sizing: border-box;
+
+}
+
+a:link {text-decoration: none;}
+
+.form-control {
+    border-top-style: hidden;
+    border-right-style: hidden;
+    border-left-style: hidden;
+    border-bottom-style: hidden;
+    background-color: white;
+}
+
+.btn{
+    border-top-style: hidden;
+    border-right-style: hidden;
+    border-left-style: hidden;
+    border-bottom-style: hidden;
+}
+
+.navbar{
+    background-color:antiquewhite;
+    border: 0.5px solid;
+    border-color: black;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.brand{
+    color: Black;
+    
+}
