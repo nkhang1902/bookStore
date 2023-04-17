@@ -1,0 +1,19 @@
+$book-details-container-width: 1024px;
+.book-details {
+  text-align: justify;
+	&-container {
+		display: grid;
+		grid-template-columns: repeat(auto-fit, minmax(400px, max-content));
+		justify-items: center;
+		max-width: $book-details-container-width;
+		margin: 0 auto;
+		.book-image {
+			max-width: none;
+			width: 250px;
+		}
+	}
+}
+.product-details__content {
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+}
