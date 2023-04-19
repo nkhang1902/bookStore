@@ -1,0 +1,33 @@
+.bookcover{
+    text-align: center;
+    margin: 10px auto 10px auto;
+    width: 90%;
+    height: 90%;
+}
+
+.card{
+    width: 200px;
+    height: 320px;
+    border: 0;
+}
+
+.content{
+    display: block;
+    width: 70%;
+    height: 30%;
+    margin: 40px auto 40px auto;
+    padding: 10px 10px 10px 10px;
+    box-sizing: border-box;
+    border: 1px solid grey;
+}
+
+.crs{
+    margin: 0 auto 0 auto;
+    padding: 10px 10px 10px 10px;
+    width: 90%;
+    height: 90%;
+}
+
+h2{
+    margin-left: 40px;
+}
