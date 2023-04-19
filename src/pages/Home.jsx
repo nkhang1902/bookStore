@@ -1,3 +1,4 @@
+
 import React from 'react'
 import Layout from '../layout/Layout'
 import '../style/Home.css'
@@ -78,5 +79,3 @@ const Home = () => {
     </div>
   )
 }
-
-export default Home
