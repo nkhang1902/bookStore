@@ -1,6 +1,5 @@
 
 import React from 'react'
-import Layout from '../layout/Layout'
 import '../style/Home.css'
 import Carousel from 'react-multi-carousel';
 import 'react-multi-carousel/lib/styles.css';
@@ -29,14 +28,13 @@ const responsive = {
 const Home = () => {
   return (
     <div>
-      <Layout>
         <div>
           <div class='content'>
           <h2>Best Sellers</h2>
           <div class='crs'>
           <Carousel  focusOnSelect={true} centerMode={true} responsive={responsive}>
             <div class='card'>
-              <img class='bookcover' src='https://www.adobe.com/express/create/cover/media_178ebed46ae02d6f3284c7886e9b28c5bb9046a02.jpeg?width=400&format=jpeg&optimize=medium'/>
+              <img class='product--image' src='https://www.adobe.com/express/create/cover/media_178ebed46ae02d6f3284c7886e9b28c5bb9046a02.jpeg?width=400&format=jpeg&optimize=medium'/>
               <h3>Book Name</h3>
               <p>Author Name</p>
               <p className='price'>$14.99</p>
@@ -75,7 +73,97 @@ const Home = () => {
           </div>
           </div>
         </div>
-      </Layout>
+        <div>
+          <div class='content'>
+          <h2>New Release</h2>
+          <div class='crs'>
+          <Carousel  focusOnSelect={true} centerMode={true} responsive={responsive}>
+            <div class='card'>
+              <img class='product--image' src='https://www.adobe.com/express/create/cover/media_178ebed46ae02d6f3284c7886e9b28c5bb9046a02.jpeg?width=400&format=jpeg&optimize=medium'/>
+              <h3>Book Name</h3>
+              <p>Author Name</p>
+              <p className='price'>$14.99</p>
+            </div>
+            <div class='card'>
+              <img className='product--image' src='https://www.adobe.com/express/create/cover/media_178ebed46ae02d6f3284c7886e9b28c5bb9046a02.jpeg?width=400&format=jpeg&optimize=medium'/>
+              <h3>Book Name</h3>
+              <p>Author Name</p>
+              <p className='price'>$14.99</p>
+            </div>
+            <div class='card'>
+              <img className='product--image' src='https://www.adobe.com/express/create/cover/media_178ebed46ae02d6f3284c7886e9b28c5bb9046a02.jpeg?width=400&format=jpeg&optimize=medium'/>
+              <h3>Book Name</h3>
+              <p>Author Name</p>
+              <p className='price'>$14.99</p>
+            </div>
+            <div class='card'>
+              <img className='product--image' src='https://www.adobe.com/express/create/cover/media_178ebed46ae02d6f3284c7886e9b28c5bb9046a02.jpeg?width=400&format=jpeg&optimize=medium'/>
+              <h3>Book Name</h3>
+              <p>Author Name</p>
+              <p className='price'>$14.99</p>
+            </div>
+            <div class='card'>
+              <img className='product--image' src='https://www.adobe.com/express/create/cover/media_178ebed46ae02d6f3284c7886e9b28c5bb9046a02.jpeg?width=400&format=jpeg&optimize=medium'/>
+              <h3>Book Name</h3>
+              <p>Author Name</p>
+              <p className='price'>$14.99</p>
+            </div>
+            <div class='card'>
+              <img className='product--image' src='https://www.adobe.com/express/create/cover/media_178ebed46ae02d6f3284c7886e9b28c5bb9046a02.jpeg?width=400&format=jpeg&optimize=medium'/>
+              <h3>Book Name</h3>
+              <p>Author Name</p>
+              <p className='price'>$14.99</p>
+            </div>
+          </Carousel>
+          </div>
+          </div>
+        </div>
+        <div>
+          <div class='content'>
+          <h2>Earth Day Book</h2>
+          <div class='crs'>
+          <Carousel  focusOnSelect={true} centerMode={true} responsive={responsive}>
+            <div class='card'>
+              <img class='product--image' src='https://www.adobe.com/express/create/cover/media_178ebed46ae02d6f3284c7886e9b28c5bb9046a02.jpeg?width=400&format=jpeg&optimize=medium'/>
+              <h3>Book Name</h3>
+              <p>Author Name</p>
+              <p className='price'>$14.99</p>
+            </div>
+            <div class='card'>
+              <img className='product--image' src='https://www.adobe.com/express/create/cover/media_178ebed46ae02d6f3284c7886e9b28c5bb9046a02.jpeg?width=400&format=jpeg&optimize=medium'/>
+              <h3>Book Name</h3>
+              <p>Author Name</p>
+              <p className='price'>$14.99</p>
+            </div>
+            <div class='card'>
+              <img className='product--image' src='https://www.adobe.com/express/create/cover/media_178ebed46ae02d6f3284c7886e9b28c5bb9046a02.jpeg?width=400&format=jpeg&optimize=medium'/>
+              <h3>Book Name</h3>
+              <p>Author Name</p>
+              <p className='price'>$14.99</p>
+            </div>
+            <div class='card'>
+              <img className='product--image' src='https://www.adobe.com/express/create/cover/media_178ebed46ae02d6f3284c7886e9b28c5bb9046a02.jpeg?width=400&format=jpeg&optimize=medium'/>
+              <h3>Book Name</h3>
+              <p>Author Name</p>
+              <p className='price'>$14.99</p>
+            </div>
+            <div class='card'>
+              <img className='product--image' src='https://www.adobe.com/express/create/cover/media_178ebed46ae02d6f3284c7886e9b28c5bb9046a02.jpeg?width=400&format=jpeg&optimize=medium'/>
+              <h3>Book Name</h3>
+              <p>Author Name</p>
+              <p className='price'>$14.99</p>
+            </div>
+            <div class='card'>
+              <img className='product--image' src='https://www.adobe.com/express/create/cover/media_178ebed46ae02d6f3284c7886e9b28c5bb9046a02.jpeg?width=400&format=jpeg&optimize=medium'/>
+              <h3>Book Name</h3>
+              <p>Author Name</p>
+              <p className='price'>$14.99</p>
+            </div>
+          </Carousel>
+          </div>
+          </div>
+        </div>
     </div>
   )
 }
+export default Home
