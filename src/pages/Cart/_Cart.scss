@@ -1,0 +1,58 @@
+@import '../../../src/App.scss';
+.cart {
+	&-container {
+		display: grid;
+		max-width: 1024px;
+		grid-template-columns: 1fr;
+		padding: 0 2rem;
+		margin: 0 auto;
+		h1 {
+			font-size: 2rem;
+			font-weight: normal;
+		}
+	}
+	&-redeem {
+		font-weight: 500;
+		color: #573ba3;
+		&:hover {
+			cursor: pointer;
+			color: darken(#573ba3, 10%);
+		}
+	}
+}
+.empty_cart {
+	&--title {
+		font-size: 2rem;
+		font-weight: 600;
+		letter-spacing: 1px;
+		margin: 0 0 8px 0;
+	}
+}
+.button {
+	padding: 6px 24px;
+	font-size: 16px;
+	line-height: 24px;
+	display: inline-flex;
+	align-items: center;
+	text-transform: uppercase;
+	color: white;
+	border-radius: 35px;
+	background-color: #de2545;
+	transition: all 0.2s ease-in-out;
+	cursor: pointer;
+	margin-top: 0.2rem;
+	&:hover {
+		color: white;
+		background-color: darken(#de2545, 10%);
+		transform: scale(1.05);
+	}
+}
+
+.checkout-container {
+	display: flex;
+	flex-direction: column;
+	.continue {
+		display: block;
+		margin-left: auto;
+	}
+}
