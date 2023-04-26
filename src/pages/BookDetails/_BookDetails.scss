@@ -1,6 +1,7 @@
 $book-details-container-width: 1024px;
 $purple: #573ba3;
 // Modal
+@import '../../../src/App.scss';
 .modal-img {
 	height: 70%;
 	position: absolute !important;
