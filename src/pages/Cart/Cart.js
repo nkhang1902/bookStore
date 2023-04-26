@@ -64,7 +64,7 @@ function Cart() {
 			</section>
 			<div class='shopping-cart'>
 				{/* <!-- Title --> */}
-				<div className='titles-container'>
+				<div className="titles-container">
 					<div class='title'>Shopping Bag</div>
 					<div class='title-quantity'>Quantity</div>
 					<div class='title-price'>Price</div>
