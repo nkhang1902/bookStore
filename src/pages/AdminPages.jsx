@@ -76,7 +76,18 @@ const AdminPages =() =>  {
                 ImageURL: ImageURL,
                 PostedDate: new Intl.DateTimeFormat('en-US',{year:"numeric", month:"long", day:"2-digit", hour:"2-digit",minute:"2-digit"}).format(Date.now()),
             });
-            alert('{Name} is added!');
+            alert('Book is added!');
+            setAuthor("");
+            setName("");
+            setCategory("");
+            setDescription("");
+            setDiscountPrice("");
+            setPrice("");
+            setPages("");
+            setImageURL("");
+            setSize("");
+            setLanguage("");
+            setPublishDate("");
             }catch(e){
                 console.error("Error adding document: ", e);
             }
@@ -124,7 +135,7 @@ const AdminPages =() =>  {
                                     <Form.Label>
                                         Book
                                     </Form.Label>
-                                    <Form.Control name='Name'  onChange={(e)=> setName(e.target.value)} placeholder='The fault in our stars' className='border shadow-sm p-3 mb-2 bg-white rounded'/>
+                                    <Form.Control name='Name'  onChange={(e)=> setName(e.target.value)} placeholder='The Fault In Our Stars' className='border shadow-sm p-3 mb-2 bg-white rounded'/>
                                 </Form.Group>
                                 <Form.Group className="col-6 ">
                                     <Form.Label>
@@ -144,7 +155,7 @@ const AdminPages =() =>  {
                                     <Form.Label>
                                         Category
                                     </Form.Label>
-                                    <Form.Control name='Category' value ={Category} onChange={(e)=> setCategory(e.target.value)} placeholder='Novel' className='border shadow-sm p-3 mb-2 bg-white rounded'/>
+                                    <Form.Control name='Category' value ={Category} onChange={(e)=> setCategory(e.target.value)} placeholder='Fantasy, Sci-fi,...' className='border shadow-sm p-3 mb-2 bg-white rounded'/>
                                 </Form.Group>
                             </Row>
                             <Row >
@@ -164,7 +175,7 @@ const AdminPages =() =>  {
                                     <Form.Label>
                                         Size
                                     </Form.Label>
-                                    <Form.Control name='Size' value={Size} onChange={(e)=> setSize(e.target.value)} placeholder='18cm x 10cm x 1,2cm' className='border shadow-sm p-3 mb-2 bg-white rounded'/>
+                                    <Form.Control name='Size' value={Size} onChange={(e)=> setSize(e.target.value)} placeholder='4.25 x 1.84 x 7.56 inches' className='border shadow-sm p-3 mb-2 bg-white rounded'/>
                                 </Form.Group>
                             </Row>
                             <Row>
