@@ -76,14 +76,14 @@ const AdminPages =() =>  {
                 ImageURL: ImageURL,
                 PostedDate: new Intl.DateTimeFormat('en-US',{year:"numeric", month:"long", day:"2-digit", hour:"2-digit",minute:"2-digit"}).format(Date.now()),
             });
-            alert('{Name} is added!');
+            alert(`${Name} is added!`);
             }catch(e){
                 console.error("Error adding document: ", e);
             }
             handleClose();
         }
     }
-    
+
     useEffect(()=>{
         fetchBooks()
     }, [])
@@ -95,11 +95,11 @@ const AdminPages =() =>  {
         const bookCollection = collection(db,'Book');
         getDocs(bookCollection).then(response => {
             const book = response.docs.map(doc => ({
-                data: doc.data(), 
+                data: doc.data(),
                 id: doc.id,}))
             setBooks(book)
         }).catch(error => console.log(error.message))
-    } 
+    }
 
     return (
     <Container className="col-12 flex mt-4 text-center mb-3 px-2 py-2">
@@ -150,7 +150,7 @@ const AdminPages =() =>  {
                             <Row >
                                 <Form.Group className="col-3">
                                     <Form.Label>
-                                        Pages 
+                                        Pages
                                     </Form.Label>
                                     <Form.Control name='Pages' value ={Pages} onChange={(e)=> setPages(e.target.value)} placeholder='332' className='border shadow-sm p-3 mb-2 bg-white rounded'/>
                                 </Form.Group>
@@ -197,7 +197,7 @@ const AdminPages =() =>  {
                             </Row>
                             <Row className='m-2 d-flex flex-row-reverse'>
                                 <Button className='col-3 m-1 btn-primary'type='submit'>Add</Button>
-                                <Button className='col-3 m-1 btn-danger'onClick={()=>setShow(false)}>Cancel</Button> 
+                                <Button className='col-3 m-1 btn-danger'onClick={()=>setShow(false)}>Cancel</Button>
                             </Row>
                         </Col>
                     </Container>
@@ -214,8 +214,11 @@ const AdminPages =() =>  {
                     <Col className="col-3" >{book.data.Author}</Col>
                     <Col className="col-2" >{book.data.PublishDate}</Col>
                     <Col className="col-2" >{book.data.Price}$</Col>
-                    <Col className="col-1"><Button className='bg-success'><i class="fas fa-book    "></i></Button></Col>
+                    <Col className="col-1"><Button className='bg-success'><i class="fas fa-book"></i></Button></Col>
                     <Col className="col-1"><Button className='bg-danger' onClick={() => { setBookToDelete(book); setShowDeleteModal(true); }}><i class="fas fa-trash"></i></Button></Col>
+                    <Col className="col-3 image" >
+                        <img src={book.data.ImageURL} alt={book.data.Name}  />
+                    </Col>
                     <Modal key={book.id + "-modal"} centered show={showDeleteModal && bookToDelete?.id === book.id} onHide={() => setShowDeleteModal(false)}>
                         <Modal.Header>
                             <Modal.Title>Comfirm Deletion</Modal.Title>
