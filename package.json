@@ -21,6 +21,7 @@
     "react-dom": "^18.2.0",
     "react-multi-carousel": "^2.8.3",
     "react-native-styled-components": "^2.1.0",
+    "react-router-dom": "^6.11.0",
     "react-scripts": "^5.0.1",
     "sass": "^1.62.0",
     "styled-components": "^5.3.9",
