@@ -40,7 +40,7 @@ function Cart() {
 						<table className='cart-detail'>
 							<thead>
 								<tr className='cart-items_headers'>
-									<th class='cart-item-description-header' colspan='3'>
+									<th class='cart-item-item-description-header' colspan='3'>
 										Item
 									</th>
 									<th class='cart-item-quantity-header px-2'>Qty</th>
@@ -64,7 +64,7 @@ function Cart() {
 			</section>
 			<div class='shopping-cart'>
 				{/* <!-- Title --> */}
-				<div className="titles-container">
+				<div className='titles-container'>
 					<div class='title'>Shopping Bag</div>
 					<div class='title-quantity'>Quantity</div>
 					<div class='title-price'>Price</div>
@@ -76,7 +76,7 @@ function Cart() {
 						<img src='https://images-us.bookshop.org/ingram/9781555977887.jpg?height=500&v=v2' alt='' />
 					</div>
 
-					<div class='description'>
+					<div class='item-description'>
 						<span>Common Projects</span>
 						<span>Bball High</span>
 						<span>White</span>
@@ -105,7 +105,7 @@ function Cart() {
 						<img src='https://images-us.bookshop.org/ingram/9781555977887.jpg?height=500&v=v2' alt='' />
 					</div>
 
-					<div class='description'>
+					<div class='item-description'>
 						<span>Common Projects</span>
 						<span>Bball High</span>
 						<span>White</span>
@@ -134,7 +134,7 @@ function Cart() {
 						<img src='https://images-us.bookshop.org/ingram/9781555977887.jpg?height=500&v=v2' alt='' />
 					</div>
 
-					<div class='description'>
+					<div class='item-description'>
 						<span>Common Projects</span>
 						<span>Bball High</span>
 						<span>White</span>
@@ -163,7 +163,7 @@ function Cart() {
 						<img src='https://images-us.bookshop.org/ingram/9781555977887.jpg?height=500&v=v2' alt='' />
 					</div>
 
-					<div class='description'>
+					<div class='item-description'>
 						<span>Common Projects</span>
 						<span>Bball High</span>
 						<span>White</span>

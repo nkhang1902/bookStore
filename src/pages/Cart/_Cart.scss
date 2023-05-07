@@ -138,24 +138,24 @@
 	}
 }
 
-.description {
+.item-description {
 	padding-top: 10px;
 	margin-left: 20px;
 	margin-right: 50px;
 	width: 415px;
 }
 
-.description span {
+.item-description span {
 	display: block;
 	font-size: 14px;
 	color: #43484d;
 	font-weight: 400;
 }
 
-.description span:first-child {
+.item-description span:first-child {
 	margin-bottom: 5px;
 }
-.description span:last-child {
+.item-description span:last-child {
 	font-weight: 300;
 	margin-top: 8px;
 	color: #86939e;

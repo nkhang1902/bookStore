@@ -128,9 +128,26 @@ $purple: #573ba3;
 	}
 	.description {
 		margin-top: 1rem;
+		width: 120%;
 	}
 }
 .product-details__content {
 	display: grid;
 	grid-template-columns: 1fr 1fr;
+}
+
+// Media Query (not done yet)
+@media screen and (width < 817px) {
+	.book-details {
+		padding: 2rem;
+		overflow-x: hidden;
+		.book-title,
+		.book-author {
+			text-align: center;
+		}
+	}
+	.description {
+		margin-top: 1rem;
+		width: 10%;
+	}
 }
