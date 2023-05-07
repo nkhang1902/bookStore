@@ -2,62 +2,57 @@ import React from 'react';
 import './_BookDetails.scss';
 import Modal from '@mui/material/Modal';
 import Box from '@mui/material/Box';
-
-import {collection, getDocs} from 'firebase/firestore';
+import { useParams } from 'react-router-dom';
+import {collection, getDocs, getDoc, doc} from 'firebase/firestore';
 import {useState} from 'react';
 import {db} from './../../firebase/config';
 import {useEffect} from 'react';
+
 function BookDetails() {
 	const [open, setOpen] = React.useState(false);
-	const [books, setBooks] = useState([]);
-	const [book, setBook] = useState({});
-	function getBooks() {
-		const bookCollectionRef = collection(db, 'Book');
-		getDocs(bookCollectionRef)
-			.then(response => {
-				const fetchedBooks = response.docs.map(book => {
-					return {
-						data: book.data(),
-						id: book.id,
-					};
-				});
-				setBooks(fetchedBooks);
-			})
-			.catch(error => console.log(error.message));
+	const [book, setBook] = useState(null);
+	const { id } = useParams();
+	useEffect(()=>{
+		console.log(id)
+	  }, id);
+		async function getBookById(id) {
+		const bookRef = doc(db, 'Book', id);
+		const bookSnapshot = await getDoc(bookRef);
+		if (bookSnapshot.exists()) {
+			const bookData = bookSnapshot.data();
+			setBook({ id: bookSnapshot.id, ...bookData });
+		} else {
+			throw new Error('Book not found');
+		}
+		}
+	getBookById(id);
+	if (!book) {
+		// Render a loading spinner or message until the book has been retrieved
+		return <div>Loading...</div>;
 	}
-	useEffect(() => {
-		getBooks();
-		// setBook(books.slice(0, 1));
-	}, []);
-
-	useEffect(() => {
-		console.log(book);
-	}, [books]);
-	const oneBook = books.slice(0, 1).map(book => book.data.ImageURL);
 	return (
-		<>
+		<div style={{marginTop: '20px'}}>
 			<div className='book-details-container'>
-				<img src={books.slice(0, 1).map(book => book.data.ImageURL)} alt='book cover' className='book-image' onClick={() => setOpen(true)} />
+				<img src={book.ImageURL} alt='book cover' className='book-image' onClick={() => setOpen(true)} />
 				<Modal open={open} onClose={() => setOpen(false)}>
 					<Box>
-						<img src={books.slice(0, 1).map(book => book.data.ImageURL)} alt='book cover' className='book-image modal-img' />
+						<img src={book.ImageURL} alt='book cover' className='book-image modal-img' />
 					</Box>
 				</Modal>
 				<div className='book-details'>
-					<h1 className='book-title'>{books.slice(0, 1).map(book => book.data.Name)}</h1>
+					<h1 className='book-title'>{book.Name}</h1>
 					<p className='book-author'>
-						<span className='book-author--purple'>{books.slice(0, 1).map(book => book.data.Author)}</span> (Author)
+						<span className='book-author--purple'>{book.Author}</span> (Author)
 					</p>
 					<div className='price'>
-						Format
 						<div className='format_type-container'>
 							<div className='format_type-paperback-cover'>
-								<div className='format_type paperback'>Paperback</div>
-								<div className='format_type paperback__price'>${books.slice(0, 1).map(book => book.data.Price)}</div>
+								<div className='format_type paperback'>Price</div>
+								<div className='format_type paperback__price'>${book.Price}</div>
 							</div>
 							<div className='format_type-hard-cover'>
-								<div className='format_type hard-cover'>Hardcover</div>
-								<div className='format_type paperback__price'>${books.slice(0, 1).map(book => book.data.DiscountPrice)}</div>
+								<div className='format_type hard-cover'>Discount Price</div>
+								<div className='format_type paperback__price'>${book.DiscountPrice}</div>
 							</div>
 						</div>
 					</div>
@@ -79,37 +74,32 @@ function BookDetails() {
 					<div className='description'>
 						<h3 className='des-title'>Description</h3>
 						<div className='des-content'>
-							<p>{books.slice(0, 1).map(book => book.data.Description)}</p>
+							<p>{book.Description}</p>
 						</div>
 					</div>
 					<div className='product-details'>
 						<h3 className=''>Product Details</h3>
 						<div className='product-details__content'>
 							<b>Price</b>
-							<b>${books.slice(0, 1).map(book => book.data.Price)}</b>
-
-							<b>Publisher</b>
-							<div>Quirk Books</div>
+							<b>${book.Price}</b>
 
 							<b>Publish Date</b>
-							<div>{books.slice(0, 1).map(book => book.data.PublishDate)}</div>
+							<div>{book.PublishDate}</div>
 
 							<b>Pages</b>
-							<div>{books.slice(0, 1).map(book => book.data.Pages)}</div>
+							<div>{book.Pages}</div>
 
 							<b>Dimensions</b>
-							<div>{`${books.slice(0, 1).map(book => book.data.Size)} cm`}</div>
+							<div>{book.Size} cm</div>
 
-							<b>{books.slice(0, 1).map(book => book.data.Language)}</b>
-							<div>English</div>
+							<b>Language</b>
+							<div>{book.Language}</div>
 
-							<b>Type</b>
-							<div>Paperback</div>
 						</div>
 					</div>
 					<div className='author'>
 						<h3 className=''>About the Author</h3>
-						<p className='author__content'>{books.slice(0, 1).map(book => book.data.Author)}</p>
+						<p className='author__content'>{book.Author}</p>
 					</div>
 					<div className='reviews-list'>
 						<h3 className=''>Reviews</h3>
@@ -130,7 +120,7 @@ function BookDetails() {
 					</div>
 				</div>
 			</div>
-		</>
+		</div>
 	);
 }
 
