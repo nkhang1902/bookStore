@@ -3,12 +3,12 @@ import css from "./login.module.css";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../firebase/config";
 import { Link } from "react-router-dom";
-// import { useHistory } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  // const history = useHistory();
+  let navigate = useNavigate();
 
   const handleLogin = (e) => {
     e.preventDefault();
@@ -16,8 +16,7 @@ const Login = () => {
       .then((userCredential) => {
         console.log(userCredential);
         console.log("Đăng nhập thành công");
-        // history.push("/");
-        // return <Link to="/signup"/>
+        navigate("/");      
       })
       .catch((error) => {
         console.log(error);
