@@ -31,7 +31,7 @@ function BookDetails() {
 		return <div>Loading...</div>;
 	}
 	return (
-		<div style={{marginTop: '20px'}}>
+		<div style={{marginTop: '20px',}}>
 			<div className='book-details-container'>
 				<img src={book.ImageURL} alt='book cover' className='book-image' onClick={() => setOpen(true)} />
 				<Modal open={open} onClose={() => setOpen(false)}>
