@@ -67,7 +67,7 @@ const SignUp = () => {
           bookstores from Bookshop.
         </div>
 
-        <p>
+        <p style={{marginTop: '10px'}}>
           By creating an account, you agree to Bookshop’s{" "}
           <a href={""}>Privacy Notice</a> and <a href={""}>Terms of Use</a>.
         </p>

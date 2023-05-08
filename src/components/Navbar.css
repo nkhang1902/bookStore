@@ -34,15 +34,12 @@ a:link {text-decoration: none;}
     border-left-style: hidden;
     border-bottom-style: hidden;
 }
-
 .navbar{
     background-color: white;
-    border: 1px solid;
-    border-color: #e1e1e3;
     justify-content: space-around;
     align-items: center;
+    border: 1px solid #f1f0f5;
 }
-
 .navItem{
     font-family: serif;
     letter-spacing: -0.6px;
@@ -50,6 +47,17 @@ a:link {text-decoration: none;}
     font-weight:700;
     align-items: center;
     color: #2c293b;
+    
+}
+.navbar-item{
+    font-family: serif;
+    letter-spacing: -0.6px;
+    font-size: 17px;
+    align-items: center;
+    text-align: center;
+    color: #2c293b;
+    padding-left: 20px;
+    padding-right: 20px;
 }
 .navItem:hover {
     background-color: transparent;
@@ -59,4 +67,8 @@ a:link {text-decoration: none;}
 .brand{
     color: Black;
     
+}
+.searchBar{
+    height: 14px;
+    width: 50%;
 }
