@@ -1,17 +1,31 @@
-*::before{
-    margin: 0;
-    box-sizing: border-box;
+:root{
+    --purple: #573ba3;
+}
+a:link {text-decoration: none;}
 
+.brand{
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: serif;
+    letter-spacing: -0.6px;
+    font-size: 30px;
+    font-weight:700;
+    align-items: center;
 }
 
-a:link {text-decoration: none;}
+.icon{
+    height: 50px;
+    width: auto;
+}
 
 .form-control {
     border-top-style: hidden;
     border-right-style: hidden;
     border-left-style: hidden;
     border-bottom-style: hidden;
-    background-color: white;
+    background-color: #f1f0f5 ;
+    padding-bottom: 0;
 }
 
 .btn{
@@ -20,16 +34,41 @@ a:link {text-decoration: none;}
     border-left-style: hidden;
     border-bottom-style: hidden;
 }
-
 .navbar{
-    background-color:#E2475C;
-    border: 0.5px solid;
-    border-color: black;
+    background-color: white;
     justify-content: space-around;
     align-items: center;
+    border: 1px solid #f1f0f5;
 }
+.navItem{
+    font-family: serif;
+    letter-spacing: -0.6px;
+    font-size: 25px;
+    font-weight:700;
+    align-items: center;
+    color: #2c293b;
+    
+}
+.navbar-item{
+    font-family: serif;
+    letter-spacing: -0.6px;
+    font-size: 17px;
+    align-items: center;
+    text-align: center;
+    color: #2c293b;
+    padding-left: 20px;
+    padding-right: 20px;
+}
+.navItem:hover {
+    background-color: transparent;
+    color: inherit;
+  }
 
 .brand{
     color: Black;
     
+}
+.searchBar{
+    height: 14px;
+    width: 50%;
 }
