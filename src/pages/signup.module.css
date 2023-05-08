@@ -54,16 +54,33 @@ input {
   border-radius: 4px;
 }
 
+span{
+  color: red;
+}
+
+.nameBox{
+  display: flex;
+  flex-direction: row;
+}
+
+.firstNameBox{
+  width: 110px;
+}
+
+.lastNameBox{
+  width: 165px;
+}
+
 .buttonSignUp {
   background-color: var(--custom-color);
   border-color: var(--custom-color);
   color: white;
-  /* width: 80px; */
   border-radius: 50px;
   font-size: 15px;
   padding: 5px 15px 5px 15px;
   font-weight: bold;
   max-width: max-content;
+  margin-bottom: 20px;
 }
 
 p {
