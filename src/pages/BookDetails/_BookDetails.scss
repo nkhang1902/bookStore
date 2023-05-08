@@ -129,6 +129,16 @@ $purple: #573ba3;
 	.description {
 		margin-top: 1rem;
 		width: 100%;
+		.des-content {
+			p {
+				font-family: 'Poppins', monospace;
+				font-size: 1rem;
+				text-align: justify;
+			}
+		}
+	}
+	.user-reviews {
+		display: grid;
 	}
 }
 .product-details__content {

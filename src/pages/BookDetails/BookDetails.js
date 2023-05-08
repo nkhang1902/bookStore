@@ -2,36 +2,37 @@ import React from 'react';
 import './_BookDetails.scss';
 import Modal from '@mui/material/Modal';
 import Box from '@mui/material/Box';
-import { useParams } from 'react-router-dom';
+import {useParams} from 'react-router-dom';
 import {collection, getDocs, getDoc, doc} from 'firebase/firestore';
 import {useState} from 'react';
 import {db} from './../../firebase/config';
 import {useEffect} from 'react';
+import RatingStars from '../../components/Rating Stars/RatingStars';
 
 function BookDetails() {
 	const [open, setOpen] = React.useState(false);
 	const [book, setBook] = useState(null);
-	const { id } = useParams();
-	useEffect(()=>{
-		console.log(id)
-	  }, id);
-		async function getBookById(id) {
+	const {id} = useParams();
+	useEffect(() => {
+		console.log(id);
+	}, id);
+	async function getBookById(id) {
 		const bookRef = doc(db, 'Book', id);
 		const bookSnapshot = await getDoc(bookRef);
 		if (bookSnapshot.exists()) {
 			const bookData = bookSnapshot.data();
-			setBook({ id: bookSnapshot.id, ...bookData });
+			setBook({id: bookSnapshot.id, ...bookData});
 		} else {
 			throw new Error('Book not found');
 		}
-		}
+	}
 	getBookById(id);
 	if (!book) {
 		// Render a loading spinner or message until the book has been retrieved
 		return <div>Loading...</div>;
 	}
 	return (
-		<div style={{marginTop: '30px',}}>
+		<div style={{marginTop: '30px'}}>
 			<div className='book-details-container'>
 				<img src={book.ImageURL} alt='book cover' className='book-image' onClick={() => setOpen(true)} />
 				<Modal open={open} onClose={() => setOpen(false)}>
@@ -94,12 +95,15 @@ function BookDetails() {
 
 							<b>Language</b>
 							<div>{book.Language}</div>
-
 						</div>
 					</div>
-					<div className='author'>
-						<h3 className=''>About the Author</h3>
+					{/* <div className='author user-reviews'>
+						<h3 className=''>About the Author | Tell us your review</h3>
 						<p className='author__content'>{book.Author}</p>
+					</div> */}
+					<div className='author user-reviews'>
+						<h3 className=''>Tell us your thoughts</h3>
+						<RatingStars />
 					</div>
 					<div className='reviews-list'>
 						<h3 className=''>Reviews</h3>

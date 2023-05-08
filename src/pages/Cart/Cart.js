@@ -8,7 +8,7 @@ function Cart() {
 			<section className='cart-container'>
 				<h1 className='h1'>Shopping Cart</h1>
 				<div className='design-system'>
-					<a href='#' className='cart-redeem'>
+					<a href='#' className='cart-redeem '>
 						Have a gift card? Redeem it here!
 					</a>
 				</div>
