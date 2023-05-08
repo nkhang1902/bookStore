@@ -1,3 +1,6 @@
+/* eslint-disable jsx-a11y/img-redundant-alt */
+/* eslint-disable jsx-a11y/anchor-is-valid */
+/* eslint-disable jsx-a11y/alt-text */
 import React from 'react'
 import Layout from '../layout/Layout'
 import css from "./Catalog.module.css"
@@ -49,7 +52,7 @@ const Catalog = () => {
                       <li><div>Guide / How-to</div></li>
                       <li><div>Humor</div></li>
                     </ul>
-                    
+
                   </div>
                 </li>
                 <li className={css.child}>
@@ -62,7 +65,7 @@ const Catalog = () => {
                       <li><div>Gabriel Garcia Marquez</div></li>
                       <li><div>Harper Lee</div></li>
                     </ul>
-                    
+
                   </div>
                 </li>
               </ul>
@@ -119,10 +122,10 @@ const Catalog = () => {
                             </div>
                             <div className = {css.product_btns}>
                                 <button type = "button" className = {css.btn_cart}> add to cart
-                                    
+
                                 </button>
                                 <button type = "button" className = {css.btn_buy}> buy now
-                                    
+
                                 </button>
                             </div>
                         </div>
@@ -154,10 +157,10 @@ const Catalog = () => {
                             </div>
                             <div className = {css.product_btns}>
                                 <button type = "button" className = {css.btn_cart}> add to cart
-                                    
+
                                 </button>
                                 <button type = "button" className = {css.btn_buy}> buy now
-                                    
+
                                 </button>
                             </div>
                         </div>
@@ -185,10 +188,10 @@ const Catalog = () => {
                             </div>
                             <div className = {css.product_btns}>
                                 <button type = "button" className = {css.btn_cart}> add to cart
-                                    
+
                                 </button>
                                 <button type = "button" className = {css.btn_buy}> buy now
-                                    
+
                                 </button>
                             </div>
                         </div>
@@ -216,10 +219,10 @@ const Catalog = () => {
                             </div>
                             <div className = {css.product_btns}>
                                 <button type = "button" className = {css.btn_cart}> add to cart
-                                    
+
                                 </button>
                                 <button type = "button" className = {css.btn_buy}> buy now
-                                    
+
                                 </button>
                             </div>
                         </div>
@@ -251,10 +254,10 @@ const Catalog = () => {
                             </div>
                             <div className = {css.product_btns}>
                                 <button type = "button" className = {css.btn_cart}> add to cart
-                                    
+
                                 </button>
                                 <button type = "button" className = {css.btn_buy}> buy now
-                                    
+
                                 </button>
                             </div>
                         </div>
@@ -282,10 +285,10 @@ const Catalog = () => {
                             </div>
                             <div className = {css.product_btns}>
                                 <button type = "button" className = {css.btn_cart}> add to cart
-                                    
+
                                 </button>
                                 <button type = "button" className = {css.btn_buy}> buy now
-                                    
+
                                 </button>
                             </div>
                         </div>
@@ -313,10 +316,10 @@ const Catalog = () => {
                             </div>
                             <div className = {css.product_btns}>
                                 <button type = "button" className = {css.btn_cart}> add to cart
-                                    
+
                                 </button>
                                 <button type = "button" className = {css.btn_buy}> buy now
-                                    
+
                                 </button>
                             </div>
                         </div>
@@ -344,10 +347,10 @@ const Catalog = () => {
                             </div>
                             <div className = {css.product_btns}>
                                 <button type = "button" className = {css.btn_cart}> add to cart
-                                    
+
                                 </button>
                                 <button type = "button" className = {css.btn_buy}> buy now
-                                    
+
                                 </button>
                             </div>
                         </div>
@@ -376,7 +379,7 @@ const Catalog = () => {
             </div>
         </div>
 
-        
+
       </Layout>
     </div>
   )
