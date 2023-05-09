@@ -10,12 +10,10 @@ import {useEffect} from 'react';
 import RatingStars from '../../components/Rating Stars/RatingStars';
 
 function BookDetails() {
-	const [open, setOpen] = React.useState(false);
+	const [open, setOpen] = useState(false);
 	const [book, setBook] = useState(null);
 	const {id} = useParams();
-	useEffect(() => {
-		console.log(id);
-	}, id);
+
 	async function getBookById(id) {
 		const bookRef = doc(db, 'Book', id);
 		const bookSnapshot = await getDoc(bookRef);
@@ -97,13 +95,9 @@ function BookDetails() {
 							<div>{book.Language}</div>
 						</div>
 					</div>
-					{/* <div className='author user-reviews'>
-						<h3 className=''>About the Author | Tell us your review</h3>
-						<p className='author__content'>{book.Author}</p>
-					</div> */}
-					<div className='author user-reviews'>
+					<div className='user-reviews'>
 						<h3 className=''>Tell us your thoughts</h3>
-						<RatingStars />
+						<RatingStars bookID={id} {...book} />
 					</div>
 					<div className='reviews-list'>
 						<h3 className=''>Reviews</h3>
