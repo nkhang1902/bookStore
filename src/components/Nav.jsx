@@ -69,30 +69,16 @@ const Navbar = () => {
 						</a>
 					</div>
 					<div class='navbar-item '>
-						<a className='navbar-item' href='/categories/m/teen-young-adult'>
+						<a className='navbar-item' href='/fiction'>
 							Fiction
 						</a>
 					</div>
 					<div class='navbar-item '>
-						<a className='navbar-item' href='/categories/m/teen-young-adult'>
-							Novel
+						<a className='navbar-item' href='/non-fiction'>
+							Non-Fiction
 						</a>
 					</div>
-					<div class='navbar-item '>
-						<a className='navbar-item' href='/categories/m/children-s-books'>
-							Fantasy
-						</a>
-					</div>
-					<div class='navbar-item '>
-						<a className='navbar-item' href='/categories/m/gifts-games-puzzles'>
-							Board Games
-						</a>
-					</div>
-					<div class='navbar-item '>
-						<a className='navbar-item' href='/categories/m/teen-young-adult'>
-							Other
-						</a>
-					</div>
+					
 				</ul>
 			</div>
 		</Row>
