@@ -1,3 +1,3 @@
 import { createContext } from "react";
 
-export const UserContext = createContext({ userData: null, setUser: null });
+export const UserContext = createContext({ userData: null, setUser: () => {} });

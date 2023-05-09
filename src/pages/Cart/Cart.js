@@ -1,33 +1,61 @@
 import React, {useState} from 'react';
 import { UserContext } from '../../components/userContext';
 import { useContext } from 'react';
-import { db } from '../../firebase/config';
-import { Firestore, collection, getDoc, addDoc, doc, deleteDoc, orderBy, query, where, onSnapshot } from 'firebase/firestore'
+import { db, auth } from '../../firebase/config';
+import { Firestore, collection, getDoc, getDocs, addDoc, doc, deleteDoc, orderBy, query, where, onSnapshot } from 'firebase/firestore'
 import { useEffect } from 'react'
 import { Link } from 'react-router-dom';
 import './_Cart.scss';
 function Cart() {
 	const [cart, setCart] = useState(1);
-	const { userData } = useContext(UserContext);
-	const cartItem = userData.cart;
-
+	const [currentUser, setCurrentUser] = useState(null);
+	const [userData, setUserData] = useState(null);
+	const [email, setEmail] = useState(null);
 	const [books, setBooks] = useState([]);
 
-	async function fetchCart() {
-		const bookPromises = cartItem.map(async (bookId) => {
-		const bookRef = doc(db, 'Book', bookId);
-		const bookSnapshot = await getDoc(bookRef);
-		if (bookSnapshot.exists()) {
+	const fetchUserData = async () => {
+		if (email) {
+		const q = query(
+			collection(db, "User"),
+			where("Email", "==", email)
+		);
+		const querySnapshot = await getDocs(q);
+		querySnapshot.forEach((doc) => {
+			setUserData(doc.data());
+		});
+		}
+	};
+
+	const fetchCart = async () => {
+		console.log(userData.Cart);
+		if (userData && userData.Cart) {
+		const bookPromises = userData.Cart.map(async (bookId) => {
+			const bookRef = doc(db, "Book", bookId);
+			const bookSnapshot = await getDoc(bookRef);
+			if (bookSnapshot.exists()) {
 			const bookData = bookSnapshot.data();
 			return { id: bookSnapshot.id, ...bookData };
-		} else {
+			} else {
 			return null;
-		}
+			}
 		});
-
 		const bookData = await Promise.all(bookPromises);
 		setBooks(bookData.filter((book) => book !== null));
-	}
+		}
+	};
+
+	useEffect(() => {
+		const unsubscribe = auth.onAuthStateChanged((user) => {
+		setCurrentUser(user);
+		console.log(user.email);
+		setEmail(user.email);
+		});
+		return unsubscribe;
+	}, []);
+
+	useEffect(() => {
+		fetchUserData();
+	}, [email]);
 
 	useEffect(() => {
 		fetchCart();

@@ -10,7 +10,6 @@ const SignUp = () => {
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
-  const [address, setAddress] = useState("");
   const [dateOfBirth, setDateOfBirth] = useState(null);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -29,13 +28,12 @@ const SignUp = () => {
           // Signed in
           const user = userCredential.user;
           await addDoc(collection(db, "User"), {
-            email: email,
-            fullName: firstName + lastName,
-            phone: phoneNumber,
-            dob: dateOfBirth,
-            address: address,
-            favourite: [],
-            cart: [],            
+            Email: email,
+            FullName: firstName +" "+ lastName,
+            Phone: phoneNumber,
+            Dob: dateOfBirth,
+            Favourite: [],
+            Cart: [],            
           });
           console.log("userSignUp", user);
           console.log("Đăng ký thành công");
@@ -100,12 +98,6 @@ const SignUp = () => {
           value={dateOfBirth}
           onChange={(e) => setDateOfBirth(e.target.value)}
           required
-        />
-        <label htmlFor="address">Address</label>
-        <input
-          type="text"
-          value={address}
-          onChange={(e) => setAddress(e.target.value)}        
         />
 
         <label htmlFor="email">

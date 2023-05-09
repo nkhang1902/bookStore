@@ -1,31 +1,58 @@
 import React from 'react'
-import { UserContext } from '../components/userContext'
 import { useContext } from 'react';
-import { db } from '../firebase/config'
-import { Firestore, collection, getDoc, addDoc, doc, deleteDoc, orderBy, query, where, onSnapshot } from 'firebase/firestore'
+import { db,auth } from '../firebase/config'
+import { Firestore, collection, getDoc, getDocs, addDoc, doc, deleteDoc, orderBy, query, where, onSnapshot } from 'firebase/firestore'
 import { useEffect, useState } from 'react'
 
 const Wishlist = () => {
-  const { userData } = useContext(UserContext);
-  const favourites = userData.Favourite;
-
+  const [currentUser, setCurrentUser] = useState(null);
+  const [userData, setUserData] = useState(null);
+  const [email, setEmail] = useState(null);
   const [books, setBooks] = useState([]);
 
-  async function fetchFavourites() {
-    const bookPromises = favourites.map(async (bookId) => {
-      const bookRef = doc(db, 'Book', bookId);
-      const bookSnapshot = await getDoc(bookRef);
-      if (bookSnapshot.exists()) {
-        const bookData = bookSnapshot.data();
-        return { id: bookSnapshot.id, ...bookData };
-      } else {
-        return null;
-      }
-    });
+  const fetchUserData = async () => {
+    if (email) {
+      const q = query(
+        collection(db, "User"),
+        where("Email", "==", email)
+      );
+      const querySnapshot = await getDocs(q);
+      querySnapshot.forEach((doc) => {
+        setUserData(doc.data());
+      });
+    }
+  };
 
-    const bookData = await Promise.all(bookPromises);
-    setBooks(bookData.filter((book) => book !== null));
-  }
+  const fetchFavourites = async () => {
+    console.log(userData.Favourite);
+    if (userData && userData.Favourite) {
+      const bookPromises = userData.Favourite.map(async (bookId) => {
+        const bookRef = doc(db, "Book", bookId);
+        const bookSnapshot = await getDoc(bookRef);
+        if (bookSnapshot.exists()) {
+          const bookData = bookSnapshot.data();
+          return { id: bookSnapshot.id, ...bookData };
+        } else {
+          return null;
+        }
+      });
+      const bookData = await Promise.all(bookPromises);
+      setBooks(bookData.filter((book) => book !== null));
+    }
+  };
+
+  useEffect(() => {
+    const unsubscribe = auth.onAuthStateChanged((user) => {
+      setCurrentUser(user);
+      console.log(user.email);
+      setEmail(user.email);
+    });
+    return unsubscribe;
+  }, []);
+
+  useEffect(() => {
+    fetchUserData();
+  }, [email]);
 
   useEffect(() => {
     fetchFavourites();

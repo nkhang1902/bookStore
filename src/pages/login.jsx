@@ -13,25 +13,25 @@ const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState(null);
-  const { setUser } = useContext(UserContext);
+  const { setUser } = useContext(UserContext); // get the setUser function from the context
+  const [userData, setUserData] = useState(null); // initialize userData to null
   let navigate = useNavigate();
-
+  console.log(userData);
   const handleLogin = (e) => {
     e.preventDefault();
     signInWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
         console.log(userCredential);
         console.log("Đăng nhập thành công");
-        const userId = userCredential.user.uid;
         const q = query(
           collection(db, "User"),
           where("Email", "==", email)
         );
         getDocs(q).then((querySnapshot) => {
           querySnapshot.forEach((doc) => {
-            const userData = doc.data();
             console.log(userData);
-            setUser(userData);
+            setUserData(userData); // update the userData state with the fetched data
+            setUser(userData); // update the userData in the context as well
           });
           navigate("/");
         })
