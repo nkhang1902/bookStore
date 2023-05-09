@@ -91,7 +91,7 @@ function BookDetails() {
 							<div>{book.Pages}</div>
 
 							<b>Dimensions</b>
-							<div>{book.Size} cm</div>
+							<div>{book.Size}</div>
 
 							<b>Language</b>
 							<div>{book.Language}</div>

@@ -51,7 +51,7 @@ const SignUp = () => {
   };
 
   return (
-    <div className={css.container}>
+    <div style={{marginTop: '30px'}} className={css.container}>
       <div className={css.heading}>Create an Account</div>
       <div className={css.title}>
         Create an account for fast checkout, special coupon codes, wishlists,

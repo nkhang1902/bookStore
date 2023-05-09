@@ -1,7 +1,41 @@
 import React, {useState} from 'react';
+import { UserContext } from '../../components/userContext';
+import { useContext } from 'react';
+import { db } from '../../firebase/config';
+import { Firestore, collection, getDoc, addDoc, doc, deleteDoc, orderBy, query, where, onSnapshot } from 'firebase/firestore'
+import { useEffect } from 'react'
+import { Link } from 'react-router-dom';
 import './_Cart.scss';
 function Cart() {
 	const [cart, setCart] = useState(1);
+	const { userData } = useContext(UserContext);
+	const cartItem = userData.cart;
+
+	const [books, setBooks] = useState([]);
+
+	async function fetchCart() {
+		const bookPromises = cartItem.map(async (bookId) => {
+		const bookRef = doc(db, 'Book', bookId);
+		const bookSnapshot = await getDoc(bookRef);
+		if (bookSnapshot.exists()) {
+			const bookData = bookSnapshot.data();
+			return { id: bookSnapshot.id, ...bookData };
+		} else {
+			return null;
+		}
+		});
+
+		const bookData = await Promise.all(bookPromises);
+		setBooks(bookData.filter((book) => book !== null));
+	}
+
+	useEffect(() => {
+		fetchCart();
+	}, [userData]);
+
+	const total = books.reduce((acc, book) => {
+		return acc + book.data.DiscountPrice;
+	  }, 0);
 
 	if (cart.length === 0) {
 		return (
@@ -34,7 +68,7 @@ function Cart() {
 				</div>
 				<div className='checkout-container'>
 					<a className='button continue' href='#'>
-						Checkout (Total: $38.83)
+						Checkout ({total})
 					</a>
 					{/* <div className='cart-item'>
 						<table className='cart-detail'>
@@ -71,14 +105,13 @@ function Cart() {
 				</div>
 
 				{/* <!-- Product #1 --> */}
-				<div class='item'>
+				{books.map(book=>(<div key={book.id} class='item'>
 					<div class='image'>
-						<img src='https://images-us.bookshop.org/ingram/9781555977887.jpg?height=500&v=v2' alt='' />
+						<img src={book.data.ImageURL} alt='' />
 					</div>
-
 					<div class='item-description'>
-						<span>Common Projects</span>
-						<span>Bball High</span>
+						<span>{book.data.Name}</span>
+						<span>{book.data.Author}</span>
 						<span>White</span>
 					</div>
 
@@ -92,100 +125,20 @@ function Cart() {
 						</button>
 					</div>
 
-					<div class='total-price'>$549</div>
+					<div class='total-price line-through'>{book.data.Price}</div><div class='total-price'>{book.data.DiscountPrice}</div>
 					<div class='buttons'>
 						<span class='delete-btn'>
 							<i class='fa-solid fa-trash'></i>
 						</span>
 						<span class='like-btn'></span>
 					</div>
-				</div>
-				<div class='item'>
-					<div class='image'>
-						<img src='https://images-us.bookshop.org/ingram/9781555977887.jpg?height=500&v=v2' alt='' />
-					</div>
-
-					<div class='item-description'>
-						<span>Common Projects</span>
-						<span>Bball High</span>
-						<span>White</span>
-					</div>
-
-					<div class='quantity'>
-						<button class='plus-btn' type='button' name='button'>
-							<i class='fa-solid fa-minus'></i>
-						</button>
-						<input type='text' name='name' value='1' />
-						<button class='minus-btn' type='button' name='button'>
-							<i class='fa-solid fa-plus'></i>
-						</button>
-					</div>
-
-					<div class='total-price'>$549</div>
-					<div class='buttons'>
-						<span class='delete-btn'>
-							<i class='fa-solid fa-trash'></i>
-						</span>
-						<span class='like-btn'></span>
-					</div>
-				</div>
-				<div class='item'>
-					<div class='image'>
-						<img src='https://images-us.bookshop.org/ingram/9781555977887.jpg?height=500&v=v2' alt='' />
-					</div>
-
-					<div class='item-description'>
-						<span>Common Projects</span>
-						<span>Bball High</span>
-						<span>White</span>
-					</div>
-
-					<div class='quantity'>
-						<button class='plus-btn' type='button' name='button'>
-							<i class='fa-solid fa-minus'></i>
-						</button>
-						<input type='text' name='name' value='1' />
-						<button class='minus-btn' type='button' name='button'>
-							<i class='fa-solid fa-plus'></i>
-						</button>
-					</div>
-
-					<div class='total-price'>$549</div>
-					<div class='buttons'>
-						<span class='delete-btn'>
-							<i class='fa-solid fa-trash'></i>
-						</span>
-						<span class='like-btn'></span>
-					</div>
-				</div>
-				<div class='item'>
-					<div class='image'>
-						<img src='https://images-us.bookshop.org/ingram/9781555977887.jpg?height=500&v=v2' alt='' />
-					</div>
-
-					<div class='item-description'>
-						<span>Common Projects</span>
-						<span>Bball High</span>
-						<span>White</span>
-					</div>
-
-					<div class='quantity'>
-						<button class='plus-btn' type='button' name='button'>
-							<i class='fa-solid fa-minus'></i>
-						</button>
-						<input type='text' name='name' value='1' />
-						<button class='minus-btn' type='button' name='button'>
-							<i class='fa-solid fa-plus'></i>
-						</button>
-					</div>
-
-					<div class='total-price'>$549</div>
-					<div class='buttons'>
-						<span class='delete-btn'>
-							<i class='fa-solid fa-trash'></i>
-						</span>
-						<span class='like-btn'></span>
-					</div>
+				</div>))}
+				<div className='empty_cart'>
+					<p>
+						<Link className='button' to={"/"}>
+							Continue shopping
+						</Link>
+					</p>
 				</div>
 			</div>
 		</>
