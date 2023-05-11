@@ -3,13 +3,17 @@ import './_BookDetails.scss';
 import Modal from '@mui/material/Modal';
 import Box from '@mui/material/Box';
 import {useParams} from 'react-router-dom';
-import {collection, getDocs, getDoc, doc} from 'firebase/firestore';
+import { Firestore, collection, getDoc, getDocs, addDoc, doc, deleteDoc, orderBy, query, where, onSnapshot, updateDoc } from 'firebase/firestore'
 import {useState} from 'react';
-import {db} from './../../firebase/config';
+import {db,auth} from './../../firebase/config';
 import {useEffect} from 'react';
 import RatingStars from '../../components/Rating Stars/RatingStars';
 
 function BookDetails() {
+	const [currentUser, setCurrentUser] = useState(null);
+	const [userData, setUserData] = useState(null);
+	const [email, setEmail] = useState(null);
+
 	const [open, setOpen] = useState(false);
 	const [book, setBook] = useState(null);
 	const {id} = useParams();
@@ -24,6 +28,71 @@ function BookDetails() {
 			throw new Error('Book not found');
 		}
 	}
+
+	const fetchUserData = async () => {
+		if (email) {
+		const q = query(
+			collection(db, "User"),
+			where("Email", "==", email)
+		);
+		const querySnapshot = await getDocs(q);
+		querySnapshot.forEach((doc) => {
+			setUserData(doc.data());
+		});
+		}
+	};
+
+	const addToCart = () => {
+	if (userData && book && book.id) {
+		const updatedCart = [...userData.Cart, book.id]; // Add the book ID to the existing cart array
+		updateCartInFirestore(updatedCart); // Update the cart in Firestore
+		setUserData({ ...userData, Cart: updatedCart }); // Update the local state with the updated cart
+	}
+	};
+
+	const updateCartInFirestore = async (updatedCart) => {
+	if (email) {
+		const q = query(collection(db, "User"), where("Email", "==", email));
+		const querySnapshot = await getDocs(q);
+		querySnapshot.forEach(async (doc) => {
+		await updateDoc(doc.ref, { Cart: updatedCart }); // Update the Cart field in Firestore
+		});
+	}
+	};
+
+	const addToFav = () => {
+		if (userData && book && book.id) {
+			const updatedWishlist = [...userData.Favourite, book.id]; // Add the book ID to the existing cart array
+			updateWishlistInFirestore(updatedWishlist); // Update the cart in Firestore
+			setUserData({ ...userData, Favourite: updatedWishlist }); // Update the local state with the updated cart
+		}
+		};
+	
+	const updateWishlistInFirestore = async (updatedWishlist) => {
+		if (email) {
+			const q = query(collection(db, "User"), where("Email", "==", email));
+			const querySnapshot = await getDocs(q);
+			querySnapshot.forEach(async (doc) => {
+			await updateDoc(doc.ref, { Favourite: updatedWishlist}); // Update the Cart field in Firestore
+			});
+		}
+		};
+
+	useEffect(() => {
+		const unsubscribe = auth.onAuthStateChanged((user) => {
+		  setCurrentUser(user);
+		  console.log(user.email);
+		  setEmail(user.email);
+		});
+		return unsubscribe;
+	  }, []);
+	
+	  useEffect(() => {
+		if (email) {
+		  fetchUserData();
+		}
+	  }, [email]);
+
 	getBookById(id);
 	if (!book) {
 		// Render a loading spinner or message until the book has been retrieved
@@ -61,11 +130,11 @@ function BookDetails() {
 						</div>
 					</div>
 					<div className='btn-groups'>
-						<button className='btn btn--primary'>
+						<button className='btn btn--primary' onClick={addToCart}>
 							<i className='fa-solid fa-cart-plus'></i>
 							Add to Cart
 						</button>
-						<button className='btn btn--secondary'>
+						<button className='btn btn--secondary' onClick={addToFav}>
 							<i className='fa-regular fa-bookmark'></i>
 							Add to Wishlist
 						</button>
