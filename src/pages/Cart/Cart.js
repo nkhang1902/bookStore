@@ -7,7 +7,6 @@ import { useEffect } from 'react'
 import { Link } from 'react-router-dom';
 import './_Cart.scss';
 function Cart() {
-	const [cart, setCart] = useState(1);
 	const [currentUser, setCurrentUser] = useState(null);
 	const [userData, setUserData] = useState(null);
 	const [email, setEmail] = useState(null);
@@ -27,18 +26,23 @@ function Cart() {
 	};
 
 	const fetchCart = async () => {
-		console.log(userData.Cart);
 		if (userData && userData.Cart) {
 		const bookPromises = userData.Cart.map(async (bookId) => {
-			const bookRef = doc(db, "Book", bookId);
+			try {
+			const bookRef = doc(db, 'Book', bookId);
+			console.log(bookRef);
 			const bookSnapshot = await getDoc(bookRef);
 			if (bookSnapshot.exists()) {
-			const bookData = bookSnapshot.data();
-			return { id: bookSnapshot.id, ...bookData };
-			} else {
-			return null;
+				const bookData = bookSnapshot.data();
+				console.log(bookData);
+				return { id: bookSnapshot.id, ...bookData };
 			}
+			} catch (error) {
+			console.log('Error fetching book:', error);
+			}
+			return null;
 		});
+	
 		const bookData = await Promise.all(bookPromises);
 		setBooks(bookData.filter((book) => book !== null));
 		}
@@ -54,18 +58,24 @@ function Cart() {
 	}, []);
 
 	useEffect(() => {
+		if (email) {
 		fetchUserData();
+		}
 	}, [email]);
 
 	useEffect(() => {
 		fetchCart();
 	}, [userData]);
 
+	useEffect(() => {
+		console.log(books);
+	}, [books]);
+
 	const total = books.reduce((acc, book) => {
-		return acc + book.data.DiscountPrice;
+		return acc + book.DiscountPrice;
 	  }, 0);
 
-	if (cart.length === 0) {
+	if (books.length === 0) {
 		return (
 			<section className='cart-container'>
 				<h1 className='h1'>Shopping Cart</h1>
@@ -135,11 +145,11 @@ function Cart() {
 				{/* <!-- Product #1 --> */}
 				{books.map(book=>(<div key={book.id} class='item'>
 					<div class='image'>
-						<img src={book.data.ImageURL} alt='' />
+						<img src={book.ImageURL} alt='' />
 					</div>
 					<div class='item-description'>
-						<span>{book.data.Name}</span>
-						<span>{book.data.Author}</span>
+						<span>{book.Name}</span>
+						<span>{book.Author}</span>
 						<span>White</span>
 					</div>
 
@@ -153,7 +163,7 @@ function Cart() {
 						</button>
 					</div>
 
-					<div class='total-price line-through'>{book.data.Price}</div><div class='total-price'>{book.data.DiscountPrice}</div>
+					<div class='total-price line-through'>{book.Price}</div><div class='total-price'>{book.DiscountPrice}</div>
 					<div class='buttons'>
 						<span class='delete-btn'>
 							<i class='fa-solid fa-trash'></i>

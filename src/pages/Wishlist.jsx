@@ -1,5 +1,4 @@
 import React from 'react'
-import { useContext } from 'react';
 import { db,auth } from '../firebase/config'
 import { Firestore, collection, getDoc, getDocs, addDoc, doc, deleteDoc, orderBy, query, where, onSnapshot } from 'firebase/firestore'
 import { useEffect, useState } from 'react'
@@ -24,18 +23,23 @@ const Wishlist = () => {
   };
 
   const fetchFavourites = async () => {
-    console.log(userData.Favourite);
     if (userData && userData.Favourite) {
+      console.log(userData.Favourite)
       const bookPromises = userData.Favourite.map(async (bookId) => {
-        const bookRef = doc(db, "Book", bookId);
-        const bookSnapshot = await getDoc(bookRef);
-        if (bookSnapshot.exists()) {
-          const bookData = bookSnapshot.data();
-          return { id: bookSnapshot.id, ...bookData };
-        } else {
-          return null;
+        try {
+          const bookRef = doc(db, 'Book', bookId);
+          const bookSnapshot = await getDoc(bookRef);
+          if (bookSnapshot.exists()) {
+            const bookData = bookSnapshot.data();
+            console.log(bookData);
+            return { id: bookSnapshot.id, ...bookData };
+          }
+        } catch (error) {
+          console.log('Error fetching book:', error);
         }
+        return null;
       });
+  
       const bookData = await Promise.all(bookPromises);
       setBooks(bookData.filter((book) => book !== null));
     }
@@ -51,24 +55,32 @@ const Wishlist = () => {
   }, []);
 
   useEffect(() => {
-    fetchUserData();
+    if (email) {
+      fetchUserData();
+    }
   }, [email]);
 
   useEffect(() => {
     fetchFavourites();
   }, [userData]);
-  
-  return (
-    <div>
-      {books.map((book) => (
+
+  useEffect(() => {
+    console.log(books);
+  }, [books]);
+
+  if (email === null) {
+    return <div>You haven't logged in yet!!</div>;
+  } else {
+    return (
+      <div>
+        <h1>Favourites</h1>
+        {books.map((book) => (
         <div key={book.id}>
-          <img src={book.data.ImageURL}/>
-          <h2>{book.data.Name}</h2>
-          <p>{book.data.Author}</p>
+          {book.Name}
         </div>
       ))}
-    </div>
-  );
-}
+      </div>
+    );
+  }};
 
 export default Wishlist
