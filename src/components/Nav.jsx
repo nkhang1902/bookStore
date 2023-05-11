@@ -70,14 +70,10 @@ const Navbar = () => {
 					</div>
 					<div class='navbar-item '>
 						<a className='navbar-item' href='/fiction'>
-							Fiction
+							Catalogy
 						</a>
 					</div>
-					<div class='navbar-item '>
-						<a className='navbar-item' href='/non-fiction'>
-							Non-Fiction
-						</a>
-					</div>
+					
 					
 				</ul>
 			</div>

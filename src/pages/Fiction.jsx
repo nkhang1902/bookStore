@@ -12,6 +12,8 @@ import { useEffect, useState } from 'react'
 const Fiction = () => {
 	const [New, setNew] = useState([]);
 	const [Books, setBooks] = useState([]);
+	const [Data,setData] = useState([]);
+	
 	function NewBooks() {
 		const bookCollection = collection(db, 'Book');
 	  
@@ -25,7 +27,7 @@ const Fiction = () => {
 		  })
 		  .catch((error) => console.log(error.message));
 	  }
-
+	
 	function AllBooks() {
 	const bookCollection = collection(db,'Book');
 	getDocs(bookCollection).then(response => {
@@ -33,8 +35,11 @@ const Fiction = () => {
 			data: doc.data(),
 			id: doc.id,}))
 		setBooks(book)
+		setData(book)
 	}).catch(error => console.log(error.message))
 	}
+	const uniqueCata = [...new Set(Data.map(item => item.data.Category))];
+	console.log(uniqueCata)
 	useEffect(()=>{
 		NewBooks();
 		AllBooks();
@@ -65,29 +70,19 @@ const Fiction = () => {
 			<div className="row">
 
 				<div className="col-lg-3 Cata">
-					<p className="blog_sidebar_title">Fiction</p>
+					<p className="blog_sidebar_title">Catagory</p>
 					<hr />
 					<ul >
-                      <li className="blog-sidebar-list"><a href='/fiction/Fantasy'>Fantasy</a></li>
-                      <li className="blog-sidebar-list"><a>Adventure</a></li>
-                      <li className="blog-sidebar-list"><a>Romance</a></li>
-                      <li className="blog-sidebar-list"><a>Families & Relationships</a></li>
-                      <li className="blog-sidebar-list"><a>Contemporary</a></li>
-                      <li className="blog-sidebar-list"><a>Dystopian</a></li>
-                      <li className="blog-sidebar-list"><a>Mystery</a></li>
-                      <li className="blog-sidebar-list"><a>Horror</a></li>
-                      <li className="blog-sidebar-list"><a>Thriller</a></li>
-                      <li className="blog-sidebar-list"><a>Paranormal</a></li>
-                      <li className="blog-sidebar-list"><a>Historical fiction</a></li>
-                      <li className="blog-sidebar-list"><a>Science Fiction</a></li>
-                      <li className="blog-sidebar-list"><a>Guide / How-to</a></li>
-                      <li className="blog-sidebar-list"><a>Humor</a></li>
+						{
+							uniqueCata.map(cata=>(
+								<li className="blog-sidebar-list"><a href={"/fiction/" + cata}>{cata}</a></li>
+							))
+						}
+                      <li className="blog-sidebar-list"><a href='#'>Fantasy</a></li>
                     </ul>
 				</div>
                 <div className="col-lg-9 Main">
-                    <h1>Fiction</h1>
-                    <p>Science fiction (sometimes shortened to sf or sci-fi) is a genre of speculative fiction, which typically deals with imaginative and futuristic concepts such as advanced science and technology, space exploration, time travel, parallel universes, and extraterrestrial life. Science fiction can trace its roots to ancient mythology. It is related to fantasy, horror, and superhero fiction and contains many subgenres.</p>
-					<div className='Title'>
+                    <div className='Title'>
 						<h1 className='Small_main'>New release</h1>
 						<a href="">view all</a>
 					</div>
@@ -118,7 +113,7 @@ const Fiction = () => {
 					</div>
 					<Carousel responsive={responsive}>
 					{Books.slice(0, 15).map(book=>( 
-							<a  href={`/BookDetails/${book.id}`}><img class='product--image rounded' src={book.data.ImageURL}/>
+							<a  href={`/BookDetails/${book.id}`}>
 								<div className = "product">
 									<div className = "product_content">
 										<div className = "product_img">
