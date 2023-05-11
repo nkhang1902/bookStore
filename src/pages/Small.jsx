@@ -232,13 +232,14 @@ const Small = () => {
                             <a  href={`/BookDetails/${book.id}`}>
                                 <div class = "product">
                             <div class = "product-content">
-                                <div class = "product-img">
-                                    <img src = {book.data.ImageURL} alt = "product image"/>
+                                <div >
+                                    <img class = "product--image" src = {book.data.ImageURL} alt = "product image"/>
                                 </div>
                                 <div class = "product-btns">
-                                    <button type = "button" class = "btn-cart"> add to cart
-                                        <span><i class = "fas fa-plus"></i></span>
+                                  
+                                    <button type = "button" class = "btn-cart"> <i class="fa fa-cart-plus" aria-hidden="true"></i>
                                     </button>
+                                    
                                 </div>
                             </div>
 
@@ -259,7 +260,7 @@ const Small = () => {
                             </div>
 
                             <div class = "off-info">
-                                <h2 class = "sm-title">{Math.round((book.data.DiscountPrice / book.data.Price)*100)+" %"}</h2>
+                                <h2 class = "sm-title">{100-(Math.round((book.data.DiscountPrice / book.data.Price)*100))+" %"}</h2>
                             </div>
                             </div>
                                 </a>
@@ -280,8 +281,7 @@ const Small = () => {
                                       <img src = {book.data.ImageURL} alt = "product image"/>
                                   </div>
                                   <div class = "product-btns">
-                                      <button type = "button" class = "btn-cart"> add to cart
-                                          <span><i class = "fas fa-plus"></i></span>
+                                      <button type = "button" class = "btn-cart"> <i class="fa fa-cart-plus" aria-hidden="true"></i>
                                       </button>
                                   </div>
                               </div>

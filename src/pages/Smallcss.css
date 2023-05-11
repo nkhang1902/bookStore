@@ -71,7 +71,7 @@
 }
 .product-content{
     background: #ededed;
-    padding: 3rem 0.5rem 2rem 0.5rem;
+    padding: 0.5rem 0.5rem 0.5rem 0.5rem;
     cursor: pointer;
 }
 .product-img{
@@ -118,7 +118,7 @@
 }
 .product-info{
     background: white;
-    padding: 2rem;
+    padding: 0.5rem;
 }
 .product-info-top{
    display: flex;

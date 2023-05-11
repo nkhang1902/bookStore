@@ -68,7 +68,7 @@ hr{
     padding: 3rem 0.5rem 2rem 0.5rem;
     cursor: pointer;
 }
-.product_img{
+.product--img{
     background: rgba(255, 255, 255, 0.5);
     box-shadow: 0 0 20px 10px rgba(255, 255, 255, 0.5);
     width: 200px;

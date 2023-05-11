@@ -91,15 +91,13 @@ const Fiction = () => {
 							<a href={`/BookDetails/${book.id}`}>
 								<div className = "product">
 									<div className = "product_content">
-										<div className = "product_img">
-											<img src = {book.data.ImageURL} alt = "product image"/>
+										<div >
+											<img className = "product--image" src = {book.data.ImageURL} alt = "product image"/>
 										</div>
 										<div className = "product_btns">
-											<button type = "button" className = "btn_cart"> add to cart
-												
+											<button type = "button" className = "btn_cart"> <i class="fa fa-heart" aria-hidden="true"></i>
 											</button>
-											<button type = "button" className = "btn_buy"> buy now
-												
+											<button type = "button" className = "btn_buy"> <i class="fa fa-cart-plus" aria-hidden="true"></i>
 											</button>
 										</div>
 									</div>
@@ -116,14 +114,13 @@ const Fiction = () => {
 							<a  href={`/BookDetails/${book.id}`}>
 								<div className = "product">
 									<div className = "product_content">
-										<div className = "product_img">
-											<img src = {book.data.ImageURL} alt = "product image"/>
+										<div>
+											<img className = "product--image" src = {book.data.ImageURL} alt = "product image"/>
 										</div>
 										<div className = "product_btns">
-											<button type = "button" className = "btn_cart"> add to cart
-												
+											<button type = "button" className = "btn_cart"> <i class="fa fa-heart" aria-hidden="true"></i>
 											</button>
-											<button type = "button" className = "btn_buy"> buy now
+											<button type = "button" className = "btn_buy"> <i class="fa fa-cart-plus" aria-hidden="true"></i>
 											</button>
 										</div>
 									</div>
