@@ -1,9 +1,81 @@
 import React, {useState} from 'react';
+import { UserContext } from '../../components/userContext';
+import { useContext } from 'react';
+import { db, auth } from '../../firebase/config';
+import { Firestore, collection, getDoc, getDocs, addDoc, doc, deleteDoc, orderBy, query, where, onSnapshot } from 'firebase/firestore'
+import { useEffect } from 'react'
+import { Link } from 'react-router-dom';
 import './_Cart.scss';
 function Cart() {
-	const [cart, setCart] = useState(1);
+	const [currentUser, setCurrentUser] = useState(null);
+	const [userData, setUserData] = useState(null);
+	const [email, setEmail] = useState(null);
+	const [books, setBooks] = useState([]);
 
-	if (cart.length === 0) {
+	const fetchUserData = async () => {
+		if (email) {
+		const q = query(
+			collection(db, "User"),
+			where("Email", "==", email)
+		);
+		const querySnapshot = await getDocs(q);
+		querySnapshot.forEach((doc) => {
+			setUserData(doc.data());
+		});
+		}
+	};
+
+	const fetchCart = async () => {
+		if (userData && userData.Cart) {
+		const bookPromises = userData.Cart.map(async (bookId) => {
+			try {
+			const bookRef = doc(db, 'Book', bookId);
+			console.log(bookRef);
+			const bookSnapshot = await getDoc(bookRef);
+			if (bookSnapshot.exists()) {
+				const bookData = bookSnapshot.data();
+				console.log(bookData);
+				return { id: bookSnapshot.id, ...bookData };
+			}
+			} catch (error) {
+			console.log('Error fetching book:', error);
+			}
+			return null;
+		});
+	
+		const bookData = await Promise.all(bookPromises);
+		setBooks(bookData.filter((book) => book !== null));
+		}
+	};
+
+	useEffect(() => {
+		const unsubscribe = auth.onAuthStateChanged((user) => {
+		setCurrentUser(user);
+		console.log(user.email);
+		setEmail(user.email);
+		});
+		return unsubscribe;
+	}, []);
+
+	useEffect(() => {
+		if (email) {
+		fetchUserData();
+		}
+	}, [email]);
+
+	useEffect(() => {
+		fetchCart();
+	}, [userData]);
+
+	useEffect(() => {
+		console.log(books);
+	}, [books]);
+
+	const total = books.reduce((acc, book) => {
+		return acc + book.DiscountPrice;
+	  }, 0);
+
+	if (books.length === 0) {
 		return (
 			<section className='cart-container'>
 				<h1 className='h1'>Shopping Cart</h1>
@@ -34,7 +106,7 @@ function Cart() {
 				</div>
 				<div className='checkout-container'>
 					<a className='button continue' href='#'>
-						Checkout (Total: $38.83)
+						Checkout ({total})
 					</a>
 					{/* <div className='cart-item'>
 						<table className='cart-detail'>
@@ -71,14 +143,13 @@ function Cart() {
 				</div>
 
 				{/* <!-- Product #1 --> */}
-				<div class='item'>
+				{books.map(book=>(<div key={book.id} class='item'>
 					<div class='image'>
-						<img src='https://images-us.bookshop.org/ingram/9781555977887.jpg?height=500&v=v2' alt='' />
+						<img src={book.ImageURL} alt='' />
 					</div>
-
 					<div class='item-description'>
-						<span>Common Projects</span>
-						<span>Bball High</span>
+						<span>{book.Name}</span>
+						<span>{book.Author}</span>
 						<span>White</span>
 					</div>
 
@@ -92,100 +163,20 @@ function Cart() {
 						</button>
 					</div>
 
-					<div class='total-price'>$549</div>
+					<div class='total-price line-through'>{book.Price}</div><div class='total-price'>{book.DiscountPrice}</div>
 					<div class='buttons'>
 						<span class='delete-btn'>
 							<i class='fa-solid fa-trash'></i>
 						</span>
 						<span class='like-btn'></span>
 					</div>
-				</div>
-				<div class='item'>
-					<div class='image'>
-						<img src='https://images-us.bookshop.org/ingram/9781555977887.jpg?height=500&v=v2' alt='' />
-					</div>
-
-					<div class='item-description'>
-						<span>Common Projects</span>
-						<span>Bball High</span>
-						<span>White</span>
-					</div>
-
-					<div class='quantity'>
-						<button class='plus-btn' type='button' name='button'>
-							<i class='fa-solid fa-minus'></i>
-						</button>
-						<input type='text' name='name' value='1' />
-						<button class='minus-btn' type='button' name='button'>
-							<i class='fa-solid fa-plus'></i>
-						</button>
-					</div>
-
-					<div class='total-price'>$549</div>
-					<div class='buttons'>
-						<span class='delete-btn'>
-							<i class='fa-solid fa-trash'></i>
-						</span>
-						<span class='like-btn'></span>
-					</div>
-				</div>
-				<div class='item'>
-					<div class='image'>
-						<img src='https://images-us.bookshop.org/ingram/9781555977887.jpg?height=500&v=v2' alt='' />
-					</div>
-
-					<div class='item-description'>
-						<span>Common Projects</span>
-						<span>Bball High</span>
-						<span>White</span>
-					</div>
-
-					<div class='quantity'>
-						<button class='plus-btn' type='button' name='button'>
-							<i class='fa-solid fa-minus'></i>
-						</button>
-						<input type='text' name='name' value='1' />
-						<button class='minus-btn' type='button' name='button'>
-							<i class='fa-solid fa-plus'></i>
-						</button>
-					</div>
-
-					<div class='total-price'>$549</div>
-					<div class='buttons'>
-						<span class='delete-btn'>
-							<i class='fa-solid fa-trash'></i>
-						</span>
-						<span class='like-btn'></span>
-					</div>
-				</div>
-				<div class='item'>
-					<div class='image'>
-						<img src='https://images-us.bookshop.org/ingram/9781555977887.jpg?height=500&v=v2' alt='' />
-					</div>
-
-					<div class='item-description'>
-						<span>Common Projects</span>
-						<span>Bball High</span>
-						<span>White</span>
-					</div>
-
-					<div class='quantity'>
-						<button class='plus-btn' type='button' name='button'>
-							<i class='fa-solid fa-minus'></i>
-						</button>
-						<input type='text' name='name' value='1' />
-						<button class='minus-btn' type='button' name='button'>
-							<i class='fa-solid fa-plus'></i>
-						</button>
-					</div>
-
-					<div class='total-price'>$549</div>
-					<div class='buttons'>
-						<span class='delete-btn'>
-							<i class='fa-solid fa-trash'></i>
-						</span>
-						<span class='like-btn'></span>
-					</div>
+				</div>))}
+				<div className='empty_cart'>
+					<p>
+						<Link className='button' to={"/"}>
+							Continue shopping
+						</Link>
+					</p>
 				</div>
 			</div>
 		</>

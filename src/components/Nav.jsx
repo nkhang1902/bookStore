@@ -23,7 +23,7 @@ const Navbar = () => {
 					</button>
 				</form>
 				<div className='nav-item active mt-3 d-flex justify-content-center col-2'>
-					<Link className='nav-link col-4' to='/favourite'>
+					<Link className='nav-link col-4' to='/wishlist'>
 						<p className='navItem'>
 							<i class='fas fa-heart    '></i>
 						</p>

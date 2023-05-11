@@ -1,6 +1,6 @@
 .page-section{
     padding-top: 50px;
-    
+
 }
 
 .Cata{
@@ -47,11 +47,11 @@ hr{
     align-items: center;
 }
 
-
-img{
+/* Use class  */
+/* img{
     width: 100%;
     display: block;
-}
+} */
 
 
 .product{

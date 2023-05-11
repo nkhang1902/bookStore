@@ -4,28 +4,46 @@ import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../firebase/config";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
+import { Firestore, collection, getDocs, query, where, addDoc, doc } from 'firebase/firestore'
+import { useContext, createContext } from "react";
+import { db } from "../firebase/config";
+import { UserContext } from "../components/userContext";
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [error, setError] = useState(null);
+  const { setUser } = useContext(UserContext); // get the setUser function from the context
+  const [userData, setUserData] = useState(null); // initialize userData to null
   let navigate = useNavigate();
-
+  console.log(userData);
   const handleLogin = (e) => {
     e.preventDefault();
     signInWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
         console.log(userCredential);
         console.log("Đăng nhập thành công");
-        navigate("/");      
+        const q = query(
+          collection(db, "User"),
+          where("Email", "==", email)
+        );
+        getDocs(q).then((querySnapshot) => {
+          querySnapshot.forEach((doc) => {
+            console.log(userData);
+            setUserData(userData); // update the userData state with the fetched data
+            setUser(userData); // update the userData in the context as well
+          });
+          navigate("/");
+        })
+        .catch((error) => {
+          console.log("Error getting user data:", error);
+        });
+        
       })
-      .catch((error) => {
-        console.log(error);
-        console.log("Đăng nhập thất bại");
-      });
   };
 
   return (
-    <div className={css.container}>
+    <div style={{marginTop: '30px'}} className={css.container}>
       <div className={css.heading}>Login as Existing Customer</div>
       <form className={css.loginForm} onSubmit={handleLogin}>
         <label for="email">Email</label>

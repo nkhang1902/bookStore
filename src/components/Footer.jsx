@@ -17,7 +17,7 @@ const Footer = () => {
                 <use xlinkHref='#bootstrap' />
               </svg>
             </a>
-            <span className='text-muted'>© 2021 Company, Inc</span>
+            <span className='text-muted'>© 2023 Company, Inc</span>
           </div>
           <ul className='nav col-md-4 justify-content-end list-unstyled d-flex'>
             <li className='ms-3'>
@@ -46,5 +46,5 @@ const Footer = () => {
       </div>
     )
   }
-  
+
   export default Footer

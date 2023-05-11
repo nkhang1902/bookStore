@@ -3,6 +3,13 @@
 	flex-direction: row-reverse;
 	height: 46px;
 	justify-self: flex-start;
+
+}
+.rate-submited {
+	all: unset;
+	* > {
+		all: unset;
+	}
 }
 .rated-stars-container {
 	display: flex;
