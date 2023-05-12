@@ -39,6 +39,10 @@ a:link {text-decoration: none;}
     justify-content: space-around;
     align-items: center;
     border: 1px solid #f1f0f5;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 9999; 
 }
 .navItem{
     font-family: serif;

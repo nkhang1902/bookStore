@@ -60,7 +60,7 @@
 // Shopping cart
 .shopping-cart {
 	width: 1024px;
-	margin: 80px auto;
+	margin: 0px auto;
 	background: #ffffff;
 	box-shadow: 1px 2px 3px 0px rgba(0, 0, 0, 0.1);
 	border-radius: 6px;
@@ -79,7 +79,9 @@
 }
 
 .item {
-	padding: 20px 30px;
+	padding-top: 10px;
+	padding-left: 30px;
+	padding-bottom: 10px;
 	// height: 120px;
 	display: flex;
 }
@@ -91,7 +93,6 @@
 .buttons {
 	position: relative;
 	padding-top: 30px;
-	margin-left: 60px;
 }
 .delete-btn,
 .like-btn {
@@ -135,14 +136,13 @@
 .image {
 	img {
 		height: 200px;
+		width: 130px;
 	}
 }
 
 .item-description {
-	padding-top: 10px;
-	margin-left: 20px;
-	margin-right: 50px;
 	width: 415px;
+	margin-right: 25px;
 }
 
 .item-description span {
@@ -162,7 +162,6 @@
 }
 .quantity {
 	padding-top: 20px;
-	margin-right: 60px;
 }
 .quantity input {
 	border: none;
@@ -220,11 +219,4 @@ input:focus {
 .titles-container{
 	display: flex;
 	align-items: center;
-	.title-quantity{
-		padding-left: 29rem;
-		padding-right: 4rem;
-	}
-	.title-price{
-
-	}
 }

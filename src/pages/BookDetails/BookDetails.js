@@ -99,7 +99,7 @@ function BookDetails() {
 		return <div>Loading...</div>;
 	}
 	return (
-		<div style={{marginTop: '30px'}}>
+		<div >
 			<div className='book-details-container'>
 				<img src={book.ImageURL} alt='book cover' className='book-image' onClick={() => setOpen(true)} />
 				<Modal open={open} onClose={() => setOpen(false)}>
@@ -116,7 +116,7 @@ function BookDetails() {
 						<div className='format_type-container'>
 							<div className='format_type-paperback-cover'>
 								<div className='format_type paperback'>Price</div>
-								<div className='format_type paperback__price'>${book.Price}</div>
+								<div className='format_type paperback__price text-decoration-line-through'>${book.Price}</div>
 							</div>
 							<div className='format_type-hard-cover'>
 								<div className='format_type hard-cover'>Discount Price</div>

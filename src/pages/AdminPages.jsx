@@ -6,7 +6,7 @@ import { useState } from 'react'
 import { useEffect } from 'react'
 import { book, language } from 'fontawesome'
 import Button from 'react-bootstrap/Button';
-
+import { Link } from 'react-router-dom'
 const headerCard = {
     fontSize: '22px',
     fontWeight: 'bold',
@@ -114,7 +114,7 @@ const AdminPages =() =>  {
     }
 
     return (
-    <Container className="col-12 flex mt-4 text-center mb-3 px-2 py-2">
+    <Container className="col-12 mt-4 text-center mb-3 px-2 py-2" >
         <Card className="col-10 m-auto text-center px-2 py-2 bg-light" style={headerCard}>
             <Row className="mt-4 mb-4">
                 <Col className="col-3">Book Name</Col>
@@ -226,7 +226,7 @@ const AdminPages =() =>  {
                     <Col className="col-3" >{book.data.Author}</Col>
                     <Col className="col-2" >{book.data.PublishDate}</Col>
                     <Col className="col-2" >{book.data.Price}$</Col>
-                    <Col className="col-1"><Button className='bg-success'><i class="fas fa-book"></i></Button></Col>
+                    <Col className="col-1"><Button className='bg-success'><Link to={`/BookDetails/${book.id}`}><i class="fas fa-book"></i></Link></Button></Col>
                     <Col className="col-1"><Button className='bg-danger' onClick={() => { setBookToDelete(book); setShowDeleteModal(true); }}><i class="fas fa-trash"></i></Button></Col>
                     <Col className="col-3 image" >
                         <img src={book.data.ImageURL} alt={book.data.Name}  />

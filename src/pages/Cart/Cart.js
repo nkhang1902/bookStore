@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import { UserContext } from '../../components/userContext';
 import { useContext } from 'react';
 import { db, auth } from '../../firebase/config';
-import { Firestore, collection, getDoc, getDocs, addDoc, doc, deleteDoc, orderBy, query, where, onSnapshot } from 'firebase/firestore'
+import { Firestore, collection, getDoc, getDocs, addDoc, doc, deleteDoc, orderBy, query, where, onSnapshot, updateDoc } from 'firebase/firestore'
 import { useEffect } from 'react'
 import { Link } from 'react-router-dom';
 import './_Cart.scss';
@@ -30,11 +30,9 @@ function Cart() {
 		const bookPromises = userData.Cart.map(async (bookId) => {
 			try {
 			const bookRef = doc(db, 'Book', bookId);
-			console.log(bookRef);
 			const bookSnapshot = await getDoc(bookRef);
 			if (bookSnapshot.exists()) {
 				const bookData = bookSnapshot.data();
-				console.log(bookData);
 				return { id: bookSnapshot.id, ...bookData };
 			}
 			} catch (error) {
@@ -48,6 +46,24 @@ function Cart() {
 		}
 	};
 
+	const removeFromCart = async (bookId) => {
+		if (userData && userData.Cart && userData.Cart.includes(bookId)) {
+		  const updatedCart = userData.Cart.filter((id) => id !== bookId); // Filter out the book ID from the cart array
+		  updateCartInFirestore(updatedCart); // Update the cart in Firestore
+		  setUserData({ ...userData, Cart: updatedCart }); // Update the local state with the updated cart
+		}
+	  };
+
+	const updateCartInFirestore = async (updatedCart) => {
+		if (email) {
+		  const q = query(collection(db, "User"), where("Email", "==", email));
+		  const querySnapshot = await getDocs(q);
+		  querySnapshot.forEach(async (doc) => {
+			await updateDoc(doc.ref, { Cart: updatedCart }); // Update the Cart field in Firestore
+		  });
+		}
+	  };
+
 	useEffect(() => {
 		const unsubscribe = auth.onAuthStateChanged((user) => {
 		setCurrentUser(user);
@@ -59,9 +75,9 @@ function Cart() {
 
 	useEffect(() => {
 		if (email) {
-		fetchUserData();
+		  fetchUserData();
 		}
-	}, [email]);
+	  }, [email]);
 
 	useEffect(() => {
 		fetchCart();
@@ -72,7 +88,8 @@ function Cart() {
 	}, [books]);
 
 	const total = books.reduce((acc, book) => {
-		return acc + book.DiscountPrice;
+		const price = acc + book.DiscountPrice;
+		return parseFloat(price.toFixed(2));;
 	  }, 0);
 
 	if (books.length === 0) {
@@ -87,9 +104,9 @@ function Cart() {
 				<div className='empty_cart'>
 					<p className='empty_cart--title'>Your cart is empty</p>
 					<p>
-						<a className='button continue' href='#'>
+					<Link className='button' to={"/"}>
 							Continue shopping
-						</a>
+						</Link>	
 					</p>
 				</div>
 			</section>
@@ -137,38 +154,40 @@ function Cart() {
 			<div class='shopping-cart'>
 				{/* <!-- Title --> */}
 				<div className='titles-container'>
-					<div class='title'>Shopping Bag</div>
-					<div class='title-quantity'>Quantity</div>
-					<div class='title-price'>Price</div>
+					<div class='title  col-7'>Shopping Bag</div>
+					<div class='title-quantity text-center col-2'>Quantity</div>
+					<div class='title-price text-center  col-2'>Price</div>
+					<div class='title-price text-center  col-1'></div>
 				</div>
 
 				{/* <!-- Product #1 --> */}
 				{books.map(book=>(<div key={book.id} class='item'>
-					<div class='image'>
-						<img src={book.ImageURL} alt='' />
-					</div>
-					<div class='item-description'>
+					<a key={book.id}href={`/BookDetails/${book.id}`}>
+						<div class='image col-3'>
+							<img src={book.ImageURL} alt='' />
+						</div>
+					</a>
+					<div class='item-description p-3 col-5'>
 						<span>{book.Name}</span>
 						<span>{book.Author}</span>
-						<span>White</span>
+						<span>{book.Description.slice(0, 200) + (book.Description.length > 50 ? '...' : '')}</span>
 					</div>
 
-					<div class='quantity'>
-						<button class='plus-btn' type='button' name='button'>
-							<i class='fa-solid fa-minus'></i>
+					<div class='quantity text-center col-2'>
+						<button className='btn-danger' type='button' name='button'>
+							-
 						</button>
 						<input type='text' name='name' value='1' />
-						<button class='minus-btn' type='button' name='button'>
-							<i class='fa-solid fa-plus'></i>
+						<button className='btn-danger' type='button' name='button'>
+							+
 						</button>
 					</div>
 
-					<div class='total-price line-through'>{book.Price}</div><div class='total-price'>{book.DiscountPrice}</div>
-					<div class='buttons'>
-						<span class='delete-btn'>
+					<div className='col-2 my-3'><div class='text-center'>${book.DiscountPrice}</div><div class='text-center m-0 text-decoration-line-through'>${book.Price}</div></div>
+					<div class='buttons col-1 text-center '>
+						<span class='delete-btn text-center ' onClick={() => removeFromCart(book.id)}>
 							<i class='fa-solid fa-trash'></i>
 						</span>
-						<span class='like-btn'></span>
 					</div>
 				</div>))}
 				<div className='empty_cart'>

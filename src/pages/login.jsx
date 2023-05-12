@@ -43,7 +43,7 @@ const Login = () => {
   };
 
   return (
-    <div style={{marginTop: '30px'}} className={css.container}>
+    <div className={css.container}>
       <div className={css.heading}>Login as Existing Customer</div>
       <form className={css.loginForm} onSubmit={handleLogin}>
         <label for="email">Email</label>

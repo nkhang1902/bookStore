@@ -9,6 +9,7 @@ import Fiction from '../pages/Fiction';
 import NonFiction from '../pages/Non-Fiction';
 import Small from '../pages/Small';
 import Wishlist from '../pages/Wishlist';
+import AdminPages from '../pages/AdminPages';
 const AllRoutes = () => {
 	return (
 		<>
@@ -18,6 +19,7 @@ const AllRoutes = () => {
 				<Route path="/login" element={<Login />} />
         		<Route path="/signup" element={<SignUp />} />	
 				<Route path='/cart' element={<Cart/>} />
+				<Route path='/admin' element={<AdminPages/>} />
 				<Route path='/wishlist' element={<Wishlist/>} />
 				<Route path='/fiction' element={<Fiction/>} />
 				<Route path='/fiction/:catagory' element={<Small/>} />
