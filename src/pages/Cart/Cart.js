@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/anchor-is-valid */
 import React, {useState} from 'react';
 import { UserContext } from '../../components/userContext';
 import { useContext } from 'react';
@@ -10,7 +11,6 @@ function Cart() {
 	const [cart, setCart] = useState(1);
 	const { userData } = useContext(UserContext);
 	const cartItem = userData.cart;
-
 	const [books, setBooks] = useState([]);
 
 	async function fetchCart() {
@@ -70,67 +70,43 @@ function Cart() {
 					<a className='button continue' href='#'>
 						Checkout ({total})
 					</a>
-					{/* <div className='cart-item'>
-						<table className='cart-detail'>
-							<thead>
-								<tr className='cart-items_headers'>
-									<th class='cart-item-item-description-header' colspan='3'>
-										Item
-									</th>
-									<th class='cart-item-quantity-header px-2'>Qty</th>
-									<th class='cart-item-price-header text-right px-4'>Price</th>
-									<th class='cart-item-delete-header'></th>
-								</tr>
-							</thead>
-							<tbody>
-								<tr className='cart-item'>
-									<div className='cart-item-image'>
-										<img src='https://via.placeholder.com/150' alt='product' />
-									</div>
-									<td className='cart-item-title'>Her body and Other parties Stories</td>
-									<td className='cart-item-author'>Carmen Maria Machado</td>
-									<td className='cart-item-status'>V Available</td>
-								</tr>
-							</tbody>
-						</table>
-					</div> */}
 				</div>
 			</section>
-			<div class='shopping-cart'>
+			<div className='shopping-cart'>
 				{/* <!-- Title --> */}
 				<div className='titles-container'>
-					<div class='title'>Shopping Bag</div>
-					<div class='title-quantity'>Quantity</div>
-					<div class='title-price'>Price</div>
+					<div className='title'>Shopping Bag</div>
+					<div className='title-quantity'>Quantity</div>
+					<div className='title-price'>Price</div>
 				</div>
 
 				{/* <!-- Product #1 --> */}
-				{books.map(book=>(<div key={book.id} class='item'>
-					<div class='image'>
+				{books.map(book=>(<div key={book.id} className='item'>
+					<div className='image'>
 						<img src={book.data.ImageURL} alt='' />
 					</div>
-					<div class='item-description'>
+					<div className='item-description'>
 						<span>{book.data.Name}</span>
 						<span>{book.data.Author}</span>
 						<span>White</span>
 					</div>
 
-					<div class='quantity'>
-						<button class='plus-btn' type='button' name='button'>
-							<i class='fa-solid fa-minus'></i>
+					<div className='quantity'>
+						<button className='plus-btn' type='button' name='button'>
+							<i className='fa-solid fa-minus'></i>
 						</button>
 						<input type='text' name='name' value='1' />
-						<button class='minus-btn' type='button' name='button'>
-							<i class='fa-solid fa-plus'></i>
+						<button className='minus-btn' type='button' name='button'>
+							<i className='fa-solid fa-plus'></i>
 						</button>
 					</div>
 
-					<div class='total-price line-through'>{book.data.Price}</div><div class='total-price'>{book.data.DiscountPrice}</div>
-					<div class='buttons'>
-						<span class='delete-btn'>
-							<i class='fa-solid fa-trash'></i>
+					<div className='total-price line-through'>{book.data.Price}</div><div className='total-price'>{book.data.DiscountPrice}</div>
+					<div className='buttons'>
+						<span className='delete-btn'>
+							<i className='fa-solid fa-trash'></i>
 						</span>
-						<span class='like-btn'></span>
+						<span className='like-btn'></span>
 					</div>
 				</div>))}
 				<div className='empty_cart'>

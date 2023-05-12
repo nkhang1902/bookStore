@@ -13,18 +13,18 @@ const AllRoutes = () => {
 	return (
 		<>
 			<Routes>
-				<Route path='/' element={<Home/>} />
+				<Route path='/' element={<Home />} />
 				<Route path='/BookDetails/:id' element={<BookDetails />} />
-				<Route path="/login" element={<Login />} />
-        		<Route path="/signup" element={<SignUp />} />	
-				<Route path='/cart' element={<Cart/>} />
-				<Route path='/wishlist' element={<Wishlist/>} />
-				<Route path='/fiction' element={<Fiction/>} />
-				<Route path='/fiction/:catagory' element={<Small/>} />
-				<Route path='/fiction/:catagory/:filter' element={<Small/>} />
-				<Route path='/non-fiction' element={<NonFiction/>} />
-				<Route path='/non-fiction/:catagory' element={<Small/>} />
-				<Route path='/non-fiction/:catagory/:filter' element={<Small/>} />
+				<Route path='/login' element={<Login />} />
+				<Route path='/signup' element={<SignUp />} />
+				<Route path='/cart' element={<Cart />} />
+				<Route path='/wishlist' element={<Wishlist />} />
+				<Route path='/fiction' element={<Fiction />} />
+				<Route path='/fiction/:catagory' element={<Small />} />
+				<Route path='/fiction/:catagory/:filter' element={<Small />} />
+				<Route path='/non-fiction' element={<NonFiction />} />
+				<Route path='/non-fiction/:catagory' element={<Small />} />
+				<Route path='/non-fiction/:catagory/:filter' element={<Small />} />
 			</Routes>
 		</>
 	);
