@@ -1,21 +1,38 @@
 import React, {useEffect} from 'react';
 import './_RatingStars.scss';
 import {useState} from 'react';
-import {addDoc, collection, doc, getDoc, query, updateDoc, where} from 'firebase/firestore';
+import {addDoc, collection, doc, getDoc, getDocs, query, updateDoc, where} from 'firebase/firestore';
 import {db} from '../../firebase/config';
-let addedReviewID = null;
+import {book, key} from 'fontawesome';
+
 function RatingStars({bookID, Name}) {
 	const [isSubmitted, setIsSubmitted] = useState(false);
 	const [comment, setComment] = useState('');
 	const [starsCount, setStarsCount] = useState(0);
 	const handleClickStars = e => {
+		console.log(bookID);
 		setStarsCount(e.target.id.slice(-1));
 	};
 	const handleWriteReview = e => {
 		setComment(e.target.value);
 	};
+	const fetchUserData = async () => {
+		if (bookID) {
+			const q = query(collection(db, 'Review'), where('BookID', '==', bookID));
+			const querySnapshot = await getDocs(q);
+			querySnapshot.forEach((doc,index) => {
+				if(doc.data().BookID === bookID && doc.data().Name === Name){
+					setIsSubmitted(true);
+					setStarsCount(doc.data().Rating);
+					setComment(doc.data().Review);
 
-	useEffect(() => {}, []);
+				}
+			});
+}
+	};
+	useEffect(() => {
+		fetchUserData();
+	}, []);
 
 	const handleSubmitReview = async e => {
 		e.preventDefault();
@@ -32,7 +49,6 @@ function RatingStars({bookID, Name}) {
 				PostedDate: new Intl.DateTimeFormat('en-US', {year: 'numeric', month: 'long', day: '2-digit', hour: '2-digit', minute: '2-digit'}).format(Date.now()),
 			});
 			console.log('Review added with ID: ', addedReview.id);
-			addedReviewID = addedReview.id;
 		} catch (error) {
 			console.log(error.message);
 		}
@@ -40,11 +56,11 @@ function RatingStars({bookID, Name}) {
 		console.log(bookID);
 		setIsSubmitted(true);
 	};
-	
+
 	function createElements(number) {
 		var elements = [];
 		for (let i = 0; i < number; i++) {
-			elements.push(<div className='star'>★</div>);
+			elements.push(<div className='star' key={i}>★</div>);
 		}
 		return elements;
 	}
@@ -90,7 +106,7 @@ function RatingStars({bookID, Name}) {
 			<>
 				<div className='rate rate-submited'>
 					<p>Your stars: </p>
-					<p className='rated-stars-container'>{createElements(starsCount)}</p>
+					<div className='rated-stars-container'>{createElements(starsCount)}</div>
 				</div>
 				<div className='rate-comment'>
 					<p>Your comment: </p>
