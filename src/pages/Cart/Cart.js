@@ -115,100 +115,72 @@ function Cart() {
 	}
 	return (
 		<>
-			<section className='cart-container'>
-				<h1 className='h1'>Shopping Cart</h1>
-				<div className='design-system'>
-					<a href='#' className='cart-redeem'>
-						Have a gift card? Redeem it here!
-					</a>
-				</div>
-				<div className='checkout-container'>
-					<a className='button continue' href='#'>
-						Checkout ({total})
-					</a>
-				</div>
-			</section>
-			<div className='shopping-cart'>
-				{/* <!-- Title --> */}
-				<div className='titles-container'>
-					<div class='title  col-7'>Shopping Bag</div>
-					<div class='title-quantity text-center col-2'>Quantity</div>
-					<div class='title-price text-center  col-2'>Price</div>
-					<div class='title-price text-center  col-1'></div>
-				</div>
-
-				{/* <!-- Product #1 --> */}
-				{books.map(book=>(<div key={book.id} class='item'>
-					<a key={book.id}href={`/BookDetails/${book.id}`}>
-						<div class='image col-3'>
-							<img src={book.ImageURL} alt='' />
-						</div>
-					</a>
-					<div class='item-description p-3 col-5'>
-						<span>{book.Name}</span>
-						<span>{book.Author}</span>
-						<span>{book.Description.slice(0, 200) + (book.Description.length > 50 ? '...' : '')}</span>
-					</div>
-
-					<div class='quantity text-center col-2'>
-						<button className='btn-danger' type='button' name='button'>
-							-
-						</button>
-						<input type='text' name='name' value='1' />
-						<button className='btn-danger' type='button' name='button'>
-							+
-						</button>
-					</div>
-
-					<div className='col-2 my-3'><div class='text-center'>${book.DiscountPrice}</div><div class='text-center m-0 text-decoration-line-through'>${book.Price}</div></div>
-					<div class='buttons col-1 text-center '>
-						<span class='delete-btn text-center ' onClick={() => removeFromCart(book.id)}>
-							<i class='fa-solid fa-trash'></i>
-						</span>
-					<div className='title'>Shopping Bag</div>
-					<div className='title-quantity'>Quantity</div>
-					<div className='title-price'>Price</div>
-				</div>
-
-				{/* <!-- Product #1 --> */}
-				{books.map(book=>(<div key={book.id} className='item'>
-					<div className='image'>
-						<img src={book.data.ImageURL} alt='' />
-					</div>
-					<div className='item-description'>
-						<span>{book.data.Name}</span>
-						<span>{book.data.Author}</span>
-						<span>White</span>
-					</div>
-
-					<div className='quantity'>
-						<button className='plus-btn' type='button' name='button'>
-							<i className='fa-solid fa-minus'></i>
-						</button>
-						<input type='text' name='name' value='1' />
-						<button className='minus-btn' type='button' name='button'>
-							<i className='fa-solid fa-plus'></i>
-						</button>
-					</div>
-
-					<div className='total-price line-through'>{book.data.Price}</div><div className='total-price'>{book.data.DiscountPrice}</div>
-					<div className='buttons'>
-						<span className='delete-btn'>
-							<i className='fa-solid fa-trash'></i>
-						</span>
-						<span className='like-btn'></span>
-					</div>
-				</div>))}
-				<div className='empty_cart'>
-					<p>
-						<Link className='button' to={"/"}>
-							Continue shopping
-						</Link>
-					</p>
-				</div>
+		  <section className='cart-container'>
+			<h1 className='h1'>Shopping Cart</h1>
+			<div className='design-system'>
+			  <a href='#' className='cart-redeem'>
+				Have a gift card? Redeem it here!
+			  </a>
 			</div>
+			<div className='checkout-container'>
+			  <a className='button continue' href='#'>
+				Checkout ({total})
+			  </a>
+			</div>
+		  </section>
+	  
+		  <div className='shopping-cart'>
+			{/* Title */}
+			<div className='titles-container'>
+			  <div className='title col-7'>Shopping Bag</div>
+			  <div className='title-quantity text-center col-2'>Quantity</div>
+			  <div className='title-price text-center col-2'>Price</div>
+			  <div className='title-price text-center col-1'></div>
+			</div>
+	  
+			{/* Product */}
+			{books.map((book) => (
+			  <div key={book.id} className='item'>
+				<a href={`/BookDetails/${book.id}`}>
+				  <div className='image col-3'>
+					<img className='' src={book.ImageURL} alt='' />
+				  </div>
+				</a>
+				<div className='item-description p-3 col-5'>
+				  <span>{book.Name}</span>
+				  <span>{book.Author}</span>
+				  <span>{book.Description.slice(0, 200) + (book.Description.length > 50 ? '...' : '')}</span>
+				</div>
+				<div className='quantity text-center col-2'>
+				  <button className='btn-danger' type='button' name='button'>
+					-
+				  </button>
+				  <input type='text' name='name' value='1' />
+				  <button className='btn-danger' type='button' name='button'>
+					+
+				  </button>
+				</div>
+				<div className='col-2 my-3'>
+				  <div className='text-center'>${book.DiscountPrice}</div>
+				  <div className='text-center m-0 text-decoration-line-through'>${book.Price}</div>
+				</div>
+				<div className='buttons col-1 text-center'>
+				  <span className='delete-btn text-center' onClick={() => removeFromCart(book.id)}>
+					<i className='fa-solid fa-trash'></i>
+				  </span>
+				</div>
+			  </div>
+			))}
+	  
+			<div className='empty_cart'>
+			  <p>
+				<Link className='button' to={"/"}>
+				  Continue shopping
+				</Link>
+			  </p>
+			</div>
+		  </div>
 		</>
-	);
-}
-
+	  );
+			}
 export default Cart;
