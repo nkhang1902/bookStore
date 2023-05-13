@@ -1,3 +1,5 @@
+/* eslint-disable jsx-a11y/anchor-is-valid */
+/* eslint-disable jsx-a11y/alt-text */
 import React from 'react';
 import 'bootstrap/dist/css/bootstrap.css';
 import '../components/Navbar.css';
@@ -25,13 +27,13 @@ const Navbar = () => {
 				<div className='nav-item active mt-3 d-flex justify-content-center col-2'>
 					<Link className='nav-link col-4' to='/wishlist'>
 						<p className='navItem'>
-							<i class='fas fa-heart    '></i>
+							<i className='fas fa-heart    '></i>
 						</p>
 						<span className='sr-only'>(current)</span>
 					</Link>
 					<Link className='nav-link col-4' to='/cart'>
 						<p className='navItem'>
-							<i class='fas fa-shopping-cart'></i>
+							<i className='fas fa-shopping-cart'></i>
 						</p>
 						<span className='sr-only'>(current)</span>
 					</Link>
@@ -52,29 +54,35 @@ const Navbar = () => {
 						</div>
 					</div>
 				</div>
-				<ul class='d-flex justify-content-center m-0 p-0 col-12'>
-					<div class='navbar-item '>
+				<ul className='d-flex justify-content-center m-0 p-0 col-12'>
+					<div className='navbar-item '>
 						<a className='navbar-item' href='https://bookshop.org/lists/special-offers-on-bookshop-org'>
 							Special Offers
 						</a>
 					</div>
-					<div class='navbar-item '>
+					<div className='navbar-item '>
 						<a className='navbar-item' href='https://bookshop.org/lists/new-releases-this-week'>
 							New Books
 						</a>
 					</div>
-					<div class='navbar-item '>
+					<div className='navbar-item '>
 						<a className='navbar-item' href='/categories/m/popular-books'>
 							Best Sellers
 						</a>
 					</div>
-					<div class='navbar-item '>
+					<div className='navbar-item '>
 						<a className='navbar-item' href='/fiction'>
 							Catalogy
 						</a>
 					</div>
-					
-					
+							Fiction
+						</a>
+					</div>
+					<div className='navbar-item '>
+						<a className='navbar-item' href='/non-fiction'>
+							Non-Fiction
+						</a>
+					</div>
 				</ul>
 			</div>
 		</Row>

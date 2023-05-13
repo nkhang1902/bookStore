@@ -84,14 +84,14 @@ const Home = () => {
 	return (
 		<div>
 			<div>
-				<div class='content'>
+				<div className='content'>
 					<h2>Best Sellers</h2>
-					<div class='crs'>
+					<div className='crs'>
 						<Carousel className='d-flex overflow-auto' focusOnSelect={true} centerMode={true} responsive={responsive} showDots={false}>
 							{Books.slice(0, 15).map(book => (
 								<Card key={book.id} className='bookcard m-2 p-1 border-0 shadow position-relative'>
 									<a href={`/BookDetails/${book.id}`}>
-										<img class='product--image rounded' src={book.data.ImageURL} />
+										<img className='product--image rounded' src={book.data.ImageURL} />
 									</a>
 								</Card>
 							))}
@@ -101,14 +101,14 @@ const Home = () => {
 			</div>
 
 			<div>
-				<div class='content'>
+				<div className='content'>
 					<h2>New Release</h2>
-					<div class='crs'>
+					<div className='crs'>
 						<Carousel className='d-flex overflow-auto' focusOnSelect={true} centerMode={true} responsive={responsive} showDots={false}>
 							{NewBooks.slice(0, 15).map(book => (
 								<Card key={book.id} className='bookcard m-2 p-1 border-0 shadow position-relative'>
 									<a href={`/BookDetails/${book.id}`}>
-										<img class='product--image rounded' src={book.data.ImageURL} />
+										<img className='product--image rounded' src={book.data.ImageURL} />
 									</a>
 								</Card>
 							))}
@@ -118,14 +118,14 @@ const Home = () => {
 			</div>
 
 			<div>
-				<div class='content'>
+				<div className='content'>
 					<h2>Steal Deal</h2>
-					<div class='crs'>
+					<div className='crs'>
 						<Carousel className='d-flex overflow-auto' focusOnSelect={true} centerMode={true} responsive={responsive} showDots={false}>
 							{DiscountBooks.slice(0, 15).map(book => (
 								<Card key={book.id} className='bookcard m-2 p-1 border-0 shadow position-relative'>
 									<a href={`/BookDetails/${book.id}`}>
-										<img class='product--image rounded' src={book.data.ImageURL} />
+										<img className='product--image rounded' src={book.data.ImageURL} />
 									</a>
 								</Card>
 							))}
