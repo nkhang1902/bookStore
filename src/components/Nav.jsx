@@ -7,8 +7,19 @@ import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {faBook, faBookAtlas, faEarth, faExternalLink, faSearch} from '@fortawesome/free-solid-svg-icons';
 import {Link} from 'react-router-dom';
 import {Row} from 'react-bootstrap';
+import { auth } from '../firebase/config';
+import { useState, useEffect } from 'react';
+import Dropdown from 'react-bootstrap/Dropdown';
 
 const Navbar = () => {
+	const [userLoggedIn, setUserLoggedIn] = useState(false);
+
+	useEffect(() => {
+	const unsubscribe = auth.onAuthStateChanged((user) => {
+		setUserLoggedIn(!!user);
+	});
+	return unsubscribe;
+	}, []);
 	return (
 	  <Row style={{ margin: '0' }}>
 		<div className='navbar navbar-expand navbar-light bg-faded d-flex flex-wrap justify-content-between px-4 col-12 shadow-sm'>
@@ -37,22 +48,16 @@ const Navbar = () => {
 			  </p>
 			  <span className='sr-only'>(current)</span>
 			</Link>
-			<div className='nav-link col-4'>
-			  <a className='navItem dropdown-toggle' href='#' id='navbarDropdownMenuLink' role='button' data-toggle='dropdown' aria-haspopup='true' aria-expanded='false'>
-				<i className='fas fa-user' aria-hidden='true'></i>
-			  </a>
-			  <div className='dropdown-menu' aria-labelledby='navbarDropdownMenuLink'>
-				<a className='dropdown-item' href='#'>
-				  Action 1
-				</a>
-				<a className='dropdown-item' href='#'>
-				  Action 2
-				</a>
-				<a className='dropdown-item' href='#'>
-				  Action 3
-				</a>
-			  </div>
-			</div>
+			<Dropdown className='nav-link col-4'>
+				<Dropdown.Toggle className='navItem p-0'  id="dropdown-basic">
+					<i class="fa fa-user" aria-hidden="true"></i>
+				</Dropdown.Toggle>
+
+				<Dropdown.Menu>
+					<Dropdown.Item href="#/action-1">Log In</Dropdown.Item>
+					<Dropdown.Item href="#/action-2">Register</Dropdown.Item>
+				</Dropdown.Menu>
+			</Dropdown>
 		  </div>
 		  <ul className='d-flex justify-content-center m-0 p-0 col-12'>
 			<div className='navbar-item'>

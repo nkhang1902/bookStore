@@ -170,20 +170,7 @@ function BookDetails() {
 					</div>
 					<div className='reviews-list'>
 						<h3 className=''>Reviews</h3>
-						<b>Nominated for the 2018 Shirley Jackson Award for Best Novel</b>
-						<br />
-						<b>A 2019 Locus Award finalist for Best Horror Novel</b>
-						<br />
-						<b>An NPR Pop Culture Happy Hour Pick</b>
-						<br />
-						<b>An io9 2018 Fall Preview Pick</b>
-						<br />
-						"A good, creepy, music-tinged thriller."--<i>Entertainment Weekly</i>
-						<br />
-						"Grady Hendrix is a master of the horror genre."--<i>USA Today</i>
-						<br />
-						"Kickass, horrifying, and smart as hell. It certainly earns my two horns up.."--<i>--Dread Central</i>
-						<br />
+						
 					</div>
 				</div>
 			</div>
