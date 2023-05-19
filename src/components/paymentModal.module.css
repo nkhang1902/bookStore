@@ -17,6 +17,7 @@
   margin-top: 50px;
   border-radius: 5px;
   position: relative;
+  align-self: center;
 }
 
 .heading {
@@ -36,6 +37,7 @@ label {
   margin-bottom: 5px;
   font-size: var(--custom-font-size);
   font-family: var(--custom-font-family);
+  font-weight: bold;
 }
 
 input {
@@ -69,22 +71,26 @@ input {
   font-size: 12px;
 }
 
-.chooseOption{
-    display: flex;
-    flex-direction: row;
-    justify-content: space-around;
+.totalCash {
+  background-color: lightgray;
 }
 
-.optionName{
-    margin-left: 5px;
-    font-size: 20px;
-    font-weight: bold;
+.chooseOption {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
 }
 
-.paymentInfo{
-    display: flex;
-    flex-direction: column;
-    padding: 15px;
-    border: 1px solid var(--custom-color);
-    border-radius: 4px;
+.optionName {
+  margin-left: 5px;
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.paymentInfo {
+  display: flex;
+  flex-direction: column;
+  padding: 15px;
+  border: 1px solid var(--custom-color);
+  border-radius: 4px;
 }

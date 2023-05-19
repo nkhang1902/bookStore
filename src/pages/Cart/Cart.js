@@ -151,6 +151,7 @@ function Cart() {
           <PaymentModal
             isOpen={isModalOpen}
             onRequestClose={handleModalClose}
+			total={total}
           />
         </div>
       </section>

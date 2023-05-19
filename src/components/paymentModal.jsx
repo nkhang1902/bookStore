@@ -1,12 +1,12 @@
 import React, { useState } from "react";
 import Modal from "react-modal";
-import "./modal.css";
+import css from "./paymentModal.module.css";
 import { collection, addDoc } from "firebase/firestore";
 import { db } from "../firebase/config";
 
 Modal.setAppElement("#root");
 
-function PaymentModal({ isOpen, onRequestClose }) {
+function PaymentModal({ isOpen, onRequestClose, total }) {
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
   const [address, setAddress] = useState("");
@@ -32,11 +32,11 @@ function PaymentModal({ isOpen, onRequestClose }) {
     phone: phone,
     address: address,
     paymentMethod: paymentMethod,
-    paymentInfo:{
+    paymentInfo: {
       ownerName: "",
       cardNumber: "",
       expiryDate: null,
-    }
+    },
   };
 
   if (paymentMethod === "online") {
@@ -59,27 +59,26 @@ function PaymentModal({ isOpen, onRequestClose }) {
 
   return (
     <Modal
-      className="containerModal"
+      className={css.containerModal}
       isOpen={isOpen}
       onRequestClose={onRequestClose}
     >
       <div style={{ maxHeight: "500px", overflow: "auto" }}>
-        <button className="closeButton" onClick={onRequestClose}>
+        <button className={css.closeButton} onClick={onRequestClose}>
           X
         </button>
-        <h2 className="heading">Payment Information</h2>
-        <form className="paymentForm" onSubmit={handleSubmit}>
-
+        <h2 className={css.heading}>Payment Information</h2>
+        <form className={css.paymentForm} onSubmit={handleSubmit}>
           <label htmlFor="name">Recipient's Name</label>
           <input
-            type="text"           
+            type="text"
             value={name}
             onChange={(e) => setName(e.target.value)}
           />
 
           <label htmlFor="name">Phone Number</label>
           <input
-            type="tel"         
+            type="tel"
             value={phone}
             onChange={(e) => setPhone(e.target.value)}
             maxLength={10}
@@ -87,11 +86,13 @@ function PaymentModal({ isOpen, onRequestClose }) {
 
           <label htmlFor="address">Address</label>
           <input
-            type="text"        
+            type="text"
             value={address}
             onChange={(e) => setAddress(e.target.value)}
           />
-          <div className="chooseOption">
+          <label htmlFor="total">Total</label>
+          <input className={css.totalCash} type="text" value={"$" + total} readOnly />
+          <div className={css.chooseOption}>
             <div>
               <input
                 type="radio"
@@ -101,7 +102,7 @@ function PaymentModal({ isOpen, onRequestClose }) {
                 checked={paymentMethod === "cash"}
                 onChange={handlePaymentMethodChange}
               />
-              <label className="optionName" htmlFor="cash">
+              <label className={css.optionName} htmlFor="cash">
                 Cash
               </label>
             </div>
@@ -114,45 +115,36 @@ function PaymentModal({ isOpen, onRequestClose }) {
                 checked={paymentMethod === "online"}
                 onChange={handlePaymentMethodChange}
               />
-              <label className="optionName" htmlFor="online">
+              <label className={css.optionName} htmlFor="online">
                 Online Banking
               </label>
             </div>
           </div>
           {paymentMethod === "online" && (
-            <div className="paymentInfo">
-              <h4 className="heading">Enter card information to pay</h4>
+            <div className={css.paymentInfo}>
+              <h4 className={css.heading}>Enter card information to pay</h4>
               <label htmlFor="ownerName">Owner Name</label>
               <input
                 type="text"
                 value={ownerName}
                 onChange={(e) => setOwnerName(e.target.value)}
               />
-
               <label htmlFor="cardNumber">Card Number</label>
               <input
-                type="text"             
-                value={cardNumber}                
+                type="text"
+                value={cardNumber}
                 maxLength={19}
                 onChange={handleCardNumberChange}
               />
-
               <label htmlFor="expiryDate">Expiry Date</label>
               <input
-                type="month"                
+                type="month"
                 value={expiryDate}
                 onChange={(e) => setExpiryDate(e.target.value)}
               />
-
-              {/* <label htmlFor="ownerPhone">Owner phone number</label>
-            <input
-              type="tel"            
-              value={ownerPhone}
-              onChange={(e) => setOwnerPhone(e.target.value)}
-            /> */}
             </div>
           )}
-          <button className="confirmButton" type="submit">
+          <button className={css.confirmButton} type="submit">
             Confirm
           </button>
         </form>
