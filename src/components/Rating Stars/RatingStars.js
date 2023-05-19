@@ -20,15 +20,14 @@ function RatingStars({bookID, Name}) {
 		if (bookID) {
 			const q = query(collection(db, 'Review'), where('BookID', '==', bookID));
 			const querySnapshot = await getDocs(q);
-			querySnapshot.forEach((doc,index) => {
-				if(doc.data().BookID === bookID && doc.data().Name === Name){
+			querySnapshot.forEach((doc, index) => {
+				if (doc.data().BookID === bookID && doc.data().Name === Name) {
 					setIsSubmitted(true);
 					setStarsCount(doc.data().Rating);
 					setComment(doc.data().Review);
-
 				}
 			});
-}
+		}
 	};
 	useEffect(() => {
 		fetchUserData();
@@ -60,7 +59,11 @@ function RatingStars({bookID, Name}) {
 	function createElements(number) {
 		var elements = [];
 		for (let i = 0; i < number; i++) {
-			elements.push(<div className='star' key={i}>★</div>);
+			elements.push(
+				<div className='star' key={i}>
+					★
+				</div>
+			);
 		}
 		return elements;
 	}

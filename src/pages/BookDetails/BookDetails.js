@@ -1,11 +1,11 @@
-import React from 'react';
+import React, {createElement} from 'react';
 import './_BookDetails.scss';
 import Modal from '@mui/material/Modal';
 import Box from '@mui/material/Box';
-import {useParams} from 'react-router-dom';
-import { Firestore, collection, getDoc, getDocs, addDoc, doc, deleteDoc, orderBy, query, where, onSnapshot, updateDoc } from 'firebase/firestore'
+import {useFetcher, useParams} from 'react-router-dom';
+import {Firestore, collection, getDoc, getDocs, addDoc, doc, deleteDoc, orderBy, query, where, onSnapshot, updateDoc} from 'firebase/firestore';
 import {useState} from 'react';
-import {db,auth} from './../../firebase/config';
+import {db, auth} from './../../firebase/config';
 import {useEffect} from 'react';
 import RatingStars from '../../components/Rating Stars/RatingStars';
 
@@ -16,6 +16,7 @@ function BookDetails() {
 
 	const [open, setOpen] = useState(false);
 	const [book, setBook] = useState(null);
+	const [listReview, setListReview] = useState([]); // List of reviews for the current book
 	const {id} = useParams();
 
 	async function getBookById(id) {
@@ -31,67 +32,85 @@ function BookDetails() {
 
 	const fetchUserData = async () => {
 		if (email) {
-		const q = query(
-			collection(db, "User"),
-			where("Email", "==", email)
-		);
-		const querySnapshot = await getDocs(q);
-		querySnapshot.forEach((doc) => {
-			setUserData(doc.data());
-		});
+			const q = query(collection(db, 'User'), where('Email', '==', email));
+			const querySnapshot = await getDocs(q);
+			querySnapshot.forEach(doc => {
+				setUserData(doc.data());
+			});
 		}
 	};
 
 	const addToCart = () => {
-	if (userData && book && book.id) {
-		const updatedCart = [...userData.Cart, book.id]; // Add the book ID to the existing cart array
-		updateCartInFirestore(updatedCart); // Update the cart in Firestore
-		setUserData({ ...userData, Cart: updatedCart }); // Update the local state with the updated cart
-	}
+		if (userData && book && book.id) {
+			const updatedCart = [...userData.Cart, book.id]; // Add the book ID to the existing cart array
+			updateCartInFirestore(updatedCart); // Update the cart in Firestore
+			setUserData({...userData, Cart: updatedCart}); // Update the local state with the updated cart
+		}
 	};
 
-	const updateCartInFirestore = async (updatedCart) => {
-	if (email) {
-		const q = query(collection(db, "User"), where("Email", "==", email));
-		const querySnapshot = await getDocs(q);
-		querySnapshot.forEach(async (doc) => {
-		await updateDoc(doc.ref, { Cart: updatedCart }); // Update the Cart field in Firestore
-		});
-	}
+	const updateCartInFirestore = async updatedCart => {
+		if (email) {
+			const q = query(collection(db, 'User'), where('Email', '==', email));
+			const querySnapshot = await getDocs(q);
+			querySnapshot.forEach(async doc => {
+				await updateDoc(doc.ref, {Cart: updatedCart}); // Update the Cart field in Firestore
+			});
+		}
 	};
 
 	const addToFav = () => {
 		if (userData && book && book.id) {
 			const updatedWishlist = [...userData.Favourite, book.id]; // Add the book ID to the existing cart array
 			updateWishlistInFirestore(updatedWishlist); // Update the cart in Firestore
-			setUserData({ ...userData, Favourite: updatedWishlist }); // Update the local state with the updated cart
+			setUserData({...userData, Favourite: updatedWishlist}); // Update the local state with the updated cart
 		}
-		};
-	
-	const updateWishlistInFirestore = async (updatedWishlist) => {
+	};
+
+	const updateWishlistInFirestore = async updatedWishlist => {
 		if (email) {
-			const q = query(collection(db, "User"), where("Email", "==", email));
+			const q = query(collection(db, 'User'), where('Email', '==', email));
 			const querySnapshot = await getDocs(q);
-			querySnapshot.forEach(async (doc) => {
-			await updateDoc(doc.ref, { Favourite: updatedWishlist}); // Update the Cart field in Firestore
+			querySnapshot.forEach(async doc => {
+				await updateDoc(doc.ref, {Favourite: updatedWishlist}); // Update the Cart field in Firestore
 			});
 		}
-		};
+	};
+
+	const fetchAllReivewsInCurrentBook = async () => {
+		const q = query(collection(db, 'Review'), where('BookID', '==', id));
+		const querySnapshot = await getDocs(q);
+
+		setListReview(querySnapshot.docs.map(doc => doc.data()));
+	};
+
+	function createElements(number) {
+		var elements = [];
+		for (let i = 0; i < number; i++) {
+			elements.push(
+				<div className='star' key={i}>
+					★
+				</div>
+			);
+		}
+		return elements;
+	}
 
 	useEffect(() => {
-		const unsubscribe = auth.onAuthStateChanged((user) => {
-		  setCurrentUser(user);
-		  console.log(user.email);
-		  setEmail(user.email);
+		const unsubscribe = auth.onAuthStateChanged(user => {
+			setCurrentUser(user);
+			setEmail(user.email);
 		});
+
 		return unsubscribe;
-	  }, []);
-	
-	  useEffect(() => {
+	}, []);
+	useEffect(() => {
+		fetchAllReivewsInCurrentBook();
+	}, []);
+	useEffect(() => {
 		if (email) {
-		  fetchUserData();
+			fetchUserData();
 		}
-	  }, [email]);
+	}, [email]);
 
 	getBookById(id);
 	if (!book) {
@@ -99,7 +118,7 @@ function BookDetails() {
 		return <div>Loading...</div>;
 	}
 	return (
-		<div >
+		<div>
 			<div className='book-details-container'>
 				<img src={book.ImageURL} alt='book cover' className='book-image' onClick={() => setOpen(true)} />
 				<Modal open={open} onClose={() => setOpen(false)}>
@@ -166,11 +185,24 @@ function BookDetails() {
 					</div>
 					<div className='user-reviews'>
 						<h3 className=''>Tell us your thoughts</h3>
-						<RatingStars bookID={id} {...book} />
+						<RatingStars bookID={id} {...book} createElements={createElement} />
 					</div>
 					<div className='reviews-list'>
 						<h3 className=''>Reviews</h3>
-						
+						<div className='reviews-list__content'>
+							{listReview.map((review, index) => {
+								return (
+									<div className='review' key={index}>
+										<div className='review__user'>
+											<div className='review__user--name'>Jonh Done</div>
+											<div className='rated-stars-container'>{createElements(review.Rating)}</div>
+											<div className='review__text'>{'"' + review.Review + '"'}</div>
+											<span className='review__user--date'>{review.PostedDate.slice(0, '12')}</span>
+										</div>
+									</div>
+								);
+							})}
+						</div>
 					</div>
 				</div>
 			</div>
