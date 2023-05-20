@@ -31,6 +31,7 @@ function PaymentModal({ isOpen, onRequestClose, total }) {
     name: name,
     phone: phone,
     address: address,
+    totalCash: total,
     paymentMethod: paymentMethod,
     paymentInfo: {
       ownerName: "",
