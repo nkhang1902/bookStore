@@ -70,17 +70,33 @@ const Navbar = () => {
             </p>
             <span className="sr-only">(current)</span>
           </Link>
+          {userLoggedIn ? (
+          // Show this dropdown if user is logged in
           <Dropdown className="nav-link col-4">
             <Dropdown.Toggle className="navItem p-0" id="dropdown-basic">
-              <i class="fa fa-user" aria-hidden="true"></i>
+              <i className="fa fa-user" aria-hidden="true"></i>
+            </Dropdown.Toggle>
+
+            <Dropdown.Menu>
+              <Dropdown.Item href="/profile">Profile</Dropdown.Item>
+              <Dropdown.Item href="/logout" onClick={handleLogout}>
+                Log Out
+              </Dropdown.Item>
+            </Dropdown.Menu>
+          </Dropdown>
+        ) : (
+          // Show this dropdown if user is not logged in
+          <Dropdown className="nav-link col-4">
+            <Dropdown.Toggle className="navItem p-0" id="dropdown-basic">
+              <i className="fa fa-user" aria-hidden="true"></i>
             </Dropdown.Toggle>
 
             <Dropdown.Menu>
               <Dropdown.Item href="/login">Log In</Dropdown.Item>
               <Dropdown.Item href="/signup">Register</Dropdown.Item>
-              <Dropdown.Item href="/login" onClick={handleLogout}>Log Out</Dropdown.Item>
             </Dropdown.Menu>
           </Dropdown>
+        )}
         </div>
         <ul className="d-flex justify-content-center m-0 p-0 col-12">
           <div className="navbar-item">
