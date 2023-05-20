@@ -9,11 +9,21 @@ import {Link} from 'react-router-dom';
 import {Row} from 'react-bootstrap';
 import { auth } from '../firebase/config';
 import { useState, useEffect } from 'react';
+
 import Dropdown from 'react-bootstrap/Dropdown';
 
 const Navbar = () => {
 	const [userLoggedIn, setUserLoggedIn] = useState(false);
 
+  const [keyword, setKeyword] = useState("");
+
+  const handleSearch = (e) => {
+    e.preventDefault();
+    if (keyword.trim() !== "") {
+      const encodedKeyword = encodeURIComponent(keyword);
+      window.location.href = `/fiction/keyword=${encodedKeyword}`;
+    }
+  };
 	function handleLogout() {
     auth
       .signOut()
@@ -46,12 +56,14 @@ const Navbar = () => {
             BookWorms
           </p>
         </Link>
-        <form className="form-control rounded-pill d-flex justify-content-between px-2 w-50">
-          <input
+        <form className="form-control rounded-pill d-flex justify-content-between px-2 w-50" onSubmit={handleSearch}>
+            <input
             className="searchBar border-0 col-11 py-0 my-2"
             style={{ backgroundColor: "#f1f0f5" }}
             type="text"
             placeholder="Search books, author, ..."
+            value={keyword}
+            onChange={(e) => setKeyword(e.target.value)}
           ></input>
           <button className="btn col-1 my-sm-0 w-10" type="submit">
             <FontAwesomeIcon icon={faSearch} />

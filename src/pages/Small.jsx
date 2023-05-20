@@ -4,11 +4,10 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import {faStar,faStarHalf } from '@fortawesome/free-solid-svg-icons'
 import Select from 'react-select'
 
-
 import { db } from '../firebase/config'
-import { Firestore, collection, getDocs, addDoc, doc, deleteDoc, orderBy, query, where,select,and } from 'firebase/firestore'
+import { Firestore, collection, getDocs, addDoc, doc, deleteDoc, orderBy, query, where,select,and,startAt,endAt } from 'firebase/firestore'
 import { useEffect } from 'react'
-import { useParams } from 'react-router-dom';
+import { useParams, useLocation } from 'react-router-dom';
 
 
 
@@ -18,9 +17,35 @@ const Small = () => {
     const [Sort,setSort] = useState(false);
     const [SortedData,setSortedData] = useState([]);
     const [datas,setDatas] = useState([])
+
+    const location = useLocation();
+
     const param = useParams();
+
+    useEffect(() => {
+      const keywordPath = window.location.pathname.split('/').pop(); 
+      const keyword = decodeURIComponent(keywordPath.split('=')[1]); // Decode the keyword if it's encoded
+      console.log(keyword);
+      if (keyword) {
+        // Perform the book search or query using the keyword value
+        // You can use this keyword to fetch books from your data source or API
+        
+        // Example code: Fetch books using the keyword
+        fetchBooksByKeyword(keyword)
+          .then((data) => {
+            setBooks(data);
+          })
+          .catch((error) => {
+            console.error("Error fetching books:", error);
+          });
+      } else {
+        // No keyword found, you can handle this case accordingly
+        AllBooks();
+      }
+    }, []);
+
     let cata = param.catagory;
-    cata.replace("%20"," ")
+    cata.replace(/\%20/g," ")
     
     function AllBooks() {
         const bookCollection = collection(db,'Book');
@@ -150,9 +175,27 @@ const Small = () => {
         }
     };
 
-    useEffect(()=>{
+    const fetchBooksByKeyword = async (keyword) => {
+      const bookRef = collection(db, "Book");
+    
+      const q = query(
+        bookRef,
+        where("Name", "==", keyword)
+      );
+    
+      const querySnapshot = await getDocs(q);
+      const booksData = [];
+    
+      querySnapshot.forEach((doc) => {
+        booksData.push({ id: doc.id, ...doc.data() });
+      });
+    
+      return booksData;
+    };
+
+    useEffect(() => {
       AllBooks();
-    }, [])
+    }, []);
       
   return (
     <section className='filer'>
