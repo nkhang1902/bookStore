@@ -10,6 +10,7 @@ import NonFiction from '../pages/Non-Fiction';
 import Small from '../pages/Small';
 import Wishlist from '../pages/Wishlist';
 import AdminPages from '../pages/AdminPages';
+import Search from '../pages/Search';
 const AllRoutes = () => {
 	return (
 		<>
@@ -25,6 +26,7 @@ const AllRoutes = () => {
 				<Route path='/fiction/:catagory' element={<Small/>} />
 				<Route path='/non-fiction' element={<NonFiction/>} />
 				<Route path='/non-fiction/:catagory' element={<Small/>} />
+				<Route path='/search' element={<Search/>} />
 			</Routes>
 		</>
 	);

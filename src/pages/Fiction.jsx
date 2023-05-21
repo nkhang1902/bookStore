@@ -39,7 +39,6 @@ const Fiction = () => {
 	}).catch(error => console.log(error.message))
 	}
 	const uniqueCata = [...new Set(Data.map(item => item.data.Category))];
-	console.log(uniqueCata)
 	useEffect(()=>{
 		NewBooks();
 		AllBooks();
