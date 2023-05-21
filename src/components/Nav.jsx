@@ -128,15 +128,14 @@ const Navbar = () => {
                 </Link>
                 <form
                     className="form-control rounded-pill d-flex justify-content-between px-2 w-50"
-                    onSubmit={handleSearch}
+                    onSubmit={SubmitSearch}
                 >
                     <input
                         className="searchBar border-0 col-11 py-0 my-2"
                         style={{ backgroundColor: '#f1f0f5' }}
                         type="text"
                         placeholder="Search books, author, ..."
-                        value={keyword}
-                        onChange={(e) => setKeyword(e.target.value)}
+                        onChange={live_search}
                     ></input>
                     <button
                         className="btn col-1 my-sm-0 w-10"
