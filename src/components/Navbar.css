@@ -26,6 +26,7 @@ a:link {text-decoration: none;}
     border-bottom-style: hidden;
     background-color: #f1f0f5 ;
     padding-bottom: 0;
+    position: relative;
 }
 
 .btn{
@@ -83,4 +84,53 @@ a:link {text-decoration: none;}
 .searchBar{
     height: 20px;
     width: 50%;
+}
+.res{
+   width: 100%;
+   position: absolute;
+   top: 50px;
+   left: 0px;
+}
+.res-item{
+    border: 1px solid rgb(126, 126, 126);
+    background-color: #fff;
+}
+.search_item{
+    padding-top: 15px;
+    display: flex;
+    color: black;
+}
+.search_img{
+    width: 45px;
+    height: 50px;
+}
+
+.search_name{
+    font-size: 20px;
+    font-weight: 450;
+    width: 500px;
+}
+
+.search_auth{
+    font-size: 15px;
+    font-weight: 200;
+}
+.price{
+    width: 100%;
+}
+.search_price{
+    text-align: right;
+    padding-right: 50px;
+    padding-top: 15px;  
+    font-size: 20px;
+}
+.res-item hr{
+    width: 95%;
+    color: black;
+}
+
+.not_find{
+    font-size: 20px;
+    list-style: none;
+    padding-top: 10px;
 }
