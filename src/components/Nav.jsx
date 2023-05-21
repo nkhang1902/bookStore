@@ -7,9 +7,9 @@ import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {faBook, faBookAtlas, faEarth, faExternalLink, faSearch} from '@fortawesome/free-solid-svg-icons';
 import {Link} from 'react-router-dom';
 import {Row} from 'react-bootstrap';
-import { auth } from '../firebase/config';
-import { useState, useEffect } from 'react';
 
+import {auth} from '../firebase/config';
+import {useState, useEffect} from 'react';
 import Dropdown from 'react-bootstrap/Dropdown';
 
 const Navbar = () => {
@@ -36,10 +36,10 @@ const Navbar = () => {
   }
 
 	useEffect(() => {
-	const unsubscribe = auth.onAuthStateChanged((user) => {
-		setUserLoggedIn(!!user);
-	});
-	return unsubscribe;
+		const unsubscribe = auth.onAuthStateChanged(user => {
+			setUserLoggedIn(!!user);
+		});
+		return unsubscribe;
 	}, []);
 	return (
     <Row style={{ margin: "0" }}>

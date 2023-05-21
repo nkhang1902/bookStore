@@ -2,163 +2,227 @@ $book-details-container-width: 1024px;
 $purple: #573ba3;
 // Modal
 @import '../../../src/App.scss';
+
 .modal-img {
-	height: 70%;
-	position: absolute !important;
-	top: 50%;
-	left: 50%;
-	transform: translate(-50%, -50%);
+    height: 70%;
+    position: absolute !important;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
 }
 
 // End Modal
 .book-details {
-	text-align: justify;
-	&-container {
-		display: grid;
-		grid-template-columns: repeat(auto-fit, minmax(400px, max-content));
-		justify-items: center;
-		max-width: $book-details-container-width;
-		margin: 0 auto;
-		.book-image {
-			width: 250px;
-			transition: all 0.2s ease-in-out;
-			&:hover {
-				cursor: pointer;
-				transform: scale(1.05);
-				transition: all 0.2s ease-in-out;
-			}
-		}
-	}
-	.book {
-		&-title {
-			font-size: 2rem;
-			font-weight: 600;
-			letter-spacing: 1px;
-			margin: 0 0 8px 0;
-		}
-		&-author {
-			font-size: 15px;
-			font-weight: 400;
-			letter-spacing: 1px;
-			color: #808808;
-			&--purple {
-				color: $purple;
-			}
-		}
-	}
+    text-align: justify;
 
-	.price {
-		font-size: 12px;
-		font-weight: 600;
-		letter-spacing: 0.3px;
-		.format_type-container {
-			display: grid;
-			grid-template-columns: repeat(auto-fit, minmax(100px, max-content));
-			column-gap: 1rem;
+    &-container {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(400px, max-content));
+        justify-items: center;
+        max-width: $book-details-container-width;
+        margin: 0 auto;
 
-			.format_type-paperback-cover,
-			.format_type-hard-cover {
-				padding: 1rem;
-				padding-right: 3rem;
-				font-size: 16px;
-				line-height: 24px;
-				border: 1px solid $purple;
-				border-radius: 4px;
-				background-color: #f8f8f8;
-				transition: all 0.2s ease-in-out;
-				cursor: pointer;
-				margin-top: 0.2rem;
-				&:hover {
-					background-color: darken(#f8f8f8, 10%);
-				}
-				.format_type.paperback,
-				.format_type.hard-cover {
-					color: $purple;
-				}
-			}
-		}
-	}
-	.available {
-		color: #1fa5a3;
-		text-transform: uppercase;
-		font-size: 1rem;
-		font-weight: 600;
-		margin: 1rem 0;
-		.fa-solid.fa-circle-check {
-			margin-right: 0.5rem;
-		}
-	}
+        .book-image {
+            width: 250px;
+            transition: all 0.2s ease-in-out;
 
-	.btn-groups {
-		display: grid;
-		grid-template-columns: repeat(auto-fit, minmax(100px, max-content));
-		column-gap: 1rem;
-		.btn {
-			padding: 6px 24px;
-			font-size: 16px;
-			line-height: 24px;
-			display: inline-flex;
-			align-items: center;
-			text-transform: uppercase;
-			color: white;
-			border-radius: 35px;
-			background-color: #de2545;
-			transition: all 0.2s ease-in-out;
-			cursor: pointer;
-			margin-top: 0.2rem;
-			i {
-				margin-right: 0.5rem;
-			}
-			&:hover {
-				background-color: darken(#de2545, 10%);
-				transform: scale(1.05);
-			}
-			&.btn--purple {
-				color: $purple;
-			}
-			&--secondary {
-				background-color: #f8f8f8;
-				color: $purple;
-				border: 2px solid $purple;
-				&:hover {
-					background-color: darken(#f8f8f8, 10%);
-				}
-			}
-		}
-	}
-	.description {
-		margin-top: 1rem;
-		width: 100%;
-		.des-content {
-			p {
-				font-family: 'Poppins', monospace;
-				font-size: 1rem;
-				text-align: justify;
-			}
-		}
-	}
-	.user-reviews {
-		display: grid;
-		max-height: 257px;
-	}
+            &:hover {
+                cursor: pointer;
+                transform: scale(1.05);
+                transition: all 0.2s ease-in-out;
+            }
+        }
+    }
+
+    .book {
+        &-title {
+            font-size: 2rem;
+            font-weight: 600;
+            letter-spacing: 1px;
+            margin: 0 0 8px 0;
+        }
+
+        &-author {
+            font-size: 15px;
+            font-weight: 400;
+            letter-spacing: 1px;
+            color: #808808;
+
+            &--purple {
+                color: $purple;
+            }
+        }
+    }
+
+    .price {
+        font-size: 12px;
+        font-weight: 600;
+        letter-spacing: 0.3px;
+
+        .format_type-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(100px, max-content));
+            column-gap: 1rem;
+
+            .format_type-paperback-cover,
+            .format_type-hard-cover {
+                padding: 1rem;
+                padding-right: 3rem;
+                font-size: 16px;
+                line-height: 24px;
+                border: 1px solid $purple;
+                border-radius: 4px;
+                background-color: #f8f8f8;
+                transition: all 0.2s ease-in-out;
+                cursor: pointer;
+                margin-top: 0.2rem;
+
+                &:hover {
+                    background-color: darken(#f8f8f8, 10%);
+                }
+
+                .format_type.paperback,
+                .format_type.hard-cover {
+                    color: $purple;
+                }
+            }
+        }
+    }
+
+    .available {
+        color: #1fa5a3;
+        text-transform: uppercase;
+        font-size: 1rem;
+        font-weight: 600;
+        margin: 1rem 0;
+
+        .fa-solid.fa-circle-check {
+            margin-right: 0.5rem;
+        }
+    }
+
+    .btn-groups {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(100px, max-content));
+        column-gap: 1rem;
+
+        .btn {
+            padding: 6px 24px;
+            font-size: 16px;
+            line-height: 24px;
+            display: inline-flex;
+            align-items: center;
+            text-transform: uppercase;
+            color: white;
+            border-radius: 35px;
+            background-color: #de2545;
+            transition: all 0.2s ease-in-out;
+            cursor: pointer;
+            margin-top: 0.2rem;
+
+            i {
+                margin-right: 0.5rem;
+            }
+
+            &:hover {
+                background-color: darken(#de2545, 10%);
+                transform: scale(1.05);
+            }
+
+            &.btn--purple {
+                color: $purple;
+            }
+
+            &--secondary {
+                background-color: #f8f8f8;
+                color: $purple;
+                border: 2px solid $purple;
+
+                &:hover {
+                    background-color: darken(#f8f8f8, 10%);
+                }
+            }
+        }
+    }
+
+    .description {
+        margin-top: 1rem;
+        width: 100%;
+
+        .des-content {
+            p {
+                font-family: 'Poppins', monospace;
+                font-size: 1rem;
+                text-align: justify;
+            }
+        }
+    }
+
+    .user-reviews {
+        display: grid;
+        max-height: 257px;
+    }
 }
+
 .product-details__content {
-	display: grid;
-	grid-template-columns: 1fr 1fr;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
 }
+
+//Review List
+.review {
+
+    &s-list__content {
+        display: grid;
+        gap: 1rem;
+        grid-template-columns: repeat(auto-fit, minmax(300px, max-content));
+        grid-auto-rows: 1fr;
+    }
+
+    &__user {
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+
+        &--name {
+            font-size: 1rem;
+            font-weight: 600;
+            letter-spacing: 1px;
+            margin: 0 0 8px 0;
+            margin-top: auto;
+        }
+
+        &--date {
+            font-size: .8rem;
+            color: rgb(153, 65, 65);
+        }
+    }
+
+    &__text {
+        font-size: 1rem;
+        text-align: left;
+        font-style: italic;
+        background-color: #eefafa;
+    }
+
+}
+
+// End review list
 
 // Media Query (not done yet)
 @media screen and (width < 817px) {
-	.book-details {
-		padding: 2rem;
-		overflow-x: hidden;
-		.book-title,
-		.book-author {
-			text-align: center;
-		}
-	}
-	.description {
-		margin-top: 1rem;
-		width: 10%;
-	}
+    .book-details {
+        padding: 2rem;
+        overflow-x: hidden;
+
+        .book-title,
+        .book-author {
+            text-align: center;
+        }
+    }
+
+    .description {
+        margin-top: 1rem;
+        width: 10%;
+    }
 }

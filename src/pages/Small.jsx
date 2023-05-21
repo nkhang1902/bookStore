@@ -437,5 +437,4 @@ const Small = () => {
     </section>
   )
 }
-
 export default Small
