@@ -294,14 +294,6 @@ const Navbar = () => {
                             Fiction
                         </a>
                     </div>
-                    <div className="navbar-item">
-                        <a
-                            className="navbar-item"
-                            href="/non-fiction"
-                        >
-                            Non-Fiction
-                        </a>
-                    </div>
                 </ul>
             </div>
         </Row>
