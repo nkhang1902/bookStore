@@ -8,7 +8,8 @@ import {useState} from 'react';
 import {db,auth} from './../../firebase/config';
 import {useEffect} from 'react';
 import RatingStars from '../../components/Rating Stars/RatingStars';
-
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 function BookDetails() {
 	const [currentUser, setCurrentUser] = useState(null);
 	const [userData, setUserData] = useState(null);
@@ -29,55 +30,6 @@ function BookDetails() {
 		}
 	}
 
-	const fetchUserData = async () => {
-		if (email) {
-		const q = query(
-			collection(db, "User"),
-			where("Email", "==", email)
-		);
-		const querySnapshot = await getDocs(q);
-		querySnapshot.forEach((doc) => {
-			setUserData(doc.data());
-		});
-		}
-	};
-
-	const addToCart = () => {
-	if (userData && book && book.id) {
-		const updatedCart = [...userData.Cart, book.id]; // Add the book ID to the existing cart array
-		updateCartInFirestore(updatedCart); // Update the cart in Firestore
-		setUserData({ ...userData, Cart: updatedCart }); // Update the local state with the updated cart
-	}
-	};
-
-	const updateCartInFirestore = async (updatedCart) => {
-	if (email) {
-		const q = query(collection(db, "User"), where("Email", "==", email));
-		const querySnapshot = await getDocs(q);
-		querySnapshot.forEach(async (doc) => {
-		await updateDoc(doc.ref, { Cart: updatedCart }); // Update the Cart field in Firestore
-		});
-	}
-	};
-
-	const addToFav = () => {
-		if (userData && book && book.id) {
-			const updatedWishlist = [...userData.Favourite, book.id]; // Add the book ID to the existing cart array
-			updateWishlistInFirestore(updatedWishlist); // Update the cart in Firestore
-			setUserData({ ...userData, Favourite: updatedWishlist }); // Update the local state with the updated cart
-		}
-		};
-	
-	const updateWishlistInFirestore = async (updatedWishlist) => {
-		if (email) {
-			const q = query(collection(db, "User"), where("Email", "==", email));
-			const querySnapshot = await getDocs(q);
-			querySnapshot.forEach(async (doc) => {
-			await updateDoc(doc.ref, { Favourite: updatedWishlist}); // Update the Cart field in Firestore
-			});
-		}
-		};
-
 	useEffect(() => {
 		const unsubscribe = auth.onAuthStateChanged((user) => {
 		  setCurrentUser(user);
@@ -94,6 +46,86 @@ function BookDetails() {
 	  }, [email]);
 
 	getBookById(id);
+
+	const fetchUserData = async () => {
+		if (email) {
+		const q = query(
+			collection(db, "User"),
+			where("Email", "==", email)
+		);
+		const querySnapshot = await getDocs(q);
+		querySnapshot.forEach((doc) => {
+			setUserData(doc.data());
+		});
+		}
+	};
+
+	const addToCart = () => {
+		if (userData.Cart.includes(book.id))
+		{
+		  toast.error(`${book.data.Name} is already in cart`, {
+			position: toast.POSITION.BOTTOM_RIGHT,
+			autoClose: 2000,
+			hideProgressBar: true,
+		  });
+		  return;
+		}
+		if (userData && book) {
+		  const updatedCart = [...userData.Cart, book.id];
+		  updateCartInFirestore(updatedCart);
+		  setUserData({ ...userData, Cart: updatedCart });
+		  toast.success(`${book.data.Name} added to cart`, {
+			position: toast.POSITION.BOTTOM_RIGHT,
+			autoClose: 2000,
+			hideProgressBar: true,
+		  });
+		}
+		
+	  };
+
+	const updateCartInFirestore = async (updatedCart) => {
+	if (email) {
+		const q = query(collection(db, "User"), where("Email", "==", email));
+		const querySnapshot = await getDocs(q);
+		querySnapshot.forEach(async (doc) => {
+		await updateDoc(doc.ref, { Cart: updatedCart }); // Update the Cart field in Firestore
+		});
+	}
+	};
+
+	const addToFav = () => {
+		if (userData.Cart.includes(book.id))
+		{
+		  toast.error(`${book.Name} is already in wishlist`, {
+			position: toast.POSITION.BOTTOM_RIGHT,
+			autoClose: 2000,
+			hideProgressBar: true,
+		  });
+		  return;
+		}
+		if (userData && book) {
+		  const updatedWishlist = [...userData.Favourite, book.id];
+		  updateWishlistInFirestore(updatedWishlist);
+		  setUserData({ ...userData, Favourite: updatedWishlist });
+		  toast.success(`${book.Name} added to wishlist`, {
+			position: toast.POSITION.BOTTOM_RIGHT,
+			autoClose: 2000,
+			hideProgressBar: true,
+		  });
+		}
+	  };
+	
+	const updateWishlistInFirestore = async (updatedWishlist) => {
+		if (email) {
+			const q = query(collection(db, "User"), where("Email", "==", email));
+			const querySnapshot = await getDocs(q);
+			querySnapshot.forEach(async (doc) => {
+			await updateDoc(doc.ref, { Favourite: updatedWishlist}); // Update the Cart field in Firestore
+			});
+		}
+		};
+
+	
 	if (!book) {
 		// Render a loading spinner or message until the book has been retrieved
 		return <div>Loading...</div>;
@@ -174,6 +206,7 @@ function BookDetails() {
 					</div>
 				</div>
 			</div>
+			<ToastContainer/>
 		</div>
 	);
 }

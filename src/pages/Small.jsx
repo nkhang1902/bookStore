@@ -9,7 +9,8 @@ import { Firestore, collection, getDocs, addDoc, doc, deleteDoc, orderBy, query,
 import { useEffect } from 'react'
 import { useParams, useLocation } from 'react-router-dom';
 
-
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const Small = () => {
     const [price,setPrice] =  useState(0)
@@ -17,7 +18,6 @@ const Small = () => {
     const [Sort,setSort] = useState(false);
     const [SortedData,setSortedData] = useState([]);
     const [datas,setDatas] = useState([])
-
     const location = useLocation();
 
     const param = useParams();
@@ -70,7 +70,7 @@ const Small = () => {
       }
     },  []);
     
-    const [currentUser, setCurrentUser] = useState(null);
+  const [currentUser, setCurrentUser] = useState(null);
 	const [userData, setUserData] = useState(null);
 	const [email, setEmail] = useState(null);
 
@@ -89,14 +89,29 @@ const Small = () => {
 		}
 	};
 
-	const addToCart = (event) => {
+	const addToCart = (event, book) => {
     event.preventDefault();
-	if (userData && Books && Books.id) {
-		const updatedCart = [...userData.Cart, Books.id]; // Add the book ID to the existing cart array
-		updateCartInFirestore(updatedCart); // Update the cart in Firestore
-		setUserData({ ...userData, Cart: updatedCart }); // Update the local state with the updated cart
-	}
-	};
+    if (userData.Cart.includes(book.id))
+    {
+      toast.error(`${book.data.Name} is already in cart`, {
+        position: toast.POSITION.BOTTOM_RIGHT,
+        autoClose: 2000, // Duration for the notification to automatically close (in milliseconds)
+       hideProgressBar: true,
+      });
+      return;
+    }
+    if (userData && book) {
+      const updatedCart = [...userData.Cart, book.id];
+      updateCartInFirestore(updatedCart);
+      setUserData({ ...userData, Cart: updatedCart });
+      toast.success(`${book.data.Name} added to cart`, {
+        position: toast.POSITION.BOTTOM_RIGHT,
+        autoClose: 2000, // Duration for the notification to automatically close (in milliseconds)
+        hideProgressBar: true,
+      });
+    }
+    
+  };
 
 	const updateCartInFirestore = async (updatedCart) => {
 	if (email) {
@@ -108,14 +123,28 @@ const Small = () => {
 	}
 	};
 
-	const addToFav = (event) => {
+	const addToFav = (event, book) => {
     event.preventDefault();
-		if (userData && Books && Books.id) {
-			const updatedWishlist = [...userData.Favourite, Books.id]; // Add the book ID to the existing cart array
-			updateWishlistInFirestore(updatedWishlist); // Update the cart in Firestore
-			setUserData({ ...userData, Favourite: updatedWishlist }); // Update the local state with the updated cart
-		}
-		};
+    if (userData.Cart.includes(book.id))
+    {
+      toast.error(`${book.data.Name} is already in wishlist`, {
+        position: toast.POSITION.BOTTOM_RIGHT,
+        autoClose: 2000, // Duration for the notification to automatically close (in milliseconds)
+        hideProgressBar: true,
+      });
+      return;
+    }
+    if (userData && book) {
+      const updatedWishlist = [...userData.Favourite, book.id];
+      updateWishlistInFirestore(updatedWishlist);
+      setUserData({ ...userData, Favourite: updatedWishlist });
+      toast.success(`${book.data.Name} added to wishlist`, {
+        position: toast.POSITION.BOTTOM_RIGHT,
+        autoClose: 2000, // Duration for the notification to automatically close (in milliseconds)
+        hideProgressBar: true,
+      });
+    }
+  };
 	
 	const updateWishlistInFirestore = async (updatedWishlist) => {
 		if (email) {
@@ -127,21 +156,21 @@ const Small = () => {
 		}
 		};
 
-	useEffect(() => {
-		const unsubscribe = auth.onAuthStateChanged((user) => {
-		  setCurrentUser(user);
-		  console.log(user.email);
-		  setEmail(user.email);
-		});
-		return unsubscribe;
-	  }, []);
-	
-	  useEffect(() => {
-		if (email) {
-		  fetchUserData();
-		}
-	  }, [email]);
-
+    useEffect(() => {
+      const unsubscribe = auth.onAuthStateChanged((user) => {
+        setCurrentUser(user);
+        console.log(user.email);
+        setEmail(user.email);
+      });
+      return unsubscribe;
+      }, []);
+    
+    useEffect(() => {
+      if (email) {
+        fetchUserData();
+        
+      }
+      }, [email]);
     
 
     function AllBooks() {
@@ -355,10 +384,11 @@ const Small = () => {
                                 </div>
                                 <div class = "product-btns">
                                   
-                                    <button type = "button" class = "btn-cart" onClick={addToCart}> <i class="fa fa-cart-plus" aria-hidden="true"></i>
+                                    <button type = "button" class = "btn-cart" onClick={(event) => addToCart(event, book)}> <i class="fa fa-cart-plus" aria-hidden="true"></i>
                                     </button>
-                                    <button type = "button" class = "btn-cart" onClick={addToFav}> <i class="fa fa-heart" aria-hidden="true"></i>
+                                    <button type = "button" class = "btn-cart" onClick={(event) => addToFav(event, book)}> <i class="fa fa-heart" aria-hidden="true"></i>
                                     </button>
+                                    
                                 </div>
                             </div>
 
@@ -386,25 +416,29 @@ const Small = () => {
                             ))}
                         </div>
                     </div>
+                    <ToastContainer/>
                 </div>
               )}
               {Sort && (
                   <div class = "products">
                   <div class = "pro_container">
                       <div class = "product-items">
-                          {SortedData.map((book,price)=>(
+                          {Books.map((book,price)=>(
                               <a  href={`/BookDetails/${book.id}`}>
-                                  <div class = "product">
+                                  <div class = "product" href={`/BookDetails/${book.id}`}>
                               <div class = "product-content">
-                                  <div class = "product-img">
-                                      <img src = {book.data.ImageURL} alt = "product image"/>
+                                  <div >
+                                      <img class = "product--image" src = {book.data.ImageURL} alt = "product image"/>
                                   </div>
                                   <div class = "product-btns">
-                                      <button type = "button" class = "btn-cart"> <i class="fa fa-cart-plus" aria-hidden="true"></i>
-                                      </button>
+                                    
+                                  <button type = "button" class = "btn-cart" onClick={(event) => addToCart(event, book)}> <i class="fa fa-cart-plus" aria-hidden="true"></i>
+                                    </button>
+                                    <button type = "button" class = "btn-cart" onClick={(event) => addToFav(event, book)}> <i class="fa fa-heart" aria-hidden="true"></i>
+                                    </button>
                                   </div>
                               </div>
-
+  
                               <div class = "product-info">
                                   <div class = "product-info-top">
                                       <h1 class = "sm-title">{book.data.Name}</h1>
@@ -420,16 +454,17 @@ const Small = () => {
                                   <p class = "product-price">{book.data.Price}</p>
                                   <p class = "product-price">{book.data.DiscountPrice}</p>
                               </div>
-
+  
                               <div class = "off-info">
-                                  <h2 class = "sm-title">25% off</h2>
+                                  <h2 class = "sm-title">{100-(Math.round((book.data.DiscountPrice / book.data.Price)*100))+" %"}</h2>
                               </div>
+                              </div>
+                                  </a>
+                              ))}
                           </div>
-                              </a>
-                          ))}
                       </div>
+                      <ToastContainer/>
                   </div>
-              </div>
               )}
             </div>
         </div>
