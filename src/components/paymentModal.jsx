@@ -64,7 +64,7 @@ function PaymentModal({ isOpen, onRequestClose, total }) {
       isOpen={isOpen}
       onRequestClose={onRequestClose}
     >
-      <div style={{ maxHeight: "500px", overflow: "auto" }}>
+      <div style={{ maxHeight: "500px" }}>
         <button className={css.closeButton} onClick={onRequestClose}>
           X
         </button>

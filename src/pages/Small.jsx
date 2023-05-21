@@ -4,11 +4,10 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import {faStar,faStarHalf } from '@fortawesome/free-solid-svg-icons'
 import Select from 'react-select'
 
-
-import { db } from '../firebase/config'
-import { Firestore, collection, getDocs, addDoc, doc, deleteDoc, orderBy, query, where,select,and } from 'firebase/firestore'
+import { db,auth } from '../firebase/config'
+import { Firestore, collection, getDocs, addDoc, doc, deleteDoc, orderBy, query, where,select,and,startAt,endAt, updateDoc } from 'firebase/firestore'
 import { useEffect } from 'react'
-import { useParams } from 'react-router-dom';
+import { useParams, useLocation } from 'react-router-dom';
 
 
 
@@ -18,10 +17,133 @@ const Small = () => {
     const [Sort,setSort] = useState(false);
     const [SortedData,setSortedData] = useState([]);
     const [datas,setDatas] = useState([])
+
+    const location = useLocation();
+
     const param = useParams();
+
     let cata = param.catagory;
-    cata.replace("%20"," ")
+    cata.replace(/\%20/g," ")
+
+    const fetchBooksByKeyword = async (keyword) => {
+      const bookRef = collection(db, "Book");
     
+      const querySnapshot = await getDocs(bookRef);
+      const booksData = [];
+    
+      querySnapshot.forEach((doc) => {
+        const book = doc.data();
+    
+        // Remove whitespace from the book's name
+        const trimmedName = book.Name.replace(/\s/g, '');
+        const trimmedAuthor = book.Author.replace(/\s/g, '');
+        const trimmedCategory = book.Category.replace(/\s/g, '');
+    
+        // Check if the trimmed name includes the keyword (case-insensitive)
+        const lowercaseKeyword = keyword.toLowerCase();
+        if (trimmedName.toLowerCase().includes(lowercaseKeyword)) {
+          booksData.push({ id: doc.id, data:doc.data() });
+        }
+        else if (trimmedAuthor.toLowerCase().includes(lowercaseKeyword)) {
+          booksData.push({ id: doc.id, data:doc.data() });
+        }
+        else if (trimmedCategory.toLowerCase().includes(lowercaseKeyword)) {
+          booksData.push({ id: doc.id, data:doc.data() });
+        }
+      });
+    
+      setBooks(booksData); // Update the Books state directly
+      setDatas(booksData); // Update the Datas
+    
+      return;
+    };
+    
+    useEffect(() => {
+      if(window.location.pathname.split('/').pop().includes("keyword")) {
+      const keywordPath = window.location.pathname.split('/').pop(); 
+      const keyword = decodeURIComponent(keywordPath.split('=')[1]); // Decode the keyword if it's encoded
+      if (keyword) {
+        fetchBooksByKeyword(keyword);
+      } }
+      else{
+        AllBooks();
+      }
+    },  []);
+    
+    const [currentUser, setCurrentUser] = useState(null);
+	const [userData, setUserData] = useState(null);
+	const [email, setEmail] = useState(null);
+
+	const {id} = useParams();
+
+	const fetchUserData = async () => {
+		if (email) {
+		const q = query(
+			collection(db, "User"),
+			where("Email", "==", email)
+		);
+		const querySnapshot = await getDocs(q);
+		querySnapshot.forEach((doc) => {
+			setUserData(doc.data());
+		});
+		}
+	};
+
+	const addToCart = (event) => {
+    event.preventDefault();
+	if (userData && Books && Books.id) {
+		const updatedCart = [...userData.Cart, Books.id]; // Add the book ID to the existing cart array
+		updateCartInFirestore(updatedCart); // Update the cart in Firestore
+		setUserData({ ...userData, Cart: updatedCart }); // Update the local state with the updated cart
+	}
+	};
+
+	const updateCartInFirestore = async (updatedCart) => {
+	if (email) {
+		const q = query(collection(db, "User"), where("Email", "==", email));
+		const querySnapshot = await getDocs(q);
+		querySnapshot.forEach(async (doc) => {
+		await updateDoc(doc.ref, { Cart: updatedCart }); // Update the Cart field in Firestore
+		});
+	}
+	};
+
+	const addToFav = (event) => {
+    event.preventDefault();
+		if (userData && Books && Books.id) {
+			const updatedWishlist = [...userData.Favourite, Books.id]; // Add the book ID to the existing cart array
+			updateWishlistInFirestore(updatedWishlist); // Update the cart in Firestore
+			setUserData({ ...userData, Favourite: updatedWishlist }); // Update the local state with the updated cart
+		}
+		};
+	
+	const updateWishlistInFirestore = async (updatedWishlist) => {
+		if (email) {
+			const q = query(collection(db, "User"), where("Email", "==", email));
+			const querySnapshot = await getDocs(q);
+			querySnapshot.forEach(async (doc) => {
+			await updateDoc(doc.ref, { Favourite: updatedWishlist}); // Update the Cart field in Firestore
+			});
+		}
+		};
+
+	useEffect(() => {
+		const unsubscribe = auth.onAuthStateChanged((user) => {
+		  setCurrentUser(user);
+		  console.log(user.email);
+		  setEmail(user.email);
+		});
+		return unsubscribe;
+	  }, []);
+	
+	  useEffect(() => {
+		if (email) {
+		  fetchUserData();
+		}
+	  }, [email]);
+
+    
+
     function AllBooks() {
         const bookCollection = collection(db,'Book');
         getDocs(query(bookCollection,where("Category","==",`${cata}`))).then(response => {
@@ -51,7 +173,7 @@ const Small = () => {
       }
       
     };
-    console.log(SortedData);
+    console.log(Books);
     const FilAuth = () =>{
       var inputsauth = document.querySelectorAll('.Author');
       var inputyear = document.querySelectorAll('.year');
@@ -149,10 +271,6 @@ const Small = () => {
           }).catch(error => console.log(error.message))
         }
     };
-
-    useEffect(()=>{
-      AllBooks();
-    }, [])
       
   return (
     <section className='filer'>
@@ -166,39 +284,39 @@ const Small = () => {
               <h1>Author</h1>
               {uniqueAuthor.slice(0,6).map((uniauth,index)=>(
                 <div>
-                    <input type="checkbox" id={"Author"+index} name="Author" className='Author' value={uniauth} />
+                    <input type="checkbox" id={"Author"+index} name="Author" className='Author' value={uniauth} style={{ marginRight: '5px'}}/>
                     <label for="Author">{uniauth}</label>
                 </div>
               ))}
               <hr />
               <h1>Publication Date</h1>
               <div>
-                <input type="checkbox" id="year" name="year" className='year' value={[1990,2000]}/>
+                <input type="checkbox" id="year" name="year" className='year' value={[1990,2000]} style={{ marginRight: '5px'}}/>
                 <label for="year">1900-2000</label>
               </div>
               <div>
-                <input type="checkbox" id="year" name="year" className='year' value={[2000,2010]}/>
+                <input type="checkbox" id="year" name="year" className='year' value={[2000,2010]} style={{ marginRight: '5px'}}/>
                 <label for="year">2000-2010</label>
               </div>
 
               <div>
-                <input type="checkbox" id="year" name="year" className='year' value={[2010,2023]} />
+                <input type="checkbox" id="year" name="year" className='year' value={[2010,2023]} style={{ marginRight: '5px'}}/>
                 <label for="year">2010-2023</label>
               </div>
 
               <hr />
               <h1>Price</h1>
               <div>
-                <input type="checkbox" id="Price" name="Price" className='Price' value={[0,25]}/>
+                <input type="checkbox" id="Price" name="Price" className='Price' value={[0,25]} style={{ marginRight: '5px'}}/>
                 <label for="Price">0$ - 25$</label>
               </div>
               <div>
-                <input type="checkbox" id="Price" name="Price" className='Price' value={[25,50]}/>
+                <input type="checkbox" id="Price" name="Price" className='Price' value={[25,50]} style={{ marginRight: '5px'}}/>
                 <label for="Price">25$ - 50$</label>
               </div>
 
               <div>
-                <input type="checkbox" id="Price" name="Price" className='Price' value={[50,100]} />
+                <input type="checkbox" id="Price" name="Price" className='Price' value={[50,100]} style={{ marginRight: '5px'}}/>
                 <label for="Price">50$ - 100$</label>
               </div>
             </form>
@@ -207,7 +325,7 @@ const Small = () => {
             <h1>Price</h1>
             <form className='File_price'>
             <div>
-              <p>{price}</p>
+              <p style={{ marginBottom: '0px'}}>{price}</p>
               <input type="range" min='0' max='100' step='1' value={price} onChange={(e)=>setPrice(e.target.value)}/>
             </div>
             </form>
@@ -230,16 +348,17 @@ const Small = () => {
                     <div class = "product-items">
                         {Books.map((book,price)=>(
                             <a  href={`/BookDetails/${book.id}`}>
-                                <div class = "product">
+                                <div class = "product" href={`/BookDetails/${book.id}`}>
                             <div class = "product-content">
                                 <div >
                                     <img class = "product--image" src = {book.data.ImageURL} alt = "product image"/>
                                 </div>
                                 <div class = "product-btns">
                                   
-                                    <button type = "button" class = "btn-cart"> <i class="fa fa-cart-plus" aria-hidden="true"></i>
+                                    <button type = "button" class = "btn-cart" onClick={addToCart}> <i class="fa fa-cart-plus" aria-hidden="true"></i>
                                     </button>
-                                    
+                                    <button type = "button" class = "btn-cart" onClick={addToFav}> <i class="fa fa-heart" aria-hidden="true"></i>
+                                    </button>
                                 </div>
                             </div>
 

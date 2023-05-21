@@ -9,11 +9,21 @@ import {Link} from 'react-router-dom';
 import {Row} from 'react-bootstrap';
 import { auth } from '../firebase/config';
 import { useState, useEffect } from 'react';
+
 import Dropdown from 'react-bootstrap/Dropdown';
 
 const Navbar = () => {
 	const [userLoggedIn, setUserLoggedIn] = useState(false);
 
+  const [keyword, setKeyword] = useState("");
+
+  const handleSearch = (e) => {
+    e.preventDefault();
+    if (keyword.trim() !== "") {
+      const encodedKeyword = encodeURIComponent(keyword);
+      window.location.href = `/fiction/keyword=${encodedKeyword}`;
+    }
+  };
 	function handleLogout() {
     auth
       .signOut()
@@ -46,12 +56,14 @@ const Navbar = () => {
             BookWorms
           </p>
         </Link>
-        <form className="form-control rounded-pill d-flex justify-content-between px-2 w-50">
-          <input
+        <form className="form-control rounded-pill d-flex justify-content-between px-2 w-50" onSubmit={handleSearch}>
+            <input
             className="searchBar border-0 col-11 py-0 my-2"
             style={{ backgroundColor: "#f1f0f5" }}
             type="text"
             placeholder="Search books, author, ..."
+            value={keyword}
+            onChange={(e) => setKeyword(e.target.value)}
           ></input>
           <button className="btn col-1 my-sm-0 w-10" type="submit">
             <FontAwesomeIcon icon={faSearch} />
@@ -70,17 +82,33 @@ const Navbar = () => {
             </p>
             <span className="sr-only">(current)</span>
           </Link>
+          {userLoggedIn ? (
+          // Show this dropdown if user is logged in
           <Dropdown className="nav-link col-4">
             <Dropdown.Toggle className="navItem p-0" id="dropdown-basic">
-              <i class="fa fa-user" aria-hidden="true"></i>
+              <i className="fa fa-user" aria-hidden="true"></i>
+            </Dropdown.Toggle>
+
+            <Dropdown.Menu>
+              <Dropdown.Item href="">Profile</Dropdown.Item>
+              <Dropdown.Item href="/login" onClick={handleLogout}>
+                Log Out
+              </Dropdown.Item>
+            </Dropdown.Menu>
+          </Dropdown>
+        ) : (
+          // Show this dropdown if user is not logged in
+          <Dropdown className="nav-link col-4">
+            <Dropdown.Toggle className="navItem p-0" id="dropdown-basic">
+              <i className="fa fa-user" aria-hidden="true"></i>
             </Dropdown.Toggle>
 
             <Dropdown.Menu>
               <Dropdown.Item href="/login">Log In</Dropdown.Item>
               <Dropdown.Item href="/signup">Register</Dropdown.Item>
-              <Dropdown.Item href="/login" onClick={handleLogout}>Log Out</Dropdown.Item>
             </Dropdown.Menu>
           </Dropdown>
+        )}
         </div>
         <ul className="d-flex justify-content-center m-0 p-0 col-12">
           <div className="navbar-item">
