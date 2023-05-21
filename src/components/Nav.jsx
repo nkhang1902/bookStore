@@ -7,8 +7,9 @@ import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {faBook, faBookAtlas, faEarth, faExternalLink, faSearch} from '@fortawesome/free-solid-svg-icons';
 import {Link,useNavigate} from 'react-router-dom';
 import {Row} from 'react-bootstrap';
-import { auth } from '../firebase/config';
-import { useState, useEffect } from 'react';
+
+import {auth} from '../firebase/config';
+import {useState, useEffect} from 'react';
 import Dropdown from 'react-bootstrap/Dropdown';
 
 import { db } from '../firebase/config'
@@ -23,6 +24,15 @@ const Navbar = () => {
 
   const navigate = useNavigate();
 
+  const [keyword, setKeyword] = useState("");
+
+  const handleSearch = (e) => {
+    e.preventDefault();
+    if (keyword.trim() !== "") {
+      const encodedKeyword = encodeURIComponent(keyword);
+      window.location.href = `/fiction/keyword=${encodedKeyword}`;
+    }
+  };
 	function handleLogout() {
     auth
       .signOut()
@@ -68,6 +78,7 @@ const Navbar = () => {
 
 
 	useEffect(() => {
+<<<<<<< HEAD
 	const unsubscribe = auth.onAuthStateChanged((user) => {
 		setUserLoggedIn(!!user);
 	});
@@ -76,6 +87,12 @@ const Navbar = () => {
 
   AllBooks();
 	return unsubscribe;
+=======
+		const unsubscribe = auth.onAuthStateChanged(user => {
+			setUserLoggedIn(!!user);
+		});
+		return unsubscribe;
+>>>>>>> 764249c9b4bd38b0a821f7df18cf04d44dbd1fae
 	}, []);
 	return (
     <Row style={{ margin: "0" }}>
@@ -92,13 +109,23 @@ const Navbar = () => {
             BookWorms
           </p>
         </Link>
+<<<<<<< HEAD
         <form className="form-control rounded-pill d-flex justify-content-between px-2 w-50" onSubmit={SubmitSearch}>
           <input
+=======
+        <form className="form-control rounded-pill d-flex justify-content-between px-2 w-50" onSubmit={handleSearch}>
+            <input
+>>>>>>> 764249c9b4bd38b0a821f7df18cf04d44dbd1fae
             className="searchBar border-0 col-11 py-0 my-2"
             style={{ backgroundColor: "#f1f0f5" }}
             type="text"
             placeholder="Search books, author, ..."
+<<<<<<< HEAD
 			      onChange={live_search}
+=======
+            value={keyword}
+            onChange={(e) => setKeyword(e.target.value)}
+>>>>>>> 764249c9b4bd38b0a821f7df18cf04d44dbd1fae
           ></input>
           <button className="btn col-1 my-sm-0 w-10" type="submit">
             <FontAwesomeIcon icon={faSearch} />
@@ -159,8 +186,8 @@ const Navbar = () => {
             </Dropdown.Toggle>
 
             <Dropdown.Menu>
-              <Dropdown.Item href="/profile">Profile</Dropdown.Item>
-              <Dropdown.Item href="/logout" onClick={handleLogout}>
+              <Dropdown.Item href="">Profile</Dropdown.Item>
+              <Dropdown.Item href="/login" onClick={handleLogout}>
                 Log Out
               </Dropdown.Item>
             </Dropdown.Menu>

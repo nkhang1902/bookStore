@@ -5,12 +5,11 @@ import {addDoc, collection, doc, getDoc, getDocs, query, updateDoc, where} from 
 import {db} from '../../firebase/config';
 import {book, key} from 'fontawesome';
 
-function RatingStars({bookID, Name}) {
+function RatingStars({bookID, Name, currentUser}) {
 	const [isSubmitted, setIsSubmitted] = useState(false);
 	const [comment, setComment] = useState('');
 	const [starsCount, setStarsCount] = useState(0);
 	const handleClickStars = e => {
-		console.log(bookID);
 		setStarsCount(e.target.id.slice(-1));
 	};
 	const handleWriteReview = e => {
@@ -20,15 +19,14 @@ function RatingStars({bookID, Name}) {
 		if (bookID) {
 			const q = query(collection(db, 'Review'), where('BookID', '==', bookID));
 			const querySnapshot = await getDocs(q);
-			querySnapshot.forEach((doc,index) => {
-				if(doc.data().BookID === bookID && doc.data().Name === Name){
+			querySnapshot.forEach((doc, index) => {
+				if (doc.data().BookID === bookID && doc.data().Name === Name) {
 					setIsSubmitted(true);
 					setStarsCount(doc.data().Rating);
 					setComment(doc.data().Review);
-
 				}
 			});
-}
+		}
 	};
 	useEffect(() => {
 		fetchUserData();
@@ -39,7 +37,9 @@ function RatingStars({bookID, Name}) {
 		if (starsCount === 0 || comment.trim() === '') {
 			return;
 		}
-
+		if (currentUser === null) {
+			currentUser = 'Anonymous';
+		}
 		try {
 			const addedReview = await addDoc(collection(db, 'Review'), {
 				BookID: bookID,
@@ -47,9 +47,11 @@ function RatingStars({bookID, Name}) {
 				Rating: starsCount,
 				Review: comment,
 				PostedDate: new Intl.DateTimeFormat('en-US', {year: 'numeric', month: 'long', day: '2-digit', hour: '2-digit', minute: '2-digit'}).format(Date.now()),
+				UserName: currentUser.email,
 			});
 			console.log('Review added with ID: ', addedReview.id);
 		} catch (error) {
+			console.log(currentUser);
 			console.log(error.message);
 		}
 
@@ -60,7 +62,11 @@ function RatingStars({bookID, Name}) {
 	function createElements(number) {
 		var elements = [];
 		for (let i = 0; i < number; i++) {
-			elements.push(<div className='star' key={i}>★</div>);
+			elements.push(
+				<div className='star' key={i}>
+					★
+				</div>
+			);
 		}
 		return elements;
 	}
