@@ -1,0 +1,103 @@
+:root {
+  --custom-color: #dc143c;
+  --custom-font-family: Arial;
+  --custom-font-size: 13px;
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+.containerModal {
+  display: inline-block;
+  border: 1px solid #f1f0f5;
+  background-color: white;
+  justify-content: center;
+  align-content: center;
+  padding-left: 10px;
+  border-radius: 5px;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  max-width: 90%;
+  max-height: 90%;
+  overflow: auto;
+}
+
+.heading {
+  font-weight: bold;
+  text-align: center;
+  margin-top: 20px;
+  margin-left: 30px;
+  margin-right: 30px;
+}
+
+.paymentForm {
+  display: flex;
+  flex-direction: column;
+  margin: 20px;
+}
+
+label {
+  text-align: left;
+  margin-bottom: 5px;
+  font-size: var(--custom-font-size);
+  font-family: var(--custom-font-family);
+  font-weight: bold;
+}
+
+input {
+  border: 1px solid #e8e8e8;
+  border-radius: 4px;
+}
+
+.confirmButton {
+  background-color: var(--custom-color);
+  border-color: var(--custom-color);
+  color: white;
+  border-radius: 50px;
+  font-size: 15px;
+  padding: 5px 15px 5px 15px;
+  font-weight: bold;
+  max-width: max-content;
+  margin: 20px 0px;
+  align-self: center;
+}
+
+.closeButton {
+  background-color: var(--custom-color);
+  border-color: var(--custom-color);
+  border-radius: 5px;
+  padding: 0px 5px 0px 5px;
+  color: white;
+  align-self: flex-end;
+  position: absolute;
+  top: -2px;
+  right: -3px;
+  font-size: 12px;
+}
+
+.totalCash {
+  background-color: lightgray;
+}
+
+.chooseOption {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+}
+
+.optionName {
+  margin-left: 5px;
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.paymentInfo {
+  display: flex;
+  flex-direction: column;
+  padding: 15px;
+  border: 1px solid #f1f0f5;
+  border-radius: 4px;
+}
