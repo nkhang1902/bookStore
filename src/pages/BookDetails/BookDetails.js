@@ -185,7 +185,7 @@ function BookDetails() {
 					</div>
 					<div className='user-reviews'>
 						<h3 className=''>Tell us your thoughts</h3>
-						<RatingStars bookID={id} {...book} createElements={createElement} />
+						<RatingStars bookID={id} {...book} createElements={createElement} currentUser={currentUser} />
 					</div>
 					<div className='reviews-list'>
 						<h3 className=''>Reviews</h3>
@@ -194,7 +194,7 @@ function BookDetails() {
 								return (
 									<div className='review' key={index}>
 										<div className='review__user'>
-											<div className='review__user--name'>Jonh Done</div>
+											<div className='review__user--name'>{review.UserName}</div>
 											<div className='rated-stars-container'>{createElements(review.Rating)}</div>
 											<div className='review__text'>{'"' + review.Review + '"'}</div>
 											<span className='review__user--date'>{review.PostedDate.slice(0, '12')}</span>

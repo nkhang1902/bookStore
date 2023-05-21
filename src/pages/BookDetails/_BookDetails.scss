@@ -171,10 +171,12 @@ $purple: #573ba3;
 
 //Review List
 .review {
+
     &s-list__content {
-        display: flex;
+        display: grid;
         gap: 1rem;
-        justify-content: space-between;
+        grid-template-columns: repeat(auto-fit, minmax(300px, max-content));
+        grid-auto-rows: 1fr;
     }
 
     &__user {
@@ -187,10 +189,12 @@ $purple: #573ba3;
             font-weight: 600;
             letter-spacing: 1px;
             margin: 0 0 8px 0;
+            margin-top: auto;
         }
 
         &--date {
             font-size: .8rem;
+            color: rgb(153, 65, 65);
         }
     }
 
@@ -198,8 +202,7 @@ $purple: #573ba3;
         font-size: 1rem;
         text-align: left;
         font-style: italic;
-        background-color: #1fa5a3;
-        height: 100%;
+        background-color: #eefafa;
     }
 
 }
