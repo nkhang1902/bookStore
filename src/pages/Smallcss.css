@@ -22,8 +22,9 @@
     display: block;
 } */
 .pro_container{
+    max-width: 100%;
+    overflow-x: auto;
     width: 70vw;
-    margin: 0 auto;
 }
 .lg-title,
 .md-title,
@@ -46,7 +47,8 @@
 .sm-title{
     font-weight: 300;
     font-size: 1rem;
-    text-transform: uppercase;
+    color: black;
+    text-transform: capitalize;
 }
 .text-light{
     font-size: 1rem;
@@ -68,11 +70,14 @@
 .product{
     margin: 1rem;
     position: relative;
+    align-items: center;
 }
 .product-content{
     background: #ededed;
     padding: 0.5rem 0.5rem 0.5rem 0.5rem;
     cursor: pointer;
+    width: 70%;
+    margin-left: 2rem;
 }
 .product-img{
     background: rgba(255, 255, 255, 0.5);
@@ -119,6 +124,7 @@
 .product-info{
     background: white;
     padding: 0.5rem;
+    margin-left: 1rem;
 }
 .product-info-top{
    display: flex;
@@ -140,7 +146,7 @@
     font-weight: bold;
 }
 .product-price{
-    padding-top: 0.6rem;
+   
     padding-right: 0.6rem;
     display: inline-block;
 }

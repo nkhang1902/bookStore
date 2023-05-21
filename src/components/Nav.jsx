@@ -90,8 +90,8 @@ const Navbar = () => {
             </Dropdown.Toggle>
 
             <Dropdown.Menu>
-              <Dropdown.Item href="/profile">Profile</Dropdown.Item>
-              <Dropdown.Item href="/logout" onClick={handleLogout}>
+              <Dropdown.Item href="">Profile</Dropdown.Item>
+              <Dropdown.Item href="/login" onClick={handleLogout}>
                 Log Out
               </Dropdown.Item>
             </Dropdown.Menu>
