@@ -136,9 +136,15 @@ const Wishlist = () => {
 					</div>
 
 					<div className='col-2 my-3'><div class='text-center'>${book.DiscountPrice}</div><div class='text-center m-0 text-decoration-line-through'>${book.Price}</div></div>
-					<div class='buttons col-3 text-center '>
+          <div className='col-1'></div>
+					<div class='buttons col-1 text-center '>
 						<span class='delete-btn text-center' onClick={() => removeFromList(book.id)}>
 							<i class='fa-solid fa-trash'></i>
+						</span>
+					</div>
+          <div class='buttons col-1 text-center '>
+						<span class='delete-btn text-center' style={{color:'green'}} onClick={() => removeFromList(book.id)}>
+							<i class="fa fa-cart-plus" aria-hidden="true"></i>
 						</span>
 					</div>
 				</div>))}
