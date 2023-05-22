@@ -21,9 +21,8 @@ import { useState } from 'react'
 import { db, auth } from './../../firebase/config'
 import { useEffect } from 'react'
 import RatingStars from '../../components/Rating Stars/RatingStars'
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
-
+import { ToastContainer, toast } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
 
 function BookDetails() {
     const [currentUser, setCurrentUser] = useState(null)
@@ -57,69 +56,66 @@ function BookDetails() {
     }
 
     const addToCart = () => {
-		if (userData.Cart.includes(book.id))
-		{
-		  toast.error(`${book.data.Name} is already in cart`, {
-			position: toast.POSITION.BOTTOM_RIGHT,
-			autoClose: 2000,
-			hideProgressBar: true,
-		  });
-		  return;
-		}
-		if (userData && book) {
-		  const updatedCart = [...userData.Cart, book.id];
-		  updateCartInFirestore(updatedCart);
-		  setUserData({ ...userData, Cart: updatedCart });
-		  toast.success(`${book.data.Name} added to cart`, {
-			position: toast.POSITION.BOTTOM_RIGHT,
-			autoClose: 2000,
-			hideProgressBar: true,
-		  });
-		}
-		
-	  };
+        if (userData.Cart.includes(book.id)) {
+            toast.error(`${book.data.Name} is already in cart`, {
+                position: toast.POSITION.BOTTOM_RIGHT,
+                autoClose: 2000,
+                hideProgressBar: true,
+            })
+            return
+        }
+        if (userData && book) {
+            const updatedCart = [...userData.Cart, book.id]
+            updateCartInFirestore(updatedCart)
+            setUserData({ ...userData, Cart: updatedCart })
+            toast.success(`${book.data.Name} added to cart`, {
+                position: toast.POSITION.BOTTOM_RIGHT,
+                autoClose: 2000,
+                hideProgressBar: true,
+            })
+        }
+    }
 
-	const updateCartInFirestore = async (updatedCart) => {
-	if (email) {
-		const q = query(collection(db, "User"), where("Email", "==", email));
-		const querySnapshot = await getDocs(q);
-		querySnapshot.forEach(async (doc) => {
-		await updateDoc(doc.ref, { Cart: updatedCart }); // Update the Cart field in Firestore
-		});
-	}
-	};
+    const updateCartInFirestore = async (updatedCart) => {
+        if (email) {
+            const q = query(collection(db, 'User'), where('Email', '==', email))
+            const querySnapshot = await getDocs(q)
+            querySnapshot.forEach(async (doc) => {
+                await updateDoc(doc.ref, { Cart: updatedCart }) // Update the Cart field in Firestore
+            })
+        }
+    }
 
-	const addToFav = () => {
-		if (userData.Cart.includes(book.id))
-		{
-		  toast.error(`${book.Name} is already in wishlist`, {
-			position: toast.POSITION.BOTTOM_RIGHT,
-			autoClose: 2000,
-			hideProgressBar: true,
-		  });
-		  return;
-		}
-		if (userData && book) {
-		  const updatedWishlist = [...userData.Favourite, book.id];
-		  updateWishlistInFirestore(updatedWishlist);
-		  setUserData({ ...userData, Favourite: updatedWishlist });
-		  toast.success(`${book.Name} added to wishlist`, {
-			position: toast.POSITION.BOTTOM_RIGHT,
-			autoClose: 2000,
-			hideProgressBar: true,
-		  });
-		}
-	  };
-	
-	const updateWishlistInFirestore = async (updatedWishlist) => {
-		if (email) {
-			const q = query(collection(db, "User"), where("Email", "==", email));
-			const querySnapshot = await getDocs(q);
-			querySnapshot.forEach(async (doc) => {
-			await updateDoc(doc.ref, { Favourite: updatedWishlist}); // Update the Cart field in Firestore
-			});
-		}
-		};
+    const addToFav = () => {
+        if (userData.Cart.includes(book.id)) {
+            toast.error(`${book.Name} is already in wishlist`, {
+                position: toast.POSITION.BOTTOM_RIGHT,
+                autoClose: 2000,
+                hideProgressBar: true,
+            })
+            return
+        }
+        if (userData && book) {
+            const updatedWishlist = [...userData.Favourite, book.id]
+            updateWishlistInFirestore(updatedWishlist)
+            setUserData({ ...userData, Favourite: updatedWishlist })
+            toast.success(`${book.Name} added to wishlist`, {
+                position: toast.POSITION.BOTTOM_RIGHT,
+                autoClose: 2000,
+                hideProgressBar: true,
+            })
+        }
+    }
+
+    const updateWishlistInFirestore = async (updatedWishlist) => {
+        if (email) {
+            const q = query(collection(db, 'User'), where('Email', '==', email))
+            const querySnapshot = await getDocs(q)
+            querySnapshot.forEach(async (doc) => {
+                await updateDoc(doc.ref, { Favourite: updatedWishlist }) // Update the Cart field in Firestore
+            })
+        }
+    }
 
     const fetchAllReivewsInCurrentBook = async () => {
         const q = query(collection(db, 'Review'), where('BookID', '==', id))
@@ -146,7 +142,11 @@ function BookDetails() {
     useEffect(() => {
         const unsubscribe = auth.onAuthStateChanged((user) => {
             setCurrentUser(user)
-            setEmail(user.email)
+            if (user.email !== null) {
+                setEmail(user.email)
+            } else {
+                setEmail('Anonymous')
+            }
         })
 
         return unsubscribe
@@ -191,7 +191,7 @@ function BookDetails() {
                     <p className="book-author">
                         <span className="book-author--purple">
                             {book.Author}
-                        </span>{' '}
+                        </span>
                         (Author)
                     </p>
                     <div className="price">
@@ -303,7 +303,7 @@ function BookDetails() {
                     </div>
                 </div>
             </div>
-            <ToastContainer/>
+            <ToastContainer />
         </div>
     )
 }
