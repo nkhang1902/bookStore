@@ -1,0 +1,49 @@
+.containerModal {
+  display: inline-block;
+  border: 3px solid #dc143c;
+  background-color: white;
+  justify-content: center;
+  align-content: center;
+  align-self: center;
+  padding-left: 10px;
+  border-radius: 5px;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  overflow: auto;
+  padding: 20px;
+}
+
+.buttonBox{
+    display: flex;
+    flex-direction: row;
+    margin-top: 20px;
+    justify-content: space-between;
+}
+
+.button {
+  padding: 6px 24px;
+  font-size: 16px;
+  line-height: 24px;
+  display: inline-flex;
+  align-items: center;
+  text-transform: uppercase;
+  color: white;
+  border-radius: 35px;
+  background-color: #de2545;
+  margin-right: 20px;
+  border: none;
+}
+
+.button:last-child{
+    margin-right: 0;
+}
+
+.title {
+    text-align: center;
+}
+
+h2{
+    margin-left: -8px;
+}

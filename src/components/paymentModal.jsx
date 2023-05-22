@@ -3,6 +3,7 @@ import Modal from "react-modal";
 import css from "./paymentModal.module.css";
 import { collection, addDoc } from "firebase/firestore";
 import { db } from "../firebase/config";
+import SuccessModal from "./successModal";
 
 Modal.setAppElement("#root");
 
@@ -46,17 +47,26 @@ function PaymentModal({ isOpen, onRequestClose, total }) {
     paymentData.paymentInfo.expiryDate = expiryDate;
   }
 
+   const [isSuccessModalOpen, setIsSuccessModalOpen] = useState(false);
+
+   const handleSuccessModalClose = () => {
+     setIsSuccessModalOpen(false);
+   };
+
   const handleSubmit = (e) => {
     e.preventDefault();
     addDoc(collection(db, "Order"), paymentData)
       .then(() => {
         console.log("Payment information added successfully!");
+        onRequestClose();
+        setIsSuccessModalOpen(true);      
       })
       .catch((error) => {
         console.error("Error adding payment information: ", error);
       });
     onRequestClose();
   };
+
 
   return (
     <Modal
@@ -92,7 +102,12 @@ function PaymentModal({ isOpen, onRequestClose, total }) {
             onChange={(e) => setAddress(e.target.value)}
           />
           <label htmlFor="total">Total</label>
-          <input className={css.totalCash} type="text" value={"$" + total} readOnly />
+          <input
+            className={css.totalCash}
+            type="text"
+            value={"$" + total}
+            readOnly
+          />
           <div className={css.chooseOption}>
             <div>
               <input
@@ -147,7 +162,11 @@ function PaymentModal({ isOpen, onRequestClose, total }) {
           )}
           <button className={css.confirmButton} type="submit">
             Confirm
-          </button>
+          </button>  
+          <SuccessModal
+          isOpen={isSuccessModalOpen}
+          onClose={handleSuccessModalClose}
+          />        
         </form>
       </div>
     </Modal>
