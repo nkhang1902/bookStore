@@ -63,7 +63,7 @@ function BookDetails() {
         if (bookSnapshot.exists()) {
             const bookData = bookSnapshot.data()
             setBook({ id: bookSnapshot.id, ...bookData })
-            AllBooks();
+            //AllBooks();
         } else {
             throw new Error('Book not found')
         }
