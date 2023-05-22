@@ -10,18 +10,16 @@
 
 .containerModal {
   display: inline-block;
-  border: 1px solid #f1f0f5;
+  border: 3px solid var(--custom-color);
   background-color: white;
   justify-content: center;
   align-content: center;
   padding-left: 10px;
   border-radius: 5px;
   position: fixed;
-  top: 50%;
+  top: 60%;
   left: 50%;
   transform: translate(-50%, -50%);
-  max-width: 90%;
-  max-height: 90%;
   overflow: auto;
 }
 
@@ -74,7 +72,7 @@ input {
   align-self: flex-end;
   position: absolute;
   top: -2px;
-  right: -3px;
+  right: 0;
   font-size: 12px;
 }
 
