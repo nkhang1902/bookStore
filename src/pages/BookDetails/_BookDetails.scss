@@ -171,7 +171,8 @@ $purple: #573ba3;
 
 //Review List
 .review {
-
+    margin-top: 1rem;
+    width: 100%;
     &s-list__content {
         display: grid;
         gap: 1rem;

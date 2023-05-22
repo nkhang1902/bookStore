@@ -68,10 +68,9 @@ const Wishlist = () => {
 	  };
 
     const addToCart = (event, book) => {
-      event.preventDefault();
       if (userData.Cart.includes(book.id))
       {
-        toast.error(`${book.data.Name} is already in cart`, {
+        toast.error(`${book.Name} is already in cart`, {
           position: toast.POSITION.BOTTOM_RIGHT,
           autoClose: 2000, // Duration for the notification to automatically close (in milliseconds)
          hideProgressBar: true,
@@ -82,7 +81,7 @@ const Wishlist = () => {
         const updatedCart = [...userData.Cart, book.id];
         updateCartInFirestore(updatedCart);
         setUserData({ ...userData, Cart: updatedCart });
-        toast.success(`${book.data.Name} added to cart`, {
+        toast.success(`${book.Name} added to cart`, {
           position: toast.POSITION.BOTTOM_RIGHT,
           autoClose: 2000, // Duration for the notification to automatically close (in milliseconds)
           hideProgressBar: true,
@@ -194,6 +193,7 @@ const Wishlist = () => {
 					</p>
 				</div>
 			</div>
+      <ToastContainer />
       </div>
     );
   }};
