@@ -115,6 +115,9 @@ function Cart() {
     return parseFloat(price.toFixed(2));
   }, 0);
 
+  if (email === null) {
+    return <div>You haven't logged in yet!!</div>;
+  } else {
   if (books.length === 0) {
     return (
       <section className="cart-container">
@@ -217,5 +220,5 @@ function Cart() {
       </div>
     </>
   );
-}
+}}
 export default Cart;

@@ -125,6 +125,14 @@ const Small = () => {
 
 	const addToCart = (event, book) => {
     event.preventDefault();
+    if(!userData){
+      toast.error(`You haven't logged in yet!`, {
+          position: toast.POSITION.BOTTOM_RIGHT,
+          autoClose: 2000,
+          hideProgressBar: true,
+      })
+      return
+  }
     if (userData.Cart.includes(book.id))
     {
       toast.error(`${book.data.Name} is already in cart`, {
@@ -159,6 +167,14 @@ const Small = () => {
 
 	const addToFav = (event, book) => {
     event.preventDefault();
+    if(!userData){
+      toast.error(`You haven't logged in yet!`, {
+          position: toast.POSITION.BOTTOM_RIGHT,
+          autoClose: 2000,
+          hideProgressBar: true,
+      })
+      return
+  }
     if (userData.Favourite.includes(book.id))
     {
       toast.error(`${book.data.Name} is already in wishlist`, {

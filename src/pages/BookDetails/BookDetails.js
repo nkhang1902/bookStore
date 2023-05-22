@@ -56,6 +56,14 @@ function BookDetails() {
     }
 
     const addToCart = () => {
+        if(!userData){
+            toast.error(`You haven't logged in yet!`, {
+                position: toast.POSITION.BOTTOM_RIGHT,
+                autoClose: 2000,
+                hideProgressBar: true,
+            })
+            return
+        }
         if (userData.Cart.includes(book.id)) {
             toast.error(`${book.Name} is already in cart`, {
                 position: toast.POSITION.BOTTOM_RIGHT,
@@ -87,6 +95,14 @@ function BookDetails() {
     }
 
     const addToFav = () => {
+        if(!userData){
+            toast.error(`You haven't logged in yet!`, {
+                position: toast.POSITION.BOTTOM_RIGHT,
+                autoClose: 2000,
+                hideProgressBar: true,
+            })
+            return
+        }
         if (userData.Favourite.includes(book.id)) {
             toast.error(`${book.Name} is already in wishlist`, {
                 position: toast.POSITION.BOTTOM_RIGHT,
