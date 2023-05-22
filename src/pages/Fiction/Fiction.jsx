@@ -1,12 +1,12 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import React from 'react'
-import '../pages/Fictioncss.css'
+import '../Fiction/Fictioncss.css'
 import 'bootstrap/dist/css/bootstrap.css'
 import Carousel from 'react-multi-carousel'
 import 'react-multi-carousel/lib/styles.css'
 import { useParams } from 'react-router-dom'
 
-import { db } from '../firebase/config'
+import { db } from '../../firebase/config'
 import {
     Firestore,
     collection,

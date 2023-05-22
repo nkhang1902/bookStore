@@ -1,0 +1,79 @@
+:root {
+    --custom-color: #dc143c;
+    --custom-font-family: Arial;
+    --custom-font-size: 13px;
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.heading {
+    font-weight: bold;
+    font-size: 30px;
+    margin-bottom: 10px;
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+}
+
+.loginForm {
+    display: flex;
+    flex-direction: column;
+    width: 350px;
+    background-color: white;
+    padding: 30px;
+    border: 1px solid #e8e8e8;
+    border-radius: 4px;
+}
+
+label {
+    text-align: left;
+    margin-bottom: 5px;
+    font-size: var(--custom-font-size);
+    font-family: var(--custom-font-family);
+}
+
+input {
+    margin-bottom: 15px;
+    padding: 10px;
+    border: 1px solid #e8e8e8;
+    border-radius: 4px;
+}
+
+.buttonLogin {
+    background-color: var(--custom-color);
+    border-color: var(--custom-color);
+    color: white;
+    width: 80px;
+    border-radius: 50px;
+    font-size: 15px;
+    padding: 5px 15px 5px 15px;
+    font-weight: bold;
+}
+
+p {
+    text-align: left;
+    font-size: var(--custom-font-size);
+    font-family: var(--custom-font-family);
+}
+
+.rememberMe {
+    align-self: flex-start;
+    display: flex;
+    flex-direction: row;
+    margin-bottom: 0px;
+    text-align: left;
+    font-size: var(--custom-font-size);
+    font-family: var(--custom-font-family);
+}
+.rememberMeLabel {
+    margin-top: -2.5px;
+    margin-left: 5px;
+}
+
+a {
+    text-decoration: none;
+    color: var(--custom-color);
+}
