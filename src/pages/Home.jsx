@@ -86,7 +86,7 @@ const Home = () => {
 			<div>
 				<div className='content'>
 					<h2>Best Sellers</h2>
-					<div className='crs'>
+					<div className='crs shadow-sm'>
 						<Carousel className='d-flex overflow-auto' focusOnSelect={true} centerMode={true} responsive={responsive} showDots={false}>
 							{Books.slice(0, 15).map(book => (
 								<Card key={book.id} className='bookcard m-2 p-1 border-0 shadow position-relative'>
@@ -101,7 +101,7 @@ const Home = () => {
 			</div>
 
 			<div>
-				<div className='content'>
+				<div className='content shadow-sm'>
 					<h2>New Release</h2>
 					<div className='crs'>
 						<Carousel className='d-flex overflow-auto' focusOnSelect={true} centerMode={true} responsive={responsive} showDots={false}>
@@ -118,7 +118,7 @@ const Home = () => {
 			</div>
 
 			<div>
-				<div className='content'>
+				<div className='content shadow-sm'>
 					<h2>Steal Deal</h2>
 					<div className='crs'>
 						<Carousel className='d-flex overflow-auto' focusOnSelect={true} centerMode={true} responsive={responsive} showDots={false}>
