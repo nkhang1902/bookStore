@@ -80,6 +80,8 @@ const Navbar = () => {
             setSearch(false)
         } else {
             setSearch(true)
+            
+            AllBooks();
             var search_name = books.filter((book) =>
                 book.data.Name.toLowerCase().includes(
                     e.target.value.toLowerCase()
