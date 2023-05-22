@@ -39,6 +39,7 @@ const Navbar = () => {
     const [data, setData] = useState([])
     const [searh, setSearch] = useState(false)
     const [value, setValue] = useState()
+    const [userData, setUserData] = useState(null)
 
     const navigate = useNavigate()
 
@@ -103,10 +104,19 @@ const Navbar = () => {
         e.preventDefault()
         navigate(`/search?value=${value}`)
     }
-
+    const fetchUserData = async (email) => {
+        if (email) {
+            const q = query(collection(db, 'User'), where('Email', '==', email))
+            const querySnapshot = await getDocs(q)
+            querySnapshot.forEach((doc) => {
+                setUserData(doc.data())
+            })
+        }
+    }
     useEffect(() => {
         const unsubscribe = auth.onAuthStateChanged((user) => {
             setUserLoggedIn(!!user)
+            fetchUserData(user.email);
         })
         return unsubscribe
     }, [])
@@ -274,7 +284,7 @@ const Navbar = () => {
                     <div className="navbar-item">
                         <a
                             className="navbar-item"
-                            href="https://bookshop.org/lists/new-releases-this-week"
+                            href="/fiction/newrelease"
                         >
                             New Books
                         </a>
@@ -282,7 +292,7 @@ const Navbar = () => {
                     <div className="navbar-item">
                         <a
                             className="navbar-item"
-                            href="/categories/m/popular-books"
+                            href="/fiction/bestseller"
                         >
                             Best Sellers
                         </a>

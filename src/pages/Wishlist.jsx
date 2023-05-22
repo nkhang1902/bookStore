@@ -3,11 +3,15 @@ import { db,auth } from '../firebase/config'
 import { Firestore, updateDoc, collection, getDoc, getDocs, addDoc, doc, deleteDoc, orderBy, query, where, onSnapshot } from 'firebase/firestore'
 import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css'; 
+
 const Wishlist = () => {
   const [currentUser, setCurrentUser] = useState(null);
   const [userData, setUserData] = useState(null);
   const [email, setEmail] = useState(null);
   const [books, setBooks] = useState([]);
+  
 
   const fetchUserData = async () => {
     if (email) {
@@ -63,6 +67,39 @@ const Wishlist = () => {
 		}
 	  };
 
+    const addToCart = (event, book) => {
+      event.preventDefault();
+      if (userData.Cart.includes(book.id))
+      {
+        toast.error(`${book.data.Name} is already in cart`, {
+          position: toast.POSITION.BOTTOM_RIGHT,
+          autoClose: 2000, // Duration for the notification to automatically close (in milliseconds)
+         hideProgressBar: true,
+        });
+        return;
+      }
+      if (userData && book) {
+        const updatedCart = [...userData.Cart, book.id];
+        updateCartInFirestore(updatedCart);
+        setUserData({ ...userData, Cart: updatedCart });
+        toast.success(`${book.data.Name} added to cart`, {
+          position: toast.POSITION.BOTTOM_RIGHT,
+          autoClose: 2000, // Duration for the notification to automatically close (in milliseconds)
+          hideProgressBar: true,
+        });
+      }
+      
+    };
+  
+    const updateCartInFirestore = async (updatedCart) => {
+    if (email) {
+      const q = query(collection(db, "User"), where("Email", "==", email));
+      const querySnapshot = await getDocs(q);
+      querySnapshot.forEach(async (doc) => {
+      await updateDoc(doc.ref, { Cart: updatedCart }); // Update the Cart field in Firestore
+      });
+    }
+    };
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged((user) => {
       setCurrentUser(user);
@@ -137,16 +174,17 @@ const Wishlist = () => {
 
 					<div className='col-2 my-3'><div class='text-center'>${book.DiscountPrice}</div><div class='text-center m-0 text-decoration-line-through'>${book.Price}</div></div>
           <div className='col-1'></div>
+          <div class='buttons col-1 text-center '>
+						<span class='delete-btn text-center' style={{color:'green'}} onClick={(event) => addToCart(event, book)}>
+							<i class="fa fa-cart-plus" aria-hidden="true"></i>
+						</span>
+					</div>
 					<div class='buttons col-1 text-center '>
 						<span class='delete-btn text-center' onClick={() => removeFromList(book.id)}>
 							<i class='fa-solid fa-trash'></i>
 						</span>
 					</div>
-          <div class='buttons col-1 text-center '>
-						<span class='delete-btn text-center' style={{color:'green'}} onClick={() => removeFromList(book.id)}>
-							<i class="fa fa-cart-plus" aria-hidden="true"></i>
-						</span>
-					</div>
+          
 				</div>))}
 				<div className='empty_cart'>
 					<p>

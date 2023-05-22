@@ -57,14 +57,48 @@ const Small = () => {
     
       return;
     };
-    
+    function NewReleaseBooks() {
+      const bookCollection = collection(db, 'Book');
+  
+      getDocs(query(bookCollection, orderBy('PostedDate', 'desc')))
+        .then(response => {
+          const books = response.docs.map(doc => ({
+            data: doc.data(),
+            id: doc.id,
+          }));
+          setBooks(books);
+        })
+        .catch(error => console.log(error.message));
+    }
+  
+    function BestSellerBooks() {
+      const bookCollection = collection(db, 'Book');
+  
+      getDocs(query(bookCollection, orderBy('DiscountPrice', 'desc')))
+        .then(response => {
+          const books = response.docs.map(doc => ({
+            data: doc.data(),
+            id: doc.id,
+          }));
+          setBooks(books);
+        })
+        .catch(error => console.log(error.message));
+    }
     useEffect(() => {
+      if(window.location.pathname.split('/').pop().includes("newrelease")){
+          NewReleaseBooks();
+          return;
+      }
+      if(window.location.pathname.split('/').pop().includes("bestseller")){
+          BestSellerBooks();
+          return;
+      }
       if(window.location.pathname.split('/').pop().includes("keyword")) {
       const keywordPath = window.location.pathname.split('/').pop(); 
       const keyword = decodeURIComponent(keywordPath.split('=')[1]); // Decode the keyword if it's encoded
       if (keyword) {
         fetchBooksByKeyword(keyword);
-      } }
+      } return; }
       else{
         AllBooks();
       }
@@ -306,7 +340,7 @@ const Small = () => {
       <div className="container">
         <div className="row">
 
-          <div className="col-lg-3">
+          <div className="col-lg-3" >
             <p className='filer_title'>Filter by</p>
             <hr />
             <form className='File_auth' onChange={FilAuth}>
