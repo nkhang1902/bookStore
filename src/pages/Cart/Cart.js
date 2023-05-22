@@ -116,7 +116,25 @@ function Cart() {
   }, 0);
 
   if (email === null) {
-    return <div>You haven't logged in yet!!</div>;
+    return (
+      <section className='cart-container d-flex flex-column text-center' >
+        <h1 className='h1 mb-3'>You haven't logged in yet!!!</h1>
+        <div className='design-system  mb-3'>
+          <a href='/login' className='cart-redeem m-2 text-center'>
+            Log In
+          </a>
+           or 
+          <a href='/signup' className='cart-redeem m-2 text-center'>
+            Register
+          </a>
+        </div>
+        <div className='empty_cart text-center'>
+          <Link className='button text-center' to={"/"}>
+              Back to Home
+            </Link>	
+        </div>
+      </section>
+    );
   } else {
   if (books.length === 0) {
     return (

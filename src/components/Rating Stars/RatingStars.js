@@ -13,6 +13,8 @@ import {
 } from 'firebase/firestore'
 import { db } from '../../firebase/config'
 import { book, key } from 'fontawesome'
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 function RatingStars({ bookID, Name, currentUser }) {
     const [isSubmitted, setIsSubmitted] = useState(false)
@@ -54,7 +56,12 @@ function RatingStars({ bookID, Name, currentUser }) {
             return
         }
         if (currentUser === null) {
-            currentUser = 'Anonymous'
+            toast.error(`You haven't logged in yet!`, {
+                position: toast.POSITION.BOTTOM_RIGHT,
+                autoClose: 2000,
+                hideProgressBar: true,
+            })
+            return
         }
         try {
             const addedReview = await addDoc(collection(db, 'Review'), {
@@ -181,6 +188,7 @@ function RatingStars({ bookID, Name, currentUser }) {
                         Submit
                     </button>
                 </div>
+                <ToastContainer/>
             </>
         )
     }

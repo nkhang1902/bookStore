@@ -23,12 +23,35 @@ import { useEffect } from 'react'
 import RatingStars from '../../components/Rating Stars/RatingStars'
 import { ToastContainer, toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
+import Carousel from 'react-multi-carousel';
+import 'react-multi-carousel/lib/styles.css';
+import {CardGroup, Card} from 'react-bootstrap';
+
+const responsive = {
+	superLargeDesktop: {
+		// the naming can be any, depends on you.
+		breakpoint: {max: 4000, min: 3000},
+		items: 4,
+	},
+	desktop: {
+		breakpoint: {max: 3000, min: 1024},
+		items: 4,
+	},
+	tablet: {
+		breakpoint: {max: 1024, min: 464},
+		items: 4,
+	},
+	mobile: {
+		breakpoint: {max: 464, min: 0},
+		items: 3,
+	},
+};
 
 function BookDetails() {
     const [currentUser, setCurrentUser] = useState(null)
     const [userData, setUserData] = useState(null)
     const [email, setEmail] = useState(null)
-
+    const [Books, setBooks] = useState([]);
     const [open, setOpen] = useState(false)
     const [book, setBook] = useState(null)
     const [listReview, setListReview] = useState([]) // List of reviews for the current book
@@ -40,11 +63,24 @@ function BookDetails() {
         if (bookSnapshot.exists()) {
             const bookData = bookSnapshot.data()
             setBook({ id: bookSnapshot.id, ...bookData })
+            AllBooks();
         } else {
             throw new Error('Book not found')
         }
     }
-
+      
+    function AllBooks() {
+		const bookCollection = collection(db, 'Book');
+		getDocs(bookCollection)
+			.then(response => {
+				const book = response.docs.map(doc => ({
+					data: doc.data(),
+					id: doc.id,
+				}));
+				setBooks(book);
+			})
+			.catch(error => console.log(error.message));
+	}
     const fetchUserData = async () => {
         if (email) {
             const q = query(collection(db, 'User'), where('Email', '==', email))
@@ -277,7 +313,7 @@ function BookDetails() {
                             <div>{book.Language}</div>
                         </div>
                     </div>
-                    <div className="user-reviews">
+                    <div className="user-reviews mt-3">
                         <h3 className="">Tell us your thoughts</h3>
                         <RatingStars
                             bookID={id}
@@ -286,7 +322,21 @@ function BookDetails() {
                             currentUser={currentUser}
                         />
                     </div>
-                    <div className="reviews-list">
+                    <div className="reviews-list mt-2">
+                        <h3 className="">Recommended Books</h3>
+                        <div className="carousel-container">
+                            <Carousel className='w-90' focusOnSelect={true} centerMode={true} responsive={responsive} showDots={false}>
+                            {Books.slice(0, 15).map(book => (
+                                <Card key={book.id} className='bookcard m-2 p-1 border-0 shadow position-relative'>
+                                <a href={`/BookDetails/${book.id}`}>
+                                    <img className='product--image rounded' src={book.data.ImageURL} />
+                                </a>
+                                </Card>
+                            ))}
+                            </Carousel>
+                        </div>
+                    </div>
+                    <div className="reviews-list mt-3">
                         <h3 className="">Reviews</h3>
                         <div className="reviews-list__content">
                             {listReview.map((review, index) => {
