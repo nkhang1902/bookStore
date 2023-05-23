@@ -3,47 +3,108 @@ import 'bootstrap/dist/css/bootstrap.css'
 import '../components/Navbar.css'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { } from '@fortawesome/free-solid-svg-icons'
-
+import { MDBFooter, MDBContainer, MDBRow, MDBCol, MDBIcon } from 'mdb-react-ui-kit';
 const Footer = () => {
     return (
-      <div className='container'>
-        <footer className='d-flex flex-wrap justify-content-between align-items-center py-3 my-4 border-top'>
-          <div className='col-md-4 d-flex align-items-center'>
-            <a
-              href='/'
-              className='mb-3 me-2 mb-md-0 text-muted text-decoration-none lh-1'
-            >
-              <svg className='bi' width={30} height={24}>
-                <use xlinkHref='#bootstrap' />
-              </svg>
-            </a>
-            <span className='text-muted'>© 2023 Company, Inc</span>
-          </div>
-          <ul className='nav col-md-4 justify-content-end list-unstyled d-flex'>
-            <li className='ms-3'>
-              <a className='text-muted' href='/'>
-                <svg className='bi' width={24} height={24}>
-                  <use xlinkHref='#twitter' />
-                </svg>
-              </a>
-            </li>
-            <li className='ms-3'>
-              <a className='text-muted' href='/'>
-                <svg className='bi' width={24} height={24}>
-                  <use xlinkHref='#instagram' />
-                </svg>
-              </a>
-            </li>
-            <li className='ms-3'>
-              <a className='text-muted' href='/'>
-                <svg className='bi' width={24} height={24}>
-                  <use xlinkHref='#facebook' />
-                </svg>
-              </a>
-            </li>
-          </ul>
-        </footer>
+      <MDBFooter bgColor='light' className='text-center text-lg-start text-muted'>
+      <section className='d-flex justify-content-center p-4 border-bottom'>
+
+        <div>
+          <a href='' className='me-4 text-reset'>
+            <MDBIcon fab icon="facebook-f" />
+          </a>
+          <a href='' className='me-4 text-reset'>
+            <MDBIcon fab icon="twitter" />
+          </a>
+          <a href='' className='me-4 text-reset'>
+            <MDBIcon fab icon="google" />
+          </a>
+          <a href='' className='me-4 text-reset'>
+            <MDBIcon fab icon="instagram" />
+          </a>
+          <a href='' className='me-4 text-reset'>
+            <MDBIcon fab icon="linkedin" />
+          </a>
+          <a href='' className='me-4 text-reset'>
+            <MDBIcon fab icon="github" />
+          </a>
+        </div>
+      </section>
+
+      <section className=''>
+        <MDBContainer className='text-center text-md-start mt-5'>
+          <MDBRow className='mt-3'>
+            <MDBCol md="3" lg="4" xl="3" className='mx-auto mb-4'>
+              <h6 className='text-uppercase fw-bold mb-4'>
+                <MDBIcon icon="gem" className="me-3" />
+                BookWorms
+              </h6>
+              <p>
+                Online bookshop build by HCMUS student
+              </p>
+            </MDBCol>
+
+            <MDBCol md="2" lg="2" xl="2" className='mx-auto mb-4'>
+              <h6 className='text-uppercase fw-bold mb-4'>Products</h6>
+              <p>
+                <a href='#!' className='text-reset'>
+                  React
+                </a>
+              </p>
+            </MDBCol>
+
+            <MDBCol md="3" lg="2" xl="2" className='mx-auto mb-4'>
+              <h6 className='text-uppercase fw-bold mb-4'>Useful links</h6>
+              <p>
+                <a href='#!' className='text-reset'>
+                  Pricing
+                </a>
+              </p>
+              <p>
+                <a href='#!' className='text-reset'>
+                  Settings
+                </a>
+              </p>
+              <p>
+                <a href='#!' className='text-reset'>
+                  Orders
+                </a>
+              </p>
+              <p>
+                <a href='#!' className='text-reset'>
+                  Help
+                </a>
+              </p>
+            </MDBCol>
+
+            <MDBCol md="4" lg="3" xl="3" className='mx-auto mb-md-0 mb-4'>
+              <h6 className='text-uppercase fw-bold mb-4'>Contact</h6>
+              <p>
+              <MDBIcon fab icon="github" className='me-3'/>
+                nkhang1902/bookStore
+              </p>
+              <p>
+                <MDBIcon icon="envelope" className="me-3" />
+                bookworms@gmail.com
+              </p>
+              <p>
+                <MDBIcon icon="phone" className="me-3" /> + 01 234 567 88
+              </p>
+              <p>
+                <MDBIcon icon="print" className="me-3" /> + 01 234 567 89
+              </p>
+            </MDBCol>
+          </MDBRow>
+        </MDBContainer>
+      </section>
+
+      <div className='text-center p-4' style={{ backgroundColor: 'rgba(0, 0, 0, 0.05)' }}>
+        © 2023 Copyright:
+        <a className='text-reset fw-bold' href='https://mdbootstrap.com/'>
+          BookWorms.com
+        </a>
       </div>
+    </MDBFooter>
     )
   }
 

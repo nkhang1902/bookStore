@@ -278,6 +278,7 @@ const Navbar = () => {
                             className="navbar-item"
                             href="https://bookshop.org/lists/special-offers-on-bookshop-org"
                         >
+                            <i class="fas fa-dollar-sign    "></i>
                             Special Offers
                         </a>
                     </div>
@@ -286,6 +287,7 @@ const Navbar = () => {
                             className="navbar-item"
                             href="/fiction/newrelease"
                         >
+                            <i class="fa fa-star" aria-hidden="true"></i>
                             New Books
                         </a>
                     </div>
@@ -294,6 +296,7 @@ const Navbar = () => {
                             className="navbar-item"
                             href="/fiction/bestseller"
                         >
+                            <i class="fas fa-search-dollar    "></i>
                             Best Sellers
                         </a>
                     </div>
@@ -302,7 +305,8 @@ const Navbar = () => {
                             className="navbar-item"
                             href="/fiction"
                         >
-                            Fiction
+                            <i class="fa fa-list" aria-hidden="true"></i>
+                            Category
                         </a>
                     </div>
                 </ul>

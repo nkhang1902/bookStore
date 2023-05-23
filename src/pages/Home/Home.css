@@ -4,6 +4,11 @@
     width: 90%;
     height: 90%;
 }
+.background{
+    background-image: url('');
+   background-size: cover;
+   background-position: center;
+}
 .card{
     width: 150px;
     height: 250px;
@@ -50,7 +55,8 @@
     height: 90%;
     overflow: auto;
 }
-h2{
+.crs_title{
     color:#2c293b;
     margin-left: 40px;
+    text-shadow: 1px 1px #a7a0a0;
 }

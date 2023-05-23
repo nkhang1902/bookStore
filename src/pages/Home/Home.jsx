@@ -89,12 +89,15 @@ const Home = () => {
         NewReleaseBooks()
         DisBooks()
     }, [])
-
     return (
-        <div>
+        <div className="background">
+            <div class="d-flex justify-content-center">
+                    <a href='/fiction/bestseller'><img className='text-center' src="https://jackets.wordery.com/cms/00000000/scale/ae5e509bee16a2b618df98a16045771844e09efce84f08e80d9b2f374e7e12ac4967d7fe5bf0435776873933ebb309a7L0bVqsHqqIm0UiBZjtTphNkcMv7Lhu5NZbnMOiqsDTLZ8pWvYa53tMmT5cKmo2EWIDjtxtGN3R509tGohFo1pg/2021%20November/bestsellers_main%20homepage_d.png" alt="1"/>
+                    </a>
+            </div>
             <div>
                 <div className="content">
-                    <h2>Best Sellers</h2>
+                    <h2 className='crs_title'>Best Sellers</h2>
                     <div className="crs shadow-sm border border-light rounded">
                         <Carousel
                             className="d-flex overflow-auto"
@@ -123,7 +126,7 @@ const Home = () => {
 
             <div>
                 <div className="content  ">
-                    <h2>New Release</h2>
+                    <h2 className='crs_title'>New Release</h2>
                     <div className="crs shadow-sm border border-light rounded">
                         <Carousel
                             className="d-flex overflow-auto "
@@ -152,7 +155,7 @@ const Home = () => {
 
             <div>
                 <div className="content">
-                    <h2>Steal Deal</h2>
+                    <h2 className='crs_title'>Steal Deal</h2>
                     <div className="crs shadow-sm border border-light rounded">
                         <Carousel
                             className="d-flex overflow-auto"
