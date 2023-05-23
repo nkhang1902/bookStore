@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 
 Modal.setAppElement("#root");
 
-function SuccessModal({ isOpen, onClose }) {
+function SuccessModal({ isOpen, onRequestClose }) {
 
   const handleOutsideClick = (e) => {
     // Kiểm tra xem người dùng đã click vào bên ngoài Modal hay không
@@ -18,7 +18,7 @@ function SuccessModal({ isOpen, onClose }) {
     <Modal
       className={css.containerModal}
       isOpen={isOpen}
-      onRequestClose={onClose}
+      onRequestClose={onRequestClose}
       onClick={handleOutsideClick}
     >
       <div>
@@ -27,7 +27,7 @@ function SuccessModal({ isOpen, onClose }) {
           Your payment has been processed successfully.
         </p>
         <div className={css.buttonBox}>
-          <button className={css.button} onClick={onClose}>
+          <button className={css.button} onClick={onRequestClose}>
             Close
           </button>
           <Link className={css.button} to={"/"}>

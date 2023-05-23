@@ -21,6 +21,7 @@ import { useEffect } from "react";
 import { Link } from "react-router-dom";
 import "./_Cart.scss";
 import PaymentModal from "../../components/paymentModal";
+import SuccessModal from "../../components/successModal";
 
 function Cart() {
   const [currentUser, setCurrentUser] = useState(null);
@@ -28,15 +29,21 @@ function Cart() {
   const [email, setEmail] = useState(null);
   const [books, setBooks] = useState([]);
 
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isPaymentOpen, setIsPaymentOpen] = useState(false);
+  const [isSuccessOpen, setIsSuccessOpen] = useState(false);
 
   const handleCheckout = () => {
-    setIsModalOpen(true);
+    setIsPaymentOpen(true);
   };
 
-  const handleModalClose = () => {
-    setIsModalOpen(false);
+  const handlePaymentClose = () => {
+    setIsPaymentOpen(false);
+    setIsSuccessOpen(true);
   };
+
+  const handleSuccessClose = () =>{
+    setIsSuccessOpen(false);
+  }
 
   const fetchUserData = async () => {
     if (email) {
@@ -148,11 +155,17 @@ function Cart() {
           <button className="button continue" onClick={handleCheckout}>
             Checkout ({total})
           </button>
-          <PaymentModal
-            isOpen={isModalOpen}
-            onRequestClose={handleModalClose}
-            total={total}        
-          />       
+          <div>
+            <SuccessModal
+              isOpen={isSuccessOpen}
+              onRequestClose={handleSuccessClose}
+            />
+            <PaymentModal
+              isOpen={isPaymentOpen}
+              onRequestClose={handlePaymentClose}
+              total={total}
+            />
+          </div>
         </div>
       </section>
 
