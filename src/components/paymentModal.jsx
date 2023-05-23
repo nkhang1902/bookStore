@@ -1,13 +1,30 @@
 import React, { useState } from "react";
 import Modal from "react-modal";
 import css from "./paymentModal.module.css";
-import { collection, addDoc } from "firebase/firestore";
 import { db } from "../firebase/config";
 import SuccessModal from "./successModal";
+import { user } from "fontawesome";
+import {
+    Firestore,
+    updateDoc,
+    collection,
+    getDoc,
+    getDocs,
+    addDoc,
+    doc,
+    deleteDoc,
+    orderBy,
+    query,
+    where,
+    onSnapshot,
+} from 'firebase/firestore'
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import { useHistory } from 'react-router-dom';
 
 Modal.setAppElement("#root");
 
-function PaymentModal({ isOpen, onRequestClose, total }) {
+function PaymentModal({ isOpen, onRequestClose, total, userData }) {
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
   const [address, setAddress] = useState("");
@@ -16,9 +33,20 @@ function PaymentModal({ isOpen, onRequestClose, total }) {
   const [ownerName, setOwnerName] = useState("");
   const [paymentMethod, setPaymentMethod] = useState(null);
 
+  console.log(userData);
   const handlePaymentMethodChange = (e) => {
     setPaymentMethod(e.target.value);
   };
+
+  const emptyCart = async () => {
+    if (userData && userData.Email) { // Check if userData and email are defined
+        const q = query(collection(db, 'User'), where('Email', '==', userData.Email)) // Use userData.email
+        const querySnapshot = await getDocs(q)
+        querySnapshot.forEach(async (doc) => {
+            await updateDoc(doc.ref, { Cart: [] }) // Update the Cart field in Firestore
+        })
+    }
+}
 
   const handleCardNumberChange = (event) => {
     let value = event.target.value;
@@ -33,6 +61,8 @@ function PaymentModal({ isOpen, onRequestClose, total }) {
     phone: phone,
     address: address,
     totalCash: total,
+    email: userData.Email,
+    itemList: userData.Cart,
     paymentMethod: paymentMethod,
     paymentInfo: {
       ownerName: "",
@@ -57,14 +87,21 @@ function PaymentModal({ isOpen, onRequestClose, total }) {
     e.preventDefault();
     addDoc(collection(db, "Order"), paymentData)
       .then(() => {
+        emptyCart();
         console.log("Payment information added successfully!");
-        onRequestClose();
-        setIsSuccessModalOpen(true);      
+        toast.success(`Your books will be delivered to Mr(Mrs) ${paymentData.recipientName} at ${paymentData.address} with the total of ${paymentData.totalCash}`, {
+          position: toast.POSITION.TOP_CENTER,
+          autoClose: 5000,
+          hideProgressBar: true,
+        });
+        setTimeout(() => {
+          window.location.href = "/"; // Redirect to the home page ("/")
+        }, 5000);
       })
       .catch((error) => {
         console.error("Error adding payment information: ", error);
       });
-    onRequestClose();
+     
   };
 
 
@@ -74,7 +111,7 @@ function PaymentModal({ isOpen, onRequestClose, total }) {
       isOpen={isOpen}
       onRequestClose={onRequestClose}
     >
-      <div style={{ maxHeight: "500px" }}>
+      <div style={{ maxHeight: "520px" }}>
         <button className={css.closeButton} onClick={onRequestClose}>
           X
         </button>
@@ -169,6 +206,7 @@ function PaymentModal({ isOpen, onRequestClose, total }) {
           />        
         </form>
       </div>
+      <ToastContainer />
     </Modal>
   );
 }

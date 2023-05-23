@@ -69,6 +69,7 @@ const Wishlist = () => {
             ) // Filter out the book ID from the cart array
             updateFavouriteInFirestore(updatedFavourite) // Update the cart in Firestore
             setUserData({ ...userData, Favourite: updatedFavourite }) // Update the local state with the updated cart
+            
         }
     }
 

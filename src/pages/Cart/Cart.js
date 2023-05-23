@@ -172,7 +172,8 @@ function Cart() {
           <PaymentModal
             isOpen={isModalOpen}
             onRequestClose={handleModalClose}
-            total={total}        
+            total={total}    
+            userData={userData}    
           />       
         </div>
       </section>
@@ -190,8 +191,8 @@ function Cart() {
         {books.map((book) => (
           <div key={book.id} className="item">
             <a href={`/BookDetails/${book.id}`}>
-              <div className="image col-3">
-                <img className="" src={book.ImageURL} alt="" />
+              <div className="image col-3 ">
+                <img className="shadow" src={book.ImageURL} alt="" />
               </div>
             </a>
             <div className="item-description p-3 col-5">
@@ -230,7 +231,7 @@ function Cart() {
 
         <div className="empty_cart">
           <p>
-            <Link className="button" to={"/"}>
+            <Link className="button mt-2" to={"/"}>
               Continue shopping
             </Link>
           </p>
