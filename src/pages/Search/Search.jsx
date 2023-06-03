@@ -128,31 +128,32 @@ const Search = () => {
 
     const useQuery = () => {
         return new URLSearchParams(useLocation().search)
+        console.log(search)
     }
     let search = useQuery().get('value')
     function AllBooks() {
-        const bookCollection = collection(db, 'Book')
+        const bookCollection = collection(db, 'Book');
         getDocs(query(bookCollection))
-            .then((response) => {
-                const book = response.docs.map((doc) => ({
-                    data: doc.data(),
-                    id: doc.id,
-                }))
-
-                setAllofBooks(book)
-            })
-            .catch((error) => console.log(error.message))
-
-        var search_name = AllofBooks.filter((book) =>
-            book.data.Name.toLowerCase().includes(search.toLowerCase())
-        )
-        var search_auth = AllofBooks.filter((book) =>
-            book.data.Author.toLowerCase().includes(search.toLowerCase())
-        )
-        var searchData = search_name.concat(search_auth)
-        setBooks(searchData)
-        setDatas(searchData)
-    }
+          .then((response) => {
+            const books = response.docs.map((doc) => ({
+              data: doc.data(),
+              id: doc.id,
+            }));
+      
+            setAllofBooks(books);
+      
+            const searchName = books.filter((book) =>
+              book.data.Name.toLowerCase().includes(search.toLowerCase())
+            );
+            const searchAuth = books.filter((book) =>
+              book.data.Author.toLowerCase().includes(search.toLowerCase())
+            );
+            const searchData = searchName.concat(searchAuth);
+            setBooks(searchData);
+            setDatas(searchData);
+          })
+          .catch((error) => console.log(error.message));
+      }
 
     const uniqueAuthor = [...new Set(datas.map((item) => item.data.Author))]
     const Change = (e) => {

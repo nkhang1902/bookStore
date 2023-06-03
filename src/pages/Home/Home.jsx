@@ -112,7 +112,7 @@ const Home = () => {
             </div>
             <div>
                 <div className="content">
-                    <h2 className='crs_title'>Best Sellers</h2>
+                    <h2 className='crs_title'>Recommend</h2>
                     <div className="crs shadow-sm border border-light rounded">
                         <Carousel
                             className="d-flex overflow-auto"
