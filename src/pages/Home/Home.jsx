@@ -42,58 +42,73 @@ const Home = () => {
     const [Books, setBooks] = useState([])
     const [NewBooks, setNewBooks] = useState([])
     const [DiscountBooks, setDisBooks] = useState([])
-
-    function NewReleaseBooks() {
-        const bookCollection = collection(db, 'Book')
-
-        getDocs(query(bookCollection, orderBy('PostedDate', 'desc')))
-            .then((response) => {
-                const books = response.docs.map((doc) => ({
-                    data: doc.data(),
-                    id: doc.id,
-                }))
-                setNewBooks(books)
-            })
-            .catch((error) => console.log(error.message))
-    }
-
-    function DisBooks() {
-        const bookCollection = collection(db, 'Book')
-
-        getDocs(query(bookCollection, orderBy('DiscountPrice', 'desc')))
-            .then((response) => {
-                const books = response.docs.map((doc) => ({
-                    data: doc.data(),
-                    id: doc.id,
-                }))
-                setDisBooks(books)
-            })
-            .catch((error) => console.log(error.message))
-    }
+    const [RandomBooks, setRandomBooks] = useState([])
 
     function AllBooks() {
-        const bookCollection = collection(db, 'Book')
+        const bookCollection = collection(db, 'Book');
         getDocs(bookCollection)
-            .then((response) => {
-                const book = response.docs.map((doc) => ({
-                    data: doc.data(),
-                    id: doc.id,
-                }))
-                setBooks(book)
-            })
-            .catch((error) => console.log(error.message))
-    }
+          .then((response) => {
+            const books = response.docs.map((doc) => ({
+              data: doc.data(),
+              id: doc.id,
+            }));
+            setBooks(books);
+      
+            // Extract new release books and discount books from the fetched books array
+            const newReleaseBooks = books.sort((a, b) => b.data.PostedDate - a.data.PostedDate);
+            setNewBooks(newReleaseBooks.slice(0, 15)); // Adjust the limit as per your requirement
+      
+            const discountBooks = books.sort((a, b) => a.data.DiscountPrice - b.data.DiscountPrice);
+            setDisBooks(discountBooks.slice(0, 15)); // Adjust the limit as per your requirement
+      
+            // Get 4 random books from a copy of the fetched books array
+            const randomBooks = getRandomBooks([...books], 4); // Create a copy of the books array
+            setRandomBooks(randomBooks);
+            books.sort(() => 0.5 - Math.random());
+          })
+          .catch((error) => console.log(error.message));
+      }
+      
+      function getRandomBooks(books, count) {
+        const shuffled = books.sort(() => 0.5 - Math.random());
+        return shuffled.slice(0, count);
+      }
 
     useEffect(() => {
         AllBooks()
-        NewReleaseBooks()
-        DisBooks()
     }, [])
     return (
         <div className="background">
             <div class="d-flex justify-content-center">
                     <a href='/fiction/bestseller'><img className='text-center' src="https://jackets.wordery.com/cms/00000000/scale/ae5e509bee16a2b618df98a16045771844e09efce84f08e80d9b2f374e7e12ac4967d7fe5bf0435776873933ebb309a7L0bVqsHqqIm0UiBZjtTphNkcMv7Lhu5NZbnMOiqsDTLZ8pWvYa53tMmT5cKmo2EWIDjtxtGN3R509tGohFo1pg/2021%20November/bestsellers_main%20homepage_d.png" alt="1"/>
                     </a>
+            </div>
+            <div>
+                <div className="content">
+                    <h2 className='crs_title'>Introducing to you</h2>
+                    <div className="crs shadow-sm border border-light rounded d-flex flex-wrap justify-content-center">
+                         {RandomBooks.slice(0, 4).map((book) => (
+                                <Card
+                                    key={book.id}
+                                    className="col-lg-5 col-md-6 col-sm-12 m-2 p-1 border-0 shadow"
+                                >
+                                    <a href={`/BookDetails/${book.id}`} className="row space-around">
+                                        <img
+                                            className="col-3 product--image rounded"
+                                            src={book.data.ImageURL}
+                                        />
+                                        <div className='col-9 justify-content-center'  style={{ overflowWrap: 'break-word' }}>
+                                            <div className='bookTitle mb-1'>{book.data.Name.slice(0, 35) +
+                                            (book.data.Name.length > 50 ? "..." : "")}</div>
+                                            <div className='bookAuthor mb-1'>{book.data.Author}</div>
+                                            <div className='bookDes mb-1'>{book.data.Description.slice(0, 250) +
+                                            (book.data.Description.length > 50 ? "..." : "")}</div>
+                                        </div>
+                                    </a>
+                                </Card>
+                            ))}
+                    </div>
+                </div>
             </div>
             <div>
                 <div className="content">

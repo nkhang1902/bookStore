@@ -60,3 +60,21 @@
     margin-left: 40px;
     text-shadow: 1px 1px #a7a0a0;
 }
+
+.bookTitle{
+    color:#2c293b;
+    font-weight: 600;
+    font-size: larger;
+    margin-top: 8px;
+}
+.bookDes{
+    color:#2c293b;
+    overflow-wrap: break-word;
+    font-size: smaller;
+    font-weight: 400;
+}
+.bookAuthor{
+    color:#2c293b;
+    font-weight: 400;
+    font-style: italic;
+}

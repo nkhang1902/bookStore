@@ -111,6 +111,7 @@ const Small = () => {
         if (window.location.pathname.split('/').pop().includes('keyword')) {
             const keywordPath = window.location.pathname.split('/').pop()
             const keyword = decodeURIComponent(keywordPath.split('=')[1]) // Decode the keyword if it's encoded
+            console.log(keyword)
             if (keyword) {
                 fetchBooksByKeyword(keyword)
             }
