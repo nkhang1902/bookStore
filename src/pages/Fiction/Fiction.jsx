@@ -112,28 +112,6 @@ const Fiction = () => {
                                                     alt="product"
                                                 />
                                             </div>
-                                            <div className="product_btns">
-                                                <button
-                                                    type="button"
-                                                    className="btn_cart"
-                                                >
-                                                    {' '}
-                                                    <i
-                                                        class="fa fa-heart"
-                                                        aria-hidden="true"
-                                                    ></i>
-                                                </button>
-                                                <button
-                                                    type="button"
-                                                    className="btn_buy"
-                                                >
-                                                    {' '}
-                                                    <i
-                                                        class="fa fa-cart-plus"
-                                                        aria-hidden="true"
-                                                    ></i>
-                                                </button>
-                                            </div>
                                         </div>
                                     </div>
                                 </a>
@@ -155,28 +133,7 @@ const Fiction = () => {
                                                     alt="product"
                                                 />
                                             </div>
-                                            <div className="product_btns">
-                                                <button
-                                                    type="button"
-                                                    className="btn_cart"
-                                                >
-                                                    {' '}
-                                                    <i
-                                                        class="fa fa-heart"
-                                                        aria-hidden="true"
-                                                    ></i>
-                                                </button>
-                                                <button
-                                                    type="button"
-                                                    className="btn_buy"
-                                                >
-                                                    {' '}
-                                                    <i
-                                                        class="fa fa-cart-plus"
-                                                        aria-hidden="true"
-                                                    ></i>
-                                                </button>
-                                            </div>
+                                        
                                         </div>
                                     </div>
                                 </a>

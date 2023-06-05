@@ -35,6 +35,7 @@ import {
 
 const Navbar = () => {
     const [userLoggedIn, setUserLoggedIn] = useState(false)
+    const [userAdmin, setUserAdmin] = useState(false)
     const [books, setBooks] = useState([])
     const [data, setData] = useState([])
     const [searh, setSearch] = useState(false)
@@ -114,12 +115,16 @@ const Navbar = () => {
     useEffect(() => {
         const unsubscribe = auth.onAuthStateChanged((user) => {
             setUserLoggedIn(!!user)
+            if(user.email === "admin@gmail.com") {
+                setUserAdmin(true);
+            }
             fetchUserData(user.email);
         })
         return unsubscribe
     }, [])
     useEffect(() => {
         AllBooks()
+        console.log(userAdmin);
     }, [])
     return (
         <Row style={{ margin: '0' }}>
@@ -226,7 +231,7 @@ const Navbar = () => {
                         </p>
                         <span className="sr-only">(current)</span>
                     </Link>
-                    {userLoggedIn ? (
+                    {userLoggedIn ?(
                         // Show this dropdown if user is logged in
                         <Dropdown className="nav-link col-4">
                             <Dropdown.Toggle
@@ -240,7 +245,11 @@ const Navbar = () => {
                             </Dropdown.Toggle>
 
                             <Dropdown.Menu>
-                                <Dropdown.Item href="">Profile</Dropdown.Item>
+                                <Dropdown.Item href="/wishlist">My Wishlist</Dropdown.Item>
+                                <Dropdown.Item href="/cart">My Cart</Dropdown.Item>
+                                {userAdmin ? (
+                                    <Dropdown.Item href="/admin">Book Manage</Dropdown.Item>
+                                ) : null}
                                 <Dropdown.Item
                                     href="/login"
                                     onClick={handleLogout}
@@ -277,7 +286,7 @@ const Navbar = () => {
                     <div className="navbar-item">
                         <a
                             className="navbar-item"
-                            href="https://bookshop.org/lists/special-offers-on-bookshop-org"
+                            href="/fiction/bestseller"
                         >
                             <i class="fas fa-dollar-sign    "></i>
                             Special Offers

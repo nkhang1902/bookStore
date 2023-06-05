@@ -81,7 +81,7 @@ const Search = () => {
 
     const addToFav = (event, book) => {
         event.preventDefault()
-        if (userData.Cart.includes(book.id)) {
+        if (userData.Favourite.includes(book.id)) {
             toast.error(`${book.data.Name} is already in wishlist`, {
                 position: toast.POSITION.BOTTOM_RIGHT,
                 autoClose: 2000, // Duration for the notification to automatically close (in milliseconds)
